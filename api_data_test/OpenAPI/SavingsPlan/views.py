@@ -2,16 +2,18 @@ import requests
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from django.http import JsonResponse
-from .models import DepositProduct, DepositProductOption
+from .models import InstallmentProduct, InstallmentProductOption
 from datetime import datetime
+from django.conf import settings
+
 
 @api_view(['GET'])
-def fetch_and_store_deposit_products(request):
+def SavingsPlan(request):
     # API URL과 필요한 파라미터
-    url = "http://finlife.fss.or.kr/finlifeapi/depositProductsSearch.json"
+    url = "http://finlife.fss.or.kr/finlifeapi/savingProductsSearch.json"  # 적금 API URL
     params = {
-        'auth': '3e02e8a0e0d228bc1c37c4d0cdfd0531',
-        'topFinGrpNo': '020000',
+        'auth': settings.API_KEY,
+        'topFinGrpNo': '020000',  # 적금 상품 그룹 번호
         'pageNo': '1'
     }
 
@@ -35,8 +37,8 @@ def fetch_and_store_deposit_products(request):
 
         # 데이터베이스에 저장
         for item in base_list:
-            # DepositProduct 저장
-            product = DepositProduct.objects.create(
+            # InstallmentProduct 저장
+            product = InstallmentProduct.objects.create(
                 dcls_month=item['dcls_month'],
                 fin_co_no=item['fin_co_no'],
                 fin_prdt_cd=item['fin_prdt_cd'],
@@ -54,16 +56,18 @@ def fetch_and_store_deposit_products(request):
                 fin_co_subm_day=datetime.strptime(item['fin_co_subm_day'], '%Y%m%d%H%M')
             )
 
-            # DepositProductOption 저장 (baseList의 fin_prdt_cd와 optionList의 fin_prdt_cd로 매칭)
+            # InstallmentProductOption 저장 (baseList의 fin_prdt_cd와 optionList의 fin_prdt_cd로 매칭)
             for option in option_list:
                 if option['fin_prdt_cd'] == item['fin_prdt_cd']:
-                    DepositProductOption.objects.create(
-                        deposit_product=product,
+                    InstallmentProductOption.objects.create(
+                        installment_product=product,
                         dcls_month=option['dcls_month'],
                         fin_co_no=option['fin_co_no'],
                         fin_prdt_cd=option['fin_prdt_cd'],
                         intr_rate_type=option['intr_rate_type'],
                         intr_rate_type_nm=option['intr_rate_type_nm'],
+                        rsrv_type=option['rsrv_type'],
+                        rsrv_type_nm=option['rsrv_type_nm'],
                         save_trm=option['save_trm'],
                         intr_rate=option['intr_rate'],
                         intr_rate2=option['intr_rate2']

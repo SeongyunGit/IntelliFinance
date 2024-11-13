@@ -4,14 +4,15 @@ from rest_framework.decorators import api_view
 from django.http import JsonResponse
 from .models import DepositProduct, DepositProductOption
 from datetime import datetime
+from django.conf import settings
 
 @api_view(['GET'])
-def fetch_and_store_deposit_products(request):
+def PensionSavings(request):
     # API URL과 필요한 파라미터
-    url = "http://finlife.fss.or.kr/finlifeapi/depositProductsSearch.json"
+    url = "http://finlife.fss.or.kr/finlifeapi/annuitySavingProductsSearch.json"
     params = {
-        'auth': '3e02e8a0e0d228bc1c37c4d0cdfd0531',
-        'topFinGrpNo': '020000',
+        'auth': settings.API_KEY,
+        'topFinGrpNo': '060000',
         'pageNo': '1'
     }
 
@@ -19,9 +20,6 @@ def fetch_and_store_deposit_products(request):
         # 외부 API 호출
         response = requests.get(url, params=params)
         response.raise_for_status()  # 오류가 있으면 예외를 발생시킴
-
-        # 전체 응답 데이터 출력 (디버깅용)
-        # print(response.json())
 
         # API에서 받은 JSON 데이터
         data = response.json()
@@ -43,14 +41,16 @@ def fetch_and_store_deposit_products(request):
                 kor_co_nm=item['kor_co_nm'],
                 fin_prdt_nm=item['fin_prdt_nm'],
                 join_way=item['join_way'],
-                mtrt_int=item['mtrt_int'],
-                spcl_cnd=item['spcl_cnd'],
-                join_deny=item['join_deny'],
-                join_member=item['join_member'],
-                etc_note=item['etc_note'],
-                max_limit=item['max_limit'],
-                dcls_strt_day=datetime.strptime(item['dcls_strt_day'], '%Y%m%d').date(),
-                dcls_end_day=datetime.strptime(item['dcls_end_day'], '%Y%m%d').date() if item['dcls_end_day'] else None,
+                prdt_type=item['prdt_type'],
+                prdt_type_nm=item['prdt_type_nm'],
+                avg_prft_rate=item['avg_prft_rate'],
+                btrm_prft_rate_1=item['btrm_prft_rate_1'],
+                btrm_prft_rate_2=item.get('btrm_prft_rate_2', None),
+                btrm_prft_rate_3=item.get('btrm_prft_rate_3', None),
+                sale_co=item['sale_co'],
+                sale_strt_day=datetime.strptime(item['sale_strt_day'], '%Y%m%d') if item.get('sale_strt_day') else None,
+                dcls_strt_day=datetime.strptime(item['dcls_strt_day'], '%Y%m%d'),
+                dcls_end_day=datetime.strptime(item['dcls_end_day'], '%Y%m%d') if item.get('dcls_end_day') else None,
                 fin_co_subm_day=datetime.strptime(item['fin_co_subm_day'], '%Y%m%d%H%M')
             )
 
@@ -62,11 +62,17 @@ def fetch_and_store_deposit_products(request):
                         dcls_month=option['dcls_month'],
                         fin_co_no=option['fin_co_no'],
                         fin_prdt_cd=option['fin_prdt_cd'],
-                        intr_rate_type=option['intr_rate_type'],
-                        intr_rate_type_nm=option['intr_rate_type_nm'],
-                        save_trm=option['save_trm'],
-                        intr_rate=option['intr_rate'],
-                        intr_rate2=option['intr_rate2']
+                        pnsn_recp_trm=option['pnsn_recp_trm'],
+                        pnsn_recp_trm_nm=option['pnsn_recp_trm_nm'],
+                        pnsn_entr_age=option['pnsn_entr_age'],
+                        pnsn_entr_age_nm=option['pnsn_entr_age_nm'],
+                        mon_paym_atm=option['mon_paym_atm'],
+                        mon_paym_atm_nm=option['mon_paym_atm_nm'],
+                        paym_prd=option['paym_prd'],
+                        paym_prd_nm=option['paym_prd_nm'],
+                        pnsn_strt_age=option['pnsn_strt_age'],
+                        pnsn_strt_age_nm=option['pnsn_strt_age_nm'],
+                        pnsn_recp_amt=option['pnsn_recp_amt']
                     )
 
         # 성공적으로 데이터를 저장한 후, API 응답을 그대로 반환

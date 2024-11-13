@@ -4,13 +4,15 @@ from rest_framework.decorators import api_view
 from django.http import JsonResponse
 from .models import DepositProduct, DepositProductOption
 from datetime import datetime
+from django.conf import settings
+
 
 @api_view(['GET'])
-def fetch_and_store_deposit_products(request):
+def FixedDeposit(request):
     # API URL과 필요한 파라미터
     url = "http://finlife.fss.or.kr/finlifeapi/depositProductsSearch.json"
     params = {
-        'auth': '3e02e8a0e0d228bc1c37c4d0cdfd0531',
+        'auth': settings.API_KEY,
         'topFinGrpNo': '020000',
         'pageNo': '1'
     }
