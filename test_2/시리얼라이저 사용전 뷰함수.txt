@@ -1,0 +1,266 @@
+from django.shortcuts import render
+import requests
+from rest_framework.response import Response
+from rest_framework.decorators import api_view
+from .models import (
+    companyList, companyListOption,
+    IntegrationProduct, IntegrationProductOption
+    )
+from datetime import datetime
+from django.conf import settings
+from .serializers import (
+    CompanyListSerializer, CompanyListOptionSerializer,
+    IntegrationProductSerializer, IntegrationProductOptionSerializer
+    )
+
+# 은행정보를 저장하는 함수
+@api_view(['GET'])
+def company(request):
+    # API URL과 필요한 파라미터
+    url = "http://finlife.fss.or.kr/finlifeapi/companySearch.json"
+    params = {
+        'auth': settings.API_KEY,
+        'topFinGrpNo': '020000',
+        'pageNo': '1'
+    }
+
+    try:
+        # 외부 API 호출
+        response = requests.get(url, params=params)
+        response.raise_for_status()  # 오류가 있으면 예외를 발생시킴
+
+        # API에서 받은 JSON 데이터
+        data = response.json()
+
+        # 데이터의 구조가 맞는지 확인
+        if 'result' not in data or 'baseList' not in data['result'] or 'optionList' not in data['result']:
+            return Response({'error': 'API 응답에서 예상된 키를 찾을 수 없습니다.'}, status=500)
+
+        base_list = data['result']['baseList']
+        option_list = data['result']['optionList']
+
+        # 기존 데이터 삭제 (리셋)
+        companyList.objects.all().delete()
+        companyListOption.objects.all().delete()
+
+        # 데이터베이스에 저장
+        for item in base_list:
+            # companyList 저장
+            product = companyList.objects.create(
+                dcls_month=item.get('dcls_month', ''),
+                fin_co_no=item.get('fin_co_no', ''),
+                kor_co_nm=item.get('kor_co_nm', ''),
+                dcls_chrg_man=item.get('dcls_chrg_man', ''),
+                homp_url=item.get('homp_url', ''),
+                cal_tel=item.get('cal_tel', '')
+            )
+
+            # companyListOption 저장 (baseList의 fin_co_no와 optionList의 fin_co_no로 매칭)
+            for option in option_list:
+                if option.get('fin_co_no') == item.get('fin_co_no'):
+                    companyListOption.objects.create(
+                        deposit_product=product,
+                        dcls_month=option.get('dcls_month', ''),
+                        fin_co_no=option.get('fin_co_no', ''),
+                        area_cd=option.get('area_cd', ''),
+                        area_nm=option.get('area_nm', ''),
+                        exis_yn=option.get('exis_yn', '')
+                    )
+
+        # 성공적으로 데이터를 저장한 후, API 응답을 그대로 반환
+        return Response(data)
+
+    except requests.exceptions.RequestException as e:
+        # API 요청에 실패한 경우 오류 메시지 반환
+        return Response({'error': str(e)}, status=500)
+
+# API 데이터를 통합하여 저장하는 함수
+def save_product_data(product_data, option_data, product_type):
+    # 기존 데이터 삭제 (리셋)
+    IntegrationProduct.objects.all().delete()
+    IntegrationProductOption.objects.all().delete()
+
+    # 상품 데이터를 IntegrationProduct 모델에 저장
+    for item in product_data:
+        product = IntegrationProduct.objects.create(
+            dcls_month=item.get('dcls_month'),
+            fin_co_no=item.get('fin_co_no'),
+            fin_prdt_cd=item.get('fin_prdt_cd'),
+            kor_co_nm=item.get('kor_co_nm'),
+            fin_prdt_nm=item.get('fin_prdt_nm'),
+            join_way=item.get('join_way'),
+            mtrt_int=item.get('mtrt_int'),
+            spcl_cnd=item.get('spcl_cnd'),
+            join_deny=item.get('join_deny'),
+            join_member=item.get('join_member'),
+            etc_note=item.get('etc_note'),
+            max_limit=item.get('max_limit'),
+            loan_inci_expn=item.get('loan_inci_expn'),
+            erly_rpay_fee=item.get('erly_rpay_fee'),
+            dly_rate=item.get('dly_rate'),
+            loan_lmt=item.get('loan_lmt'),
+            dcls_strt_day=datetime.strptime(item['dcls_strt_day'], '%Y%m%d').date(),
+            dcls_end_day=datetime.strptime(item['dcls_end_day'], '%Y%m%d').date() if item.get('dcls_end_day') else None,
+            fin_co_subm_day=datetime.strptime(item['fin_co_subm_day'], '%Y%m%d%H%M')
+        )
+
+        # 상품 옵션 데이터를 IntegrationProductOption 모델에 저장
+        for option in option_data:
+            if option.get('fin_prdt_cd') == item.get('fin_prdt_cd'):
+                # 상품 종류를 기준으로 필드 구분
+                if product_type == "deposit" or product_type == "saving":
+                    # 예금/적금 상품에 관련된 필드
+                    IntegrationProductOption.objects.create(
+                        deposit_product=product,
+                        dcls_month=option.get('dcls_month'),
+                        fin_co_no=option.get('fin_co_no'),
+                        fin_prdt_cd=option.get('fin_prdt_cd'),
+                        intr_rate_type=option.get('intr_rate_type'),
+                        intr_rate_type_nm=option.get('intr_rate_type_nm'),
+                        save_trm=option.get('save_trm'),
+                        intr_rate=option.get('intr_rate'),
+                        intr_rate2=option.get('intr_rate2'),
+                        rsrv_type=option.get('rsrv_type'),
+                        rsrv_type_nm=option.get('rsrv_type_nm')
+                    )
+                elif product_type == "mortgageLoan" or product_type == "rentHouseLoan":
+                    # 대출 상품에 관련된 필드
+                    IntegrationProductOption.objects.create(
+                        loan_product=product,
+                        dcls_month=option.get('dcls_month'),
+                        fin_co_no=option.get('fin_co_no'),
+                        fin_prdt_cd=option.get('fin_prdt_cd'),
+                        mrtg_type=option.get('mrtg_type'),
+                        mrtg_type_nm=option.get('mrtg_type_nm'),
+                        rpay_type=option.get('rpay_type'),
+                        rpay_type_nm=option.get('rpay_type_nm'),
+                        lend_rate_type=option.get('lend_rate_type'),
+                        lend_rate_type_nm=option.get('lend_rate_type_nm'),
+                        lend_rate_min=option.get('lend_rate_min'),
+                        lend_rate_max=option.get('lend_rate_max'),
+                        lend_rate_avg=option.get('lend_rate_avg')
+                    )
+
+# API에서 받은 데이터를 저장하는 함수들
+@api_view(['GET'])
+def deposit(request):
+    url = "http://finlife.fss.or.kr/finlifeapi/depositProductsSearch.json"
+    params = {
+        'auth': settings.API_KEY,
+        'topFinGrpNo': '020000',
+        'pageNo': '1'
+    }
+
+    try:
+        response = requests.get(url, params=params)
+        response.raise_for_status()
+
+        data = response.json()
+        if 'result' not in data or 'baseList' not in data['result'] or 'optionList' not in data['result']:
+            return Response({'error': 'API 응답에서 예상된 키를 찾을 수 없습니다.'}, status=500)
+
+        base_list = data['result']['baseList']
+        option_list = data['result']['optionList']
+
+        # 예금 상품 저장
+        save_product_data(base_list, option_list, product_type="deposit")
+
+        return Response(data)
+
+    except requests.exceptions.RequestException as e:
+        return Response({'error': str(e)}, status=500)
+
+@api_view(['GET'])
+def saving(request):
+    url = "http://finlife.fss.or.kr/finlifeapi/savingProductsSearch.json"
+    params = {
+        'auth': settings.API_KEY,
+        'topFinGrpNo': '020000',
+        'pageNo': '1'
+    }
+
+    try:
+        response = requests.get(url, params=params)
+        response.raise_for_status()
+
+        data = response.json()
+        if 'result' not in data or 'baseList' not in data['result'] or 'optionList' not in data['result']:
+            return Response({'error': 'API 응답에서 예상된 키를 찾을 수 없습니다.'}, status=500)
+
+        base_list = data['result']['baseList']
+        option_list = data['result']['optionList']
+
+        # 적금 상품 저장
+        save_product_data(base_list, option_list, product_type="saving")
+
+        return Response(data)
+
+    except requests.exceptions.RequestException as e:
+        return Response({'error': str(e)}, status=500)
+
+@api_view(['GET'])
+def mortgageLoan(request):
+    url = "http://finlife.fss.or.kr/finlifeapi/mortgageLoanProductsSearch.json"
+    params = {
+        'auth': settings.API_KEY,
+        'topFinGrpNo': '050000',
+        'pageNo': '1'
+    }
+
+    try:
+        response = requests.get(url, params=params)
+        response.raise_for_status()
+
+        data = response.json()
+        if 'result' not in data or 'baseList' not in data['result'] or 'optionList' not in data['result']:
+            return Response({'error': 'API 응답에서 예상된 키를 찾을 수 없습니다.'}, status=500)
+
+        base_list = data['result']['baseList']
+        option_list = data['result']['optionList']
+
+        # 대출 상품 저장
+        save_product_data(base_list, option_list, product_type="mortgageLoan")
+
+        return Response(data)
+
+    except requests.exceptions.RequestException as e:
+        return Response({'error': str(e)}, status=500)
+
+@api_view(['GET'])
+def rentHouseLoan(request):
+    url = "http://finlife.fss.or.kr/finlifeapi/rentHouseLoanProductsSearch.json"
+    params = {
+        'auth': settings.API_KEY,
+        'topFinGrpNo': '050000',
+        'pageNo': '1'
+    }
+
+    try:
+        response = requests.get(url, params=params)
+        response.raise_for_status()
+
+        data = response.json()
+        if 'result' not in data or 'baseList' not in data['result'] or 'optionList' not in data['result']:
+            return Response({'error': 'API 응답에서 예상된 키를 찾을 수 없습니다.'}, status=500)
+
+        base_list = data['result']['baseList']
+        option_list = data['result']['optionList']
+
+        # 전세자금 대출 상품 저장
+        save_product_data(base_list, option_list, product_type="rentHouseLoan")
+
+        return Response(data)
+
+    except requests.exceptions.RequestException as e:
+        return Response({'error': str(e)}, status=500)
+    
+@api_view(['GET'])
+def get_integration_products(request):
+    # 모든 IntegrationProduct 객체를 조회
+    products = IntegrationProduct.objects.all()
+    
+    # 쿼리셋을 직렬화
+    serializer = IntegrationProductSerializer(products, many=True)
+    
+    # 직렬화된 데이터를 Response로 반환
+    return Response(serializer.data)
