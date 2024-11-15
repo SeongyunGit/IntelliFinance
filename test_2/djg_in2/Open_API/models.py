@@ -50,7 +50,6 @@ class IntegrationProduct(models.Model):
     dcls_end_day = models.DateField(null=True, blank=True)  # 공시 종료일
     fin_co_subm_day = models.DateTimeField(null=True, blank=True)  # 금융 기관 제출일
     type_a = models.TextField(null=True, blank=True) # 데이터 타입(예: 예금)
-
     
 # 상품옵션 종합 테이블
 class IntegrationProductOption(models.Model):
@@ -83,3 +82,15 @@ class IntegrationProductOption(models.Model):
     lend_rate_avg = models.FloatField(null=True, blank=True)  # 평균 금리
 
 #############################################################################################################################################
+
+
+
+
+
+# # 테스트용 임시모델
+# class TestItem(models.Model):
+#     kor_co_nm = models.CharField
+#     description = models.TextField()
+
+#     def __str__(self):
+#         return self.name

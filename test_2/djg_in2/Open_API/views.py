@@ -1,3 +1,4 @@
+from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from .models import companyList, companyListOption, IntegrationProduct, IntegrationProductOption
@@ -225,3 +226,18 @@ def get_combined_integration_data(request):
 #                     option_serializer.save()
 #                 else:
 #                     return Response(option_serializer.errors, status=400)
+
+
+
+# # 테스트용 임시 뷰
+# from .models import TestItem
+# from .serializers import TestItemSerializer
+
+# @api_view(['POST'])
+# def create_item(request):
+#     if request.method == 'POST':
+#         serializer = TestItemSerializer(data=request.data)
+#         if serializer.is_valid():
+#             serializer.save()
+#             return Response(serializer.data, status=status.HTTP_201_CREATED)
+#         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

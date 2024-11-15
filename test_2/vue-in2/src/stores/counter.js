@@ -40,6 +40,19 @@ export const useCounterStore = defineStore('counter', () => {
       })
   }
 
+  const getcompany = function () {
+    axios({
+      method: 'get',
+      url: `${API_URL}/api/v1/company/`,
+    })
+      .then((response) => {
+        console.log(response.data)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  }
+
   const getdeposit = function () {
     axios({
       method: 'get',
@@ -109,7 +122,7 @@ export const useCounterStore = defineStore('counter', () => {
   return { companyList, companyListOption, 
     integrationProducts, integrationProductOptions, 
     API_URL, 
-    getCompany, getIntegration,
+    getCompany, getIntegration, getcompany,
     getdeposit, getsaving, getmortgageLoan, getrentHouseLoan, 
     delete_data
    }

@@ -1,7 +1,7 @@
 <template>
   <div>
-    <h1>Bank Delete</h1>
-    <p>데이터 삭제 완료</p>
+    <h1>Bank update</h1>
+    <p>데이터 업데이트(삭제후 다시 저장)</p>
   </div>
 </template>
 
@@ -14,6 +14,11 @@ const store = useCounterStore()
 onMounted(() => {
   // mount 되기전에 store에 있는 전체 게시글 요청 함수를 호출
   store.delete_data()
+  store.getdeposit()
+  store.getsaving()
+  store.getmortgageLoan()
+  store.getrentHouseLoan()
+  store.getcompany()
 })
 </script>
 

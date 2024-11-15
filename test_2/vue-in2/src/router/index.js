@@ -1,9 +1,9 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import Company from '@/views/Company.vue'
-import SaveDate from '@/views/SaveDate.vue'
-import DeleteDate from '@/views/DeleteDate.vue'
+import Update from '@/views/Update.vue'
 import Deposit from '@/views/Deposit.vue'
+import DepositListItemItemoptions from '@/components/DepositListItemItemoptions.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -19,19 +19,17 @@ const router = createRouter({
       component: Company,
     },
     {
-      path: '/save',
-      name: 'save',
-      component: SaveDate,
-    },
-    {
-      path: '/delete',
-      name: 'delete',
-      component: DeleteDate,
+      path: '/update',
+      name: 'update',
+      component: Update,
     },
     {
       path: '/deposit',
       name: 'deposit',
       component: Deposit,
+      children: [
+        { path: 'options', name: 'deposit_options', component: DepositListItemItemoptions },
+      ],
     },
   ],
 })
