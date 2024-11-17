@@ -3,7 +3,7 @@ import HomeView from '../views/HomeView.vue'
 import Company from '@/views/Company.vue'
 import Update from '@/views/Update.vue'
 import Deposit from '@/views/Deposit.vue'
-import DepositListItemItemoptions from '@/components/DepositListItemItemoptions.vue'
+// import DepositListItemItemoptions from '@/components/DepositListItemItemoptions.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -27,9 +27,9 @@ const router = createRouter({
       path: '/deposit',
       name: 'deposit',
       component: Deposit,
-      children: [
-        { path: 'options', name: 'deposit_options', component: DepositListItemItemoptions },
-      ],
+      // children: [
+      //   { path: 'options', name: 'deposit_options', component: DepositListItemItemoptions },
+      // ],
     },
   ],
 })

@@ -1,6 +1,7 @@
 <template>
   <div>
     <h1>deposit</h1>
+    <DepositSurvey />
     <DepositList />
   </div>
 </template>
@@ -9,6 +10,7 @@
 import { onMounted } from 'vue'
 import { useCounterStore } from '@/stores/counter'
 import DepositList from '@/components/DepositList.vue';
+import DepositSurvey from '@/components/DepositSurvey.vue';
 
 const store = useCounterStore()
 
