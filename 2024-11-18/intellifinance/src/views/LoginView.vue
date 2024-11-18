@@ -3,7 +3,7 @@
     <h1>LogIn Page</h1>
     <form @submit.prevent="logIn">
       <label for="username">email : </label>
-      <input type="text" id="username" v-model.trim="email"><br>
+      <input type="email" id="username" v-model.trim="username"><br>
 
       <label for="password">password : </label>
       <input type="password" id="password" v-model.trim="password"><br>
@@ -27,6 +27,7 @@ const logIn = function () {
     username: username.value,
     password: password.value
   }
+  console.log(payload)
   
 
   store.logIn(payload)

@@ -12,6 +12,7 @@ const logOut = function () {
 <template>
   <header>
       <nav>
+        <RouterLink :to="{ name: 'HomeView' }">HomeView</RouterLink> |
         <RouterLink :to="{ name: 'SignUpView' }">SignUpView</RouterLink> |
         <RouterLink :to="{ name: 'LogInView' }">LogInView</RouterLink> | 
         <form @submit.prevent="logOut">

@@ -19,21 +19,21 @@ export const useCounterStore = defineStore('counter', () => {
   // 회원가입 요청 액션
   const signUp = function (payload) {
 
-    const { username, password1, password2, member_birth } = payload
-    
+    const { username, email, password , password2, birth_date } = payload
+    console.log({ username, email, password, password2, birth_date })
     axios({
       method: 'post',
       url: `${API_URL}/accounts/signup/`,
       data: {
-        username, password1, password2, member_birth
+        username, email, password, birth_date
       }
     })
       .then((res) => {
         console.log(res)
         console.log('회원가입 성공')
 
-        const password = password1
-        logIn({ username, password, member_birth })
+        const password = password2
+        logIn({ username, password })
       })
       .catch((err) => {
         console.log(err)
@@ -44,20 +44,22 @@ export const useCounterStore = defineStore('counter', () => {
   const logIn = function (payload) {
     // const username = payload.username
     // const password1 = payload.password
-    const { username, password, member_birth } = payload
+    const { username, password } = payload
+    console.log(payload)
 
-    axios({
-      method: 'post',
-      url: `${API_URL}/accounts/login/`,
-      data: {
-        username, password, member_birth
-      }
-    })
+    axios.post(
+      'http://127.0.0.1:8000/accounts/login/',
+      {
+        username: username,
+        password: password
+      },
+      {withCredentials:true}
+    )
       .then((res) => {
         token.value = res.data.key
-        router.push({ name: 'ArticleView' })
-        // console.log(res.data)
-        // console.log('로그인 성공')
+        router.push({ name: 'HomeView' })
+        console.log(res.data)
+        console.log('로그인 성공')
       })
       .catch((err) => {
         console.log(err)
@@ -73,7 +75,7 @@ export const useCounterStore = defineStore('counter', () => {
       .then((res) => {
         console.log(res.data)
         token.value = null
-        router.push({ name: 'ArticleView' })
+        router.push({ name: 'HomeView' })
       })
       .catch((err) => {
         console.log(err)
