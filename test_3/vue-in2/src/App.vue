@@ -1,5 +1,11 @@
 <script setup>
 import { RouterLink, RouterView } from 'vue-router'
+import { useCounterStore } from '@/stores/counter'
+
+const store = useCounterStore()
+const logOut = function () {
+  store.logOut()
+}
 </script>
 
 <template>
@@ -12,6 +18,9 @@ import { RouterLink, RouterView } from 'vue-router'
         <RouterLink to="/update">update</RouterLink> |
         <RouterLink to="/signup">signup</RouterLink> |
         <RouterLink to="/login">login</RouterLink> |
+        <form @submit.prevent="logOut">
+          <input type="submit" value="Logout">
+        </form>
       </nav>
       <nav>
         <RouterLink to="/deposit">deposit</RouterLink> |
