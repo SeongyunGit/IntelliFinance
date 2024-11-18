@@ -26,7 +26,7 @@ export const useCounterStore = defineStore('counter', () => {
   // 회원가입 요청 액션
   const signUp = function (payload) {
 
-    const { username, email, password , password2, birth_date } = payload
+    let { username, email, password , password2, birth_date } = payload
     console.log({ username, email, password, password2, birth_date })
     axios({
       method: 'post',
@@ -38,7 +38,7 @@ export const useCounterStore = defineStore('counter', () => {
       .then((res) => {
         console.log(res)
         console.log('회원가입 성공')
-
+        username = email
         const password = password2
         logIn({ username, password })
       })
