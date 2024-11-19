@@ -17,7 +17,7 @@ class Survey(models.Model):
     # 공통 추가 필드
     user = models.ForeignKey(User, related_name="options", on_delete=models.CASCADE, null=True, blank=True) # 설문 작성 유저
     type_a = models.TextField(null=True, blank=True) # 데이터 타입(예: 예금, 적금, 주택담보대출, 전세자금대출)
-    today = models.DateField(auto_now=True, auto_now_add=True) # 설문작성날짜
+    today = models.DateField(auto_now=True, auto_now_add=False) # 설문작성날짜
 
     # 공통 필드
     fin_co_no = models.CharField(max_length=7, null=True, blank=True)  # 금융 회사 번호

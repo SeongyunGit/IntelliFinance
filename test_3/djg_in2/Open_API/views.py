@@ -229,42 +229,42 @@ def get_combined_integration_data(request):
 
 
 
-# 테스트용 임시 뷰
-from .models import TestItem
-from .serializers import TestItemSerializer
+# # 테스트용 임시 뷰
+# from .models import TestItem
+# from .serializers import TestItemSerializer
 
-@api_view(['GET', 'POST'])
-def handle_survey_data(request):
-    # GET 요청: 데이터베이스에서 survey 데이터를 가져옴
-    if request.method == 'GET':
-        # TestItem 데이터 조회
-        items = TestItem.objects.all()
-        item_serializer = TestItemSerializer(items, many=True)
-        return Response({
-            'surveyData': item_serializer.data
-        })
+# @api_view(['GET', 'POST'])
+# def handle_survey_data(request):
+#     # GET 요청: 데이터베이스에서 survey 데이터를 가져옴
+#     if request.method == 'GET':
+#         # TestItem 데이터 조회
+#         items = TestItem.objects.all()
+#         item_serializer = TestItemSerializer(items, many=True)
+#         return Response({
+#             'surveyData': item_serializer.data
+#         })
     
-    # POST 요청: 새로운 데이터를 추가
-    elif request.method == 'POST':
-        serializer = TestItemSerializer(data=request.data)
-        if serializer.is_valid():
-            # 새로운 survey 데이터 저장
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+#     # POST 요청: 새로운 데이터를 추가
+#     elif request.method == 'POST':
+#         serializer = TestItemSerializer(data=request.data)
+#         if serializer.is_valid():
+#             # 새로운 survey 데이터 저장
+#             serializer.save()
+#             return Response(serializer.data, status=status.HTTP_201_CREATED)
+#         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-@api_view(['PUT'])
-def update_survey_data(request, survey_id):
-    print(survey_id)
-    try:
-        # 주어진 survey_id에 해당하는 데이터 조회
-        survey_data = TestItem.objects.get(id=survey_id)
-    except TestItem.DoesNotExist:
-        return Response({'error': 'Survey data not found'}, status=status.HTTP_404_NOT_FOUND)
+# @api_view(['PUT'])
+# def update_survey_data(request, survey_id):
+#     print(survey_id)
+#     try:
+#         # 주어진 survey_id에 해당하는 데이터 조회
+#         survey_data = TestItem.objects.get(id=survey_id)
+#     except TestItem.DoesNotExist:
+#         return Response({'error': 'Survey data not found'}, status=status.HTTP_404_NOT_FOUND)
 
-    # 요청된 데이터로 serializer 업데이트
-    serializer = TestItemSerializer(survey_data, data=request.data, partial=True)
-    if serializer.is_valid():
-        serializer.save()
-        return Response(serializer.data, status=status.HTTP_200_OK)
-    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+#     # 요청된 데이터로 serializer 업데이트
+#     serializer = TestItemSerializer(survey_data, data=request.data, partial=True)
+#     if serializer.is_valid():
+#         serializer.save()
+#         return Response(serializer.data, status=status.HTTP_200_OK)
+#     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

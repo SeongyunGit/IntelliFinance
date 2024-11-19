@@ -17,3 +17,10 @@ class UserSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         user = User.objects.create_user(**validated_data)
         return user
+    
+
+from .models import Survey
+class SurveySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Survey
+        fields = '__all__'

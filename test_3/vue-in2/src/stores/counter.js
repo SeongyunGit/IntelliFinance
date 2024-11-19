@@ -36,7 +36,7 @@ export const useCounterStore = defineStore('counter', () => {
       }
     })
       .then((res) => {
-        console.log(res)
+        // console.log(res)
         console.log('회원가입 성공')
         username = email
         const password = password2
@@ -52,7 +52,7 @@ export const useCounterStore = defineStore('counter', () => {
     // const username = payload.username
     // const password1 = payload.password
     const { username, password } = payload
-    console.log(payload)
+    // console.log(payload)
 
     axios.post(
       'http://127.0.0.1:8000/accounts/login/',
@@ -66,9 +66,9 @@ export const useCounterStore = defineStore('counter', () => {
     )
       .then((res) => {
         token.value = res.data.key
-        console.log(res.data)
+        // console.log(res.data)
         router.push({ name: 'HomeView' })
-        console.log(res.data)
+        // console.log(res.data)
         console.log('로그인 성공')
       })
       .catch((err) => {
@@ -83,7 +83,7 @@ export const useCounterStore = defineStore('counter', () => {
       url: `${API_URL}/accounts/logout/`,
     })
       .then((res) => {
-        console.log(res.data)
+        // console.log(res.data)
         token.value = null
         router.push({ name: 'HomeView' })
       })
@@ -203,30 +203,20 @@ export const useCounterStore = defineStore('counter', () => {
       })
   }
 
-  const ox = ref(1)
    // survey 데이터 가져오는 함수
-  const getSurveyData = function (test) {
+  const getSurveyData = function (user_id, type) {
     axios({
       method: 'get',
-      url: `${API_URL}/api/v1/survey/`,  // survey 데이터를 가져올 API endpoint
+      url: `${API_URL}/accounts/survey/`,  // survey 데이터를 가져올 API endpoint
     })
       .then((response) => {
-        const survey = response.data.surveyData.find(item => item.id === test)
-        // console.log(survey)
-        if (survey) {
-          ox.value = 1
+        const survey = response.data.surveyData.find(item => item.id === user_id && item.type_a === type)
+        if (!survey) {
+          console.log('Survey생성',survey)
+          saveSurveyData({user : user_id, type_a : type})
         } else {
-          ox.value = 0
-        }
-        // console.log(ox)
-        // survey가 존재하면 해당 데이터를 surveyData에 할당
-        surveyData.value = survey || {
-          'kor_co_nm': null,
-          'mtrt_int': null,
-          'intr_rate_type_nm': '전체',
-          'save_trm': '전체',
-          'intr_rate': null,
-          'intr_rate2': null
+          console.log('Survey확인',survey)
+          surveyData.value = survey
         }
         console.log('Survey Data Loaded:', surveyData.value)
       })
@@ -239,7 +229,7 @@ export const useCounterStore = defineStore('counter', () => {
   const saveSurveyData = function (SurveyData) {
     axios({
       method: 'post',
-      url: `${API_URL}/api/v1/survey/`,  // 새로운 데이터 추가
+      url: `${API_URL}/accounts/survey/`,  // 새로운 데이터 추가
       data: SurveyData,  // 서버에 보낼 데이터
     })
       .then((response) => {
@@ -255,7 +245,7 @@ export const useCounterStore = defineStore('counter', () => {
   const updateSurveyData = function (SurveyId, updatedData) {
     axios({
       method: 'put',
-      url: `${API_URL}/api/v1/survey/${SurveyId}/`,  // 특정 surveyId에 해당하는 URL로 PUT 요청
+      url: `${API_URL}/accounts/survey/${SurveyId}/`,  // 특정 surveyId에 해당하는 URL로 PUT 요청
       data: updatedData,  // 수정할 데이터
     })
       .then((response) => {
@@ -275,6 +265,6 @@ export const useCounterStore = defineStore('counter', () => {
     getdeposit, getsaving, getmortgageLoan, getrentHouseLoan, 
     delete_data,
     getSurveyData, saveSurveyData, updateSurveyData,
-    ox, signUp, logIn, token, isLogin, logOut
+    signUp, logIn, token, isLogin, logOut
    }
 }, { persist: true })
