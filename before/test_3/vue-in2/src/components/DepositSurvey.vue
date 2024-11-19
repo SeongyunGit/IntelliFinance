@@ -40,10 +40,12 @@
     <button @click="submitSurvey">저장</button>
     <p>{{ surveyData }}</p>
     <hr>
+
+    <!-- 상품 리스트 -->
     <div v-for="bank in store.integrationProducts"
       :key="bank.id"
       :bank="bank">
-      <DepositListItem v-if="bank.type_a === 'deposit'" :bank="bank"/>
+      <DepositListItem v-if="bank.type_a === 'deposit'" :bank="bank" />
     </div>
   </div>
 </template>
