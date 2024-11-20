@@ -27,13 +27,3 @@ class IntegrationProductOptionSerializer(serializers.ModelSerializer):
     class Meta:
         model = IntegrationProductOption
         fields = '__all__'
-
-
-
-
-# # 테스트용 시리얼라이저
-# from .models import TestItem
-# class TestItemSerializer(serializers.ModelSerializer):
-#     class Meta:
-#         model = TestItem
-#         fields = '__all__'

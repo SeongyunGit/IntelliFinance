@@ -65,24 +65,24 @@ def handle_survey_data(request):
             'user': user_id,
             'type_a': type_a,
             # 'today' # auto_now=True
-            'fin_co_no': None,
-            'kor_co_nm': None,
-            'intr_rate_type': None,
-            'intr_rate_type_nm': None,
-            'save_trm': None,
-            'intr_rate': None,
-            'intr_rate2': None,
-            'rsrv_type': None,
-            'rsrv_type_nm': None,
-            'rpay_type': None,
-            'rpay_type_nm': None,
-            'lend_rate_type': None,
-            'lend_rate_type_nm': None,
-            'lend_rate_min': None,
-            'lend_rate_max': None,
-            'lend_rate_avg': None,
-            'mrtg_type': None,
-            'mrtg_type_nm': None
+            # 'fin_co_no': None,
+            'kor_co_nm': [],  # 은행이름
+            # 'intr_rate_type': None,
+            'intr_rate_type_nm': [],  # 이자율(단리,복리)
+            'save_trm': [],  # 저축기간
+            'intr_rate': None,  # 기본금리
+            'intr_rate2': None,  # 우대금리
+            # 'rsrv_type': None,
+            'rsrv_type_nm': [],  # 적립식종류
+            # 'rpay_type': None,
+            'rpay_type_nm': [],  # 상환방식
+            # 'lend_rate_type': None,
+            'lend_rate_type_nm': [],  # 금리유형
+            'lend_rate_min': None,  # 최소 금리
+            'lend_rate_max': None,  # 최대 금리
+            'lend_rate_avg': None,  # 평균 금리
+            # 'mrtg_type': None,
+            'mrtg_type_nm': []  # 담보 유형
         }
         serializer = SurveySerializer(data=survey_data)
         if serializer.is_valid():

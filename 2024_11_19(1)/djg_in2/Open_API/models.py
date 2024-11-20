@@ -93,20 +93,3 @@ class IntegrationProductOption(models.Model):
     mrtg_type_nm = models.CharField(max_length=50, null=True, blank=True)  # 담보 유형 명 (예: 아파트)
 
 #############################################################################################################################################
-
-
-
-
-
-# # 테스트용 임시모델
-# class TestItem(models.Model):
-#     kor_co_nm = models.CharField(max_length=100, null=True, blank=True)  # 금융 기관명
-#     mtrt_int = models.TextField(null=True, blank=True)  # 만기 후 이자
-
-#     intr_rate_type_nm = models.CharField(max_length=10, null=True, blank=True)  # 이자율 유형 이름 (예: "단리")
-#     save_trm = models.CharField(max_length=2, null=True, blank=True)  # 예: "1", "3", "6", "12" (기간)
-#     intr_rate = models.FloatField(null=True, blank=True)  # 기본 금리
-#     intr_rate2 = models.FloatField(null=True, blank=True)  # 우대 금리 (NULL 허용)
-
-#     def __str__(self):
-#         return self.name
