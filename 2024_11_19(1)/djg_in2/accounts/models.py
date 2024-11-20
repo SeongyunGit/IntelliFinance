@@ -1,5 +1,6 @@
 from ast import mod
 from django.db import models
+from django.conf import settings
 from django.contrib.auth.models import AbstractUser
 
 # Create your models here.
@@ -29,7 +30,7 @@ class Announcement(models.Model):
 # 설문 종합 필드 모델
 class Survey(models.Model):
     # 공통 추가 필드
-    user = models.ForeignKey(User, related_name="options", on_delete=models.CASCADE, null=True, blank=True) # 설문 작성 유저
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name="surveys", on_delete=models.CASCADE, null=True, blank=True) # 설문 작성 유저
     type_a = models.TextField(null=True, blank=True) # 데이터 타입(예: 예금, 적금, 주택담보대출, 전세자금대출)
     today = models.DateField(auto_now=True, auto_now_add=False) # 설문작성날짜
 

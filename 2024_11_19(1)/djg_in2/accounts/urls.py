@@ -1,9 +1,8 @@
 from django.urls import path
 from . import views
-
 urlpatterns = [
-    path('signup/', views.signup, name='signup'),
-    path('login/', views.login_view, name='login'),
+    # path('signup/', views.signup, name='signup'),
+    # path('login/', views.login_view, name='login'),
 
     # GET 및 POST 요청을 처리하는 뷰  # 전체 survey 데이터를 처리하는 URL
     path('survey/', views.handle_survey_data, name='handle_survey_data'),
@@ -11,6 +10,6 @@ urlpatterns = [
     path('survey/<int:survey_id>/', views.update_survey_data, name='update_survey_data'),
 
     path('announcement/', views.get_announcement, name='get_announcement'),
-    
-    # path('api/member-pk/', views.get_member_pk, name='get_member_pk'),
+    path('survey/start/', views.survey),
+
 ]

@@ -121,11 +121,41 @@ def get_announcement(request):
 
 #######################################################################################################
 # member_pk 가져오기
-# from django.http import JsonResponse
-# from django.contrib.auth.decorators import login_required
+from rest_framework.views import APIView
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
+from rest_framework import status
+from .models import Survey
+from .serializers import SurveySerializer
 
-# @login_required
-# def get_member_pk(request):
-#     user = request.user
-#     print(user)
-#     return JsonResponse({'member_pk':user.pk})
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def survey(request):
+     # 생성된 설문 데이터 반환
+    print(request.user)
+    serializer = SurveySerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.save(user = request.user)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+            
+
+
+# class StartSurveyView(APIView):
+    
+#     def post(self, request):
+#         # # request.data에서 설문 데이터를 받아옴
+#         # survey_data = request.data
+        
+#         # # 현재 로그인한 유저 정보 가져오기
+#         # user = request.user
+        
+#         # 새로운 설문 인스턴스 생성
+#         # survey = Survey(
+#         #     user=user,
+#         #     type_a=survey_data.get('type_a'),
+#         #     # 필요한 다른 필드들도 추가
+#         # )
+#         # survey.save()
+        
+       
+
