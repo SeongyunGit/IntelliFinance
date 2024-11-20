@@ -1,12 +1,12 @@
 <script setup>
 import { RouterLink, RouterView } from 'vue-router'
 import { useCounterStore } from '@/stores/counter'
+// import { onMounted } from 'vue'
 
 const store = useCounterStore()
 const logOut = function () {
   store.logOut()
 }
-
 </script>
 
 <template>
@@ -48,6 +48,9 @@ const logOut = function () {
         </a>
       </div>
       <div class="hidden md:flex items-center space-x-4" v-else>
+        <a href="/mypage"  class="text-gray-700 hover:text-indigo-600 px-3 py-2 rounded-md text-sm font-medium">
+          <RouterLink to="/mypage">mypage</RouterLink>
+        </a>
         <a href="/signup" class="bg-indigo-600 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-indigo-700">
           <form @submit.prevent="logOut">
               <input type="submit" value="Logout">

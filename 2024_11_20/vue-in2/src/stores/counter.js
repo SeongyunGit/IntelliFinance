@@ -11,7 +11,23 @@ export const useCounterStore = defineStore('counter', () => {
 
   const API_URL = 'http://127.0.0.1:8000'
 
-  const surveyData = ref({})
+  const surveyData = ref({ 
+    "id": null, 
+    "type_a": null, 
+    "today": null, 
+    "kor_co_nm": [], 
+    "intr_rate_type_nm": [], 
+    "save_trm": [], 
+    "intr_rate": null, 
+    "intr_rate2": null, 
+    "rsrv_type_nm": [], 
+    "rpay_type_nm": [], 
+    "lend_rate_type_nm": [], 
+    "lend_rate_min": null, 
+    "lend_rate_max": null, 
+    "lend_rate_avg": null, 
+    "mrtg_type_nm": [], 
+    "user": null })
 
   const token = ref(null)
   const isLogin = computed(() => {

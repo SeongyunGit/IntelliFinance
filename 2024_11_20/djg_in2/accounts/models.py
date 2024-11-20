@@ -60,6 +60,6 @@ class Survey(models.Model):
     # (주택 담보) 추가 필드
     # mrtg_type = models.CharField(max_length=2, null=True, blank=True)  # 담보 유형 (예: 아파트, 주택 등)
     mrtg_type_nm = models.JSONField(max_length=50, null=True, blank=True)  # 담보 유형 명 (예: 아파트)
-
+    
     def __str__(self):
         return self.name

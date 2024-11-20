@@ -6,7 +6,7 @@
     <div v-for="bank in store.integrationProducts"
       :key="bank.id"
       :bank="bank">
-      <DepositListItem v-if="bank.type_a === 'deposit'" :bank="bank"/>
+      <DepositListItem v-if="bank.type_a === 'deposit' && store.surveyData.kor_co_nm.includes(bank.kor_co_nm)" :bank="bank"/>
     </div>
   </div>
 </template>
