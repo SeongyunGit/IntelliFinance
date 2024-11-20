@@ -5,9 +5,9 @@
     <div class="list-section">
       <div class="header">
         <h2>공지사항</h2>
-        <button v-if="isAdmin" @click="showForm = true" class="create-btn">
+        <!-- <button v-if="isAdmin" @click="showForm = true" class="create-btn">
           새 공지사항
-        </button>
+        </button> -->
       </div>
       <!-- 공지사항 목록 테이블 -->
       <table class="announcement-table">

@@ -99,7 +99,7 @@ const submitSurvey = () => {
   }
   // 데이터가 이미 존재하면 업데이트
   console.log('수정', newSurveyData)
-  store.updateSurveyData(props.surveyData.id, newSurveyData) 
+  store.updateSurveyData(props.surveyData.id, 'deposit', newSurveyData) 
 }
 </script>
 

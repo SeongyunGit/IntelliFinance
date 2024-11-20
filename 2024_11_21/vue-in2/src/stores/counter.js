@@ -9,30 +9,42 @@ export const useCounterStore = defineStore('counter', () => {
   const integrationProducts = ref([])
   const integrationProductOptions = ref([])
 
-  
-  const isLoggedIn = ref(false)
-  const mPK = ref()
-
   const API_URL = 'http://127.0.0.1:8000'
+  
+  const initialSurveyData = {
+    'user': null,
+    'type_a': null,
+    // 'today' # auto_now=True
+    // 'fin_co_no': None,
+    'kor_co_nm': [],  // 은행이름
+    // 'intr_rate_type': None,
+    'intr_rate_type_nm': ["단리", "복리"],  // 이자율(단리,복리)
+    'save_trm': ["1","3","6","12"],  // 저축기간
+    'intr_rate': 100,  // 기본금리
+    'intr_rate2': 100,  // 우대금리
+    // 'rsrv_type': None,
+    'rsrv_type_nm': [],  // 적립식종류
+    // 'rpay_type': None,
+    'rpay_type_nm': [],  // 상환방식
+    // 'lend_rate_type': None,
+    'lend_rate_type_nm': [],  // 금리유형
+    'lend_rate_min': 100,  // 최소 금리
+    'lend_rate_max': 100,  // 최대 금리
+    'lend_rate_avg': 100,  // 평균 금리
+    // 'mrtg_type': None,
+    'mrtg_type_nm': []  // 담보 유형
+  }
+  
+  // surveyData 객체
+  const surveyData = ref({
+    'deposit' : { ...initialSurveyData },
+    'saving' : { ...initialSurveyData },
+    'mortgageLoan' : { ...initialSurveyData },
+    'rentHouseLoan' : { ...initialSurveyData },
+  });
+  const type_a_4 = ['deposit', 'saving', 'mortgageLoan', 'rentHouseLoan']
 
-  const surveyData = ref({ 
-    "id": null, 
-    "type_a": null, 
-    "today": null, 
-    "kor_co_nm": [], 
-    "intr_rate_type_nm": [], 
-    "save_trm": [], 
-    "intr_rate": null, 
-    "intr_rate2": null, 
-    "rsrv_type_nm": [], 
-    "rpay_type_nm": [], 
-    "lend_rate_type_nm": [], 
-    "lend_rate_min": null, 
-    "lend_rate_max": null, 
-    "lend_rate_avg": null, 
-    "mrtg_type_nm": [], 
-    "user": null })
-
+  const mPK = ref()
   const token = ref(null)
   const isLogin = computed(() => {
     if (token.value === null) {
@@ -71,28 +83,23 @@ export const useCounterStore = defineStore('counter', () => {
 
   // 로그인 요청 액션
   const logIn = function (payload) {
-    // const username = payload.username
-    // const password1 = payload.password
     const { username, password } = payload
-    // console.log(payload)
-
-    axios.post(
-      'http://127.0.0.1:8000/accounts/login/',
-      {
+    axios({
+      method: 'post',
+      url: `${API_URL}/accounts/login/`,  // 로그인 API
+      withCredentials: true,  // 쿠키와 함께 전송
+      data: {
         username: username,
         password: password
-      },
-      {
-        withCredentials:true
       }
-    )
+    })
       .then((res) => {
-        isLoggedIn.value=true
-        console.log(isLoggedIn.value)
         token.value = res.data.key
-        // console.log(res.data)
+        mPK.value = res.data.user_pk
+
+        type_a_4.forEach(item => getSurveyData(mPK.value, item))
+        
         router.push({ name: 'HomeView' })
-        // console.log(res.data)
         console.log('로그인 성공')
       })
       .catch((err) => {
@@ -108,10 +115,14 @@ export const useCounterStore = defineStore('counter', () => {
       url: `${API_URL}/accounts/logout/`,
     })
       .then((res) => {
-        // console.log(res.data)
-        isLoggedIn.value = false
-        username.value= ""
         token.value = null
+        mPK.value = null
+        surveyData.value = {
+          'deposit' : { ...initialSurveyData },
+          'saving' : { ...initialSurveyData },
+          'mortgageLoan' : { ...initialSurveyData },
+          'rentHouseLoan' : { ...initialSurveyData },
+        };  // 초기 상태로 되돌리기
         router.push({ name: 'HomeView' })
       })
       .catch((err) => {
@@ -119,24 +130,27 @@ export const useCounterStore = defineStore('counter', () => {
       })
   }
 
-  const memberPk = function () {
-    console.log(token.value)
+  const createSurvey = function (typea) {
+    surveyData.value[typea].type_a = typea
+    // console.log(token.value)
+    // console.log('확인용', surveyData.value)
     axios({
       method: 'post',
       url: `${API_URL}/accounts/survey/start/`,
       withCredentials:true,
       headers: {
         Authorization: `Token ${token.value}`
+      },
+      data: {
+        survey_data: surveyData.value[typea]
       }
     }
   )
     .then((response) => {
-      mPK.value = response.data.user
-      console.log(response.data.user)
+      surveyData.value[typea] = response.data
     })
     .catch((err) => {
       console.log(err)
-      console.log(mPK)
     })
   }
 
@@ -156,7 +170,7 @@ export const useCounterStore = defineStore('counter', () => {
         console.log(err)
       })
   }
-
+  // api요청
   const getIntegration = function () {
     axios({
       method: 'get',
@@ -171,7 +185,7 @@ export const useCounterStore = defineStore('counter', () => {
         console.log(err)
       })
   }
-
+  // api요청
   const getcompany = function () {
     axios({
       method: 'get',
@@ -184,7 +198,7 @@ export const useCounterStore = defineStore('counter', () => {
         console.log(err)
       })
   }
-
+  // api요청
   const getdeposit = function () {
     axios({
       method: 'get',
@@ -197,7 +211,7 @@ export const useCounterStore = defineStore('counter', () => {
         console.log(err)
       })
   }
-
+  // api요청
   const getsaving = function () {
     axios({
       method: 'get',
@@ -224,7 +238,7 @@ export const useCounterStore = defineStore('counter', () => {
         console.log(err)
       })
   }
-
+  // 데이터베이스 요청
   const getrentHouseLoan = function () {
     axios({
       method: 'get',
@@ -252,21 +266,20 @@ export const useCounterStore = defineStore('counter', () => {
       })
   }
 
-   // survey 데이터 가져오는 함수
+  // survey 데이터 가져오는 함수
   const getSurveyData = function (user_id, type) {
-    console.log(user_id)
     axios({
       method: 'get',
-      url: `${API_URL}/accounts/survey/`,  // survey 데이터를 가져올 API endpoint
+      url: `${API_URL}/accounts/survey/${user_id}/${type}`,  // survey 데이터를 가져올 API endpoint
+      headers: {
+        Authorization: `Token ${token.value}`
+      },
     })
       .then((response) => {
-        console.log(response.data.surveyData)
-        console.log(user_id)
-        const survey = response.data.surveyData.find(user => user.user === user_id)
-        console.log(survey)
+        const survey = response.data
         if (!survey) {
           console.log('Survey생성',survey)
-          saveSurveyData({user : user_id})
+          createSurvey(type)
         } else {
           console.log('Survey확인',survey)
           surveyData.value = survey
@@ -278,32 +291,16 @@ export const useCounterStore = defineStore('counter', () => {
       })
   }
 
-  // survey 데이터 저장하는 함수 (새로 추가)
-  const saveSurveyData = function (SurveyData) {
-    axios({
-      method: 'post',
-      url: `${API_URL}/accounts/survey/`,  // 새로운 데이터 추가
-      data: SurveyData,  // 서버에 보낼 데이터
-    })
-      .then((response) => {
-        console.log('Survey Data Saved:', response.data)
-        surveyData.value = response.data  // 데이터가 잘 저장되었으면 업데이트
-      })
-      .catch((err) => {
-        console.log('Error saving Survey Data:', err)
-      })
-  }
-
   // survey 데이터 수정 함수 (PUT 요청)
-  const updateSurveyData = function (SurveyId, updatedData) {
+  const updateSurveyData = function (SurveyId, typea, updatedData) {
     axios({
       method: 'put',
-      url: `${API_URL}/accounts/survey/${SurveyId}/`,  // 특정 surveyId에 해당하는 URL로 PUT 요청
+      url: `${API_URL}/accounts/survey/${SurveyId}/${typea}`,  // 특정 surveyId에 해당하는 URL로 PUT 요청
       data: updatedData,  // 수정할 데이터
     })
       .then((response) => {
         console.log('Survey Data Updated:', response.data)
-        surveyData.value = response.data  // 수정된 데이터를 업데이트
+        // surveyData.value = response.data  // 수정된 데이터를 업데이트
       })
       .catch((err) => {
         console.log('Error updating Survey data:', err)
@@ -332,9 +329,9 @@ export const useCounterStore = defineStore('counter', () => {
     API_URL, 
     surveyData,
     getCompany, getIntegration, getcompany,
-    getdeposit, getsaving, getmortgageLoan, getrentHouseLoan, 
-    delete_data,
-    getSurveyData, saveSurveyData, updateSurveyData,
-    signUp, logIn, token, isLogin, logOut,getAnnouncementData, announcements, isLoggedIn, mPK, memberPk
+    getdeposit, getsaving, getmortgageLoan, getrentHouseLoan, delete_data,
+    getSurveyData, updateSurveyData,
+    signUp, logIn, token, isLogin, logOut,getAnnouncementData, 
+    announcements, mPK, createSurvey,
    }
 }, { persist: true })

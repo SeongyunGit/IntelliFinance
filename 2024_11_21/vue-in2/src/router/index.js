@@ -10,6 +10,7 @@ import { useCounterStore } from '@/stores/counter'
 
 import Announcement from '@/views/Announcement.vue'
 import ForgotPassword from '@/views/ForgotPassword.vue'
+import Mypage from '@/views/Mypage.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),

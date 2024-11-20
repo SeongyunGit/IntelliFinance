@@ -14,12 +14,12 @@
         <div>
           <div v-for="option in store.integrationProductOptions">
             <div v-if="option.fin_prdt_cd === bank.fin_prdt_cd
-            && store.surveyData.intr_rate_type_nm.includes(option.intr_rate_type_nm)
+            && deposit.intr_rate_type_nm.includes(option.intr_rate_type_nm)
 
-            && store.surveyData.save_trm.includes(option.save_trm)
+            && deposit.save_trm.includes(option.save_trm)
             
-            && (store.surveyData.intr_rate > option.intr_rate || store.surveyData.intr_rate===null)
-            && (store.surveyData.intr_rate2 > option.intr_rate2 || store.surveyData.intr_rate2 === null)">
+            && (deposit.intr_rate > option.intr_rate || !deposit.intr_rate)
+            && (deposit.intr_rate2 > option.intr_rate2 || !deposit.intr_rate2)">
               <li>
                 <p>{{ option.intr_rate_type_nm }}</p>
                 <p>기간 : {{ option.save_trm }}</p>
@@ -39,6 +39,8 @@
 import { useCounterStore } from '@/stores/counter'
 
 const store = useCounterStore()
+const deposit = store.surveyData.deposit
+
 defineProps({
   bank: Object
 })

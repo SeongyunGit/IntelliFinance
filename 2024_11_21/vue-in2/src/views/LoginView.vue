@@ -74,8 +74,6 @@ const logIn = function () {
     username: username.value,
     password: password.value
   }
-  
-  store.memberPk()
   store.logIn(payload)
 }
 

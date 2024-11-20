@@ -27,14 +27,14 @@ const logOut = function () {
         <a href="/" class="text-gray-700 hover:text-indigo-600 px-3 py-2 rounded-md text-sm font-medium">
           <RouterLink to="/company">Bank</RouterLink>
         </a>
-        <a href="/features" class="text-gray-700 hover:text-indigo-600 px-3 py-2 rounded-md text-sm font-medium">
-          <RouterLink to="/update">update</RouterLink>
-        </a>
         <a href="/pricing" class="text-gray-700 hover:text-indigo-600 px-3 py-2 rounded-md text-sm font-medium">
           <RouterLink to="/deposit">deposit</RouterLink>
         </a>
         <a href="/about" class="text-gray-700 hover:text-indigo-600 px-3 py-2 rounded-md text-sm font-medium">
           <RouterLink to="/announcement">announcement</RouterLink >
+        </a>
+        <a href="/features" class="text-gray-700 hover:text-indigo-600 px-3 py-2 rounded-md text-sm font-medium">
+          <RouterLink to="/update">update</RouterLink>
         </a>
       </div>
 
@@ -51,11 +51,11 @@ const logOut = function () {
         <a href="/mypage"  class="text-gray-700 hover:text-indigo-600 px-3 py-2 rounded-md text-sm font-medium">
           <RouterLink to="/mypage">mypage</RouterLink>
         </a>
-        <a href="/signup" class="bg-indigo-600 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-indigo-700">
-          <form @submit.prevent="logOut">
-              <input type="submit" value="Logout">
-          </form>
-        </a>
+        <form @submit.prevent="logOut">
+          <button type="submit" class="bg-indigo-600 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-indigo-700">
+            Logout
+          </button>
+        </form>
       </div>
     </div>
   </div>
