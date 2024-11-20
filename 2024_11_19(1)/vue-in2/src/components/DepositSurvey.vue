@@ -7,10 +7,10 @@
       <p>1. 은행이름:
       <!-- '전체' 체크박스 -->
       <label><input type="checkbox" v-model="isAllSelected.kor_co_nm" @change="toggleAll('kor_co_nm')" /> 전체</label>
-      <label><input type="checkbox" value="국민" v-model="surveyData.kor_co_nm" @change="checkAllCondition('kor_co_nm')" /> 국민</label>
-      <label><input type="checkbox" value="우리" v-model="surveyData.kor_co_nm" @change="checkAllCondition('kor_co_nm')" /> 우리</label>
-      <label><input type="checkbox" value="신한" v-model="surveyData.kor_co_nm" @change="checkAllCondition('kor_co_nm')" /> 신한</label>
-      <label><input type="checkbox" value="농협" v-model="surveyData.kor_co_nm" @change="checkAllCondition('kor_co_nm')" /> 농협</label>
+      <label><input type="checkbox" value="국민은행" v-model="surveyData.kor_co_nm" @change="checkAllCondition('kor_co_nm')" /> 국민</label>
+      <label><input type="checkbox" value="우리은행" v-model="surveyData.kor_co_nm" @change="checkAllCondition('kor_co_nm')" /> 우리</label>
+      <label><input type="checkbox" value="신한은행" v-model="surveyData.kor_co_nm" @change="checkAllCondition('kor_co_nm')" /> 신한</label>
+      <label><input type="checkbox" value="농협은행주식회사" v-model="surveyData.kor_co_nm" @change="checkAllCondition('kor_co_nm')" /> 농협</label>
       <label><input type="checkbox" value="카카오" v-model="surveyData.kor_co_nm" @change="checkAllCondition('kor_co_nm')" /> 카카오</label>
       </p>
 
@@ -68,7 +68,7 @@ const toggleAll = (field) => {
     } else if (field === 'save_trm') {
       props.surveyData[field] = ['1', '3', '6', '12']
     } else if (field === 'kor_co_nm') {
-      props.surveyData[field] = ['국민', '우리', '신한', '농협', '카카오']
+      props.surveyData[field] = ['국민은행', '우리은행', '신한은행', '농협은행주식회사', '카카오']
     }
   } else {
     // '전체'가 해제되면 모든 항목을 해제

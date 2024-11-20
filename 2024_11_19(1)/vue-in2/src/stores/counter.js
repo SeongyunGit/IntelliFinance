@@ -8,10 +8,29 @@ export const useCounterStore = defineStore('counter', () => {
   const companyListOption = ref([])
   const integrationProducts = ref([])
   const integrationProductOptions = ref([])
-
+ 
+  
+  const isLoggedIn = ref(false)
+  
   const API_URL = 'http://127.0.0.1:8000'
 
-  const surveyData = ref({})
+  const surveyData = ref({ 
+    "id": null, 
+    "type_a": null, 
+    "today": null, 
+    "kor_co_nm": [], 
+    "intr_rate_type_nm": [], 
+    "save_trm": [], 
+    "intr_rate": null, 
+    "intr_rate2": null, 
+    "rsrv_type_nm": [], 
+    "rpay_type_nm": [], 
+    "lend_rate_type_nm": [], 
+    "lend_rate_min": null, 
+    "lend_rate_max": null, 
+    "lend_rate_avg": null, 
+    "mrtg_type_nm": [], 
+    "user": null })
 
   const token = ref(null)
   const isLogin = computed(() => {
@@ -40,13 +59,13 @@ export const useCounterStore = defineStore('counter', () => {
         console.log('회원가입 성공')
         username = email
         const password = password2
+
         logIn({ username, password })
       })
       .catch((err) => {
         console.log(err)
       })
   }
-  const isLoggedIn = ref(false)
 
   // 로그인 요청 액션
   const logIn = function (payload) {
@@ -76,7 +95,8 @@ export const useCounterStore = defineStore('counter', () => {
       })
       .catch((err) => {
         console.log(err)
-      })
+      }
+    )
   }
   
   // [추가기능] 로그아웃
@@ -96,6 +116,20 @@ export const useCounterStore = defineStore('counter', () => {
         console.log(err)
       })
   }
+
+  // const memberPk = function () {
+  //   axios({
+  //     method: 'get',
+  //     url: `${API_URL}/api/member-pk`,
+  //   })
+  //   .then((response) => {
+  //     mPK.value = response.data.member_pk
+  //   })
+  //   .catch((err) => {
+  //     console.log(err)
+  //   })
+  // }
+
   
   // api요청
   const getCompany = function () {

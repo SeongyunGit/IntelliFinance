@@ -11,4 +11,6 @@ urlpatterns = [
     path('survey/<int:survey_id>/', views.update_survey_data, name='update_survey_data'),
 
     path('announcement/', views.get_announcement, name='get_announcement'),
+    
+    # path('api/member-pk/', views.get_member_pk, name='get_member_pk'),
 ]

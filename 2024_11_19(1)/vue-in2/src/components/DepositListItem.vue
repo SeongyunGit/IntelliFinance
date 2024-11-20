@@ -1,21 +1,25 @@
 <template>
   <hr>
   <ul>
-    <div class="accordion accordion-flush" id="accordionFlushExample">
-      <div class="accordion-item">
-        <h2 class="accordion-header">
-          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" :data-bs-target="'#'+bank.id" aria-expanded="false" aria-controls="flush-collapseOne">
-            <div>
-              <h5>{{ bank.fin_prdt_nm }}</h5>
-              <p>{{ bank.kor_co_nm }}</p>
-              <p>{{ bank.mtrt_int }}</p>
-              <p>{{ bank.type_a }}</p>
-            </div>
-          </button>
+    <div>
+      <div>
+        <h2>
+          <div>
+            <h5>{{ bank.fin_prdt_nm }}</h5>
+            <p>{{ bank.kor_co_nm }}</p>
+            <p>{{ bank.mtrt_int }}</p>
+            <p>{{ bank.type_a }}</p>
+          </div>
         </h2>
-        <div :id="bank.id" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
+        <div>
           <div v-for="option in store.integrationProductOptions">
-            <div v-if="option.fin_prdt_cd === bank.fin_prdt_cd">
+            <div v-if="option.fin_prdt_cd === bank.fin_prdt_cd
+            && store.surveyData.intr_rate_type_nm.includes(option.intr_rate_type_nm)
+
+            && store.surveyData.save_trm.includes(option.save_trm)
+            
+            && (store.surveyData.intr_rate > option.intr_rate || store.surveyData.intr_rate===null)
+            && (store.surveyData.intr_rate2 > option.intr_rate2 || store.surveyData.intr_rate2 === null)">
               <li>
                 <p>{{ option.intr_rate_type_nm }}</p>
                 <p>기간 : {{ option.save_trm }}</p>

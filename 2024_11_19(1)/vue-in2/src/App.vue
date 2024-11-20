@@ -39,7 +39,7 @@ const logOut = function () {
       </div>
 
       <!-- Call-to-Action Button -->
-      <div class="hidden md:flex items-center space-x-4" v-if="!store.isLoggedIn">
+      <div class="hidden md:flex items-center space-x-4" v-if="!store.isLogin">
         <a href="/login" class="text-gray-700 hover:text-indigo-600 px-3 py-2 rounded-md text-sm font-medium">
           <RouterLink to="/login">login</RouterLink>
         </a>
@@ -58,7 +58,6 @@ const logOut = function () {
   </div>
   </nav>
   </header>
-
   <RouterView />
 </template>
 

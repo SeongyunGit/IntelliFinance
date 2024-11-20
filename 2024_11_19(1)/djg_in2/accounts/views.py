@@ -68,10 +68,10 @@ def handle_survey_data(request):
             # 'fin_co_no': None,
             'kor_co_nm': [],  # 은행이름
             # 'intr_rate_type': None,
-            'intr_rate_type_nm': [],  # 이자율(단리,복리)
-            'save_trm': [],  # 저축기간
-            'intr_rate': None,  # 기본금리
-            'intr_rate2': None,  # 우대금리
+            'intr_rate_type_nm': ["전체", "단리", "복리"],  # 이자율(단리,복리)
+            'save_trm': ["1","3","6","12"],  # 저축기간
+            'intr_rate': 100,  # 기본금리
+            'intr_rate2': 100,  # 우대금리
             # 'rsrv_type': None,
             'rsrv_type_nm': [],  # 적립식종류
             # 'rpay_type': None,
@@ -117,3 +117,15 @@ def get_announcement(request):
     announcement_seializer = AnnouncementSerializer(announcements, many=True)
 
     return Response(announcement_seializer.data)
+
+
+#######################################################################################################
+# member_pk 가져오기
+# from django.http import JsonResponse
+# from django.contrib.auth.decorators import login_required
+
+# @login_required
+# def get_member_pk(request):
+#     user = request.user
+#     print(user)
+#     return JsonResponse({'member_pk':user.pk})
