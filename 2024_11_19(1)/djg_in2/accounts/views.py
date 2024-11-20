@@ -132,7 +132,6 @@ from .serializers import SurveySerializer
 @permission_classes([IsAuthenticated])
 def survey(request):
      # 생성된 설문 데이터 반환
-    print(request.user)
     serializer = SurveySerializer(data=request.data)
     if serializer.is_valid():
         serializer.save(user = request.user)

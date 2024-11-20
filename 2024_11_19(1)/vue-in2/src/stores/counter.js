@@ -8,10 +8,11 @@ export const useCounterStore = defineStore('counter', () => {
   const companyListOption = ref([])
   const integrationProducts = ref([])
   const integrationProductOptions = ref([])
- 
+
   
   const isLoggedIn = ref(false)
-  
+  const mPK = ref()
+
   const API_URL = 'http://127.0.0.1:8000'
 
   const surveyData = ref({ 
@@ -47,6 +48,7 @@ export const useCounterStore = defineStore('counter', () => {
 
     let { username, email, password , password2, birth_date } = payload
     console.log({ username, email, password, password2, birth_date })
+    
     axios({
       method: 'post',
       url: `${API_URL}/accounts/signup/`,
@@ -117,18 +119,26 @@ export const useCounterStore = defineStore('counter', () => {
       })
   }
 
-  // const memberPk = function () {
-  //   axios({
-  //     method: 'get',
-  //     url: `${API_URL}/api/member-pk`,
-  //   })
-  //   .then((response) => {
-  //     mPK.value = response.data.member_pk
-  //   })
-  //   .catch((err) => {
-  //     console.log(err)
-  //   })
-  // }
+  const memberPk = function () {
+    console.log(token.value)
+    axios({
+      method: 'post',
+      url: `${API_URL}/accounts/survey/start/`,
+      withCredentials:true,
+      headers: {
+        Authorization: `Token ${token.value}`
+      }
+    }
+  )
+    .then((response) => {
+      mPK.value = response.data.user
+      console.log(response.data.user)
+    })
+    .catch((err) => {
+      console.log(err)
+      console.log(mPK)
+    })
+  }
 
   
   // api요청
@@ -244,15 +254,19 @@ export const useCounterStore = defineStore('counter', () => {
 
    // survey 데이터 가져오는 함수
   const getSurveyData = function (user_id, type) {
+    console.log(user_id)
     axios({
       method: 'get',
       url: `${API_URL}/accounts/survey/`,  // survey 데이터를 가져올 API endpoint
     })
       .then((response) => {
-        const survey = response.data.surveyData.find(item => item.id === user_id && item.type_a === type)
+        console.log(response.data.surveyData)
+        console.log(user_id)
+        const survey = response.data.surveyData.find(user => user.user === user_id)
+        console.log(survey)
         if (!survey) {
           console.log('Survey생성',survey)
-          saveSurveyData({user : user_id, type_a : type})
+          saveSurveyData({user : user_id})
         } else {
           console.log('Survey확인',survey)
           surveyData.value = survey
@@ -321,6 +335,6 @@ export const useCounterStore = defineStore('counter', () => {
     getdeposit, getsaving, getmortgageLoan, getrentHouseLoan, 
     delete_data,
     getSurveyData, saveSurveyData, updateSurveyData,
-    signUp, logIn, token, isLogin, logOut,getAnnouncementData, announcements, isLoggedIn
+    signUp, logIn, token, isLogin, logOut,getAnnouncementData, announcements, isLoggedIn, mPK, memberPk
    }
 }, { persist: true })

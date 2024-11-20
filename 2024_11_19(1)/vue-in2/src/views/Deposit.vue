@@ -21,7 +21,9 @@ onMounted(() => {
   
 
   if (store.isLogin) {
-    store.getSurveyData(1, 'deposit')
+    
+    console.log(store.mPK)
+    store.getSurveyData(store.mPK, 'deposit')
   }
 })
 </script>

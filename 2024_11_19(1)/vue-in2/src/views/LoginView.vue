@@ -75,7 +75,7 @@ const logIn = function () {
     password: password.value
   }
   
-
+  store.memberPk()
   store.logIn(payload)
 }
 
