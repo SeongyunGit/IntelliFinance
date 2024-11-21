@@ -12,6 +12,7 @@ export const useCounterStore = defineStore('counter', () => {
   const API_URL = 'http://127.0.0.1:8000'
   
   const initialSurveyData = {
+    'id': 0,
     'user': null,
     'type_a': null,
     // 'today' # auto_now=True
@@ -142,9 +143,7 @@ export const useCounterStore = defineStore('counter', () => {
       headers: {
         Authorization: `Token ${token.value}`
       },
-      data: {
-        survey_data: surveyData.value[typea]
-      }
+      data: surveyData.value[typea],
     }
   )
     .then((response) => {
@@ -278,13 +277,13 @@ export const useCounterStore = defineStore('counter', () => {
     })
       .then((response) => {
         const survey = response.data
-        // console.log(survey)
+        console.log(survey)
         if (!survey) {
           console.log('Survey생성',survey)
           createSurvey(type)
         } else {
           console.log('Survey확인',survey)
-          surveyData.value = survey
+          surveyData.value[type] = survey.surveyData
         }
         console.log('Survey Data Loaded:', surveyData.value)
       })
@@ -294,20 +293,20 @@ export const useCounterStore = defineStore('counter', () => {
   }
 
   // survey 데이터 수정 함수 (PUT 요청)
-  const updateSurveyData = function (SurveyId, typea, updatedData) {
-    axios({
-      method: 'put',
-      url: `${API_URL}/accounts/survey/${SurveyId}/${typea}`,  // 특정 surveyId에 해당하는 URL로 PUT 요청
-      data: updatedData,  // 수정할 데이터
+  const updateSurveyData = function (SurveyId, updatedData, typea) {
+  axios({
+    method: 'put',
+    url: `${API_URL}/accounts/survey/${SurveyId}/`,  // 특정 surveyId에 해당하는 URL로 PUT 요청
+    data: updatedData,  // 수정할 데이터
+  })
+    .then((response) => {
+      console.log('Survey Data Updated:', response.data)
+      surveyData.value[typea] = response.data  // 수정된 데이터를 업데이트
     })
-      .then((response) => {
-        console.log('Survey Data Updated:', response.data)
-        // surveyData.value = response.data  // 수정된 데이터를 업데이트
-      })
-      .catch((err) => {
-        console.log('Error updating Survey data:', err)
-      })
-  }
+    .catch((err) => {
+      console.log('Error updating Survey data:', err)
+    })
+}
 
   //공지사항
   const announcements = ref({})

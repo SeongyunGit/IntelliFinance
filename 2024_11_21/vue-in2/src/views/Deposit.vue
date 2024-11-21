@@ -14,11 +14,11 @@ const store = useCounterStore()
 
 
 
-// onMounted(() => {
-//   if (store.isLogin) {
-//     // store.getSurveyData(store.mPK, 'deposit')
-//   }
-// })
+onMounted(() => {
+  if (store.isLogin) {
+    store.getSurveyData(store.mPK, 'deposit')
+  }
+})
 </script>
 
 <style scoped>

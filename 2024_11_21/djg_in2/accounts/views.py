@@ -65,19 +65,34 @@ def survey(request, user_id, type):
         item_serializer = SurveySerializer(survey_data)
         return Response({'surveyData': item_serializer.data})
     
-    elif request.method == 'PUT':
-        try:
-            # 주어진 survey_id에 해당하는 데이터 조회
-            survey_data = Survey.objects.get(user=user_id, type_a=type)
-        except Survey.DoesNotExist:
-            return Response({'error': 'Survey data not found'}, status=status.HTTP_404_NOT_FOUND)
+    # elif request.method == 'PUT':
+    #     try:
+    #         # 주어진 survey_id에 해당하는 데이터 조회
+    #         survey_data = Survey.objects.get(user=user_id, type_a=type)
+    #     except Survey.DoesNotExist:
+    #         return Response({'error': 'Survey data not found'}, status=status.HTTP_404_NOT_FOUND)
 
-        # 요청된 데이터로 serializer 업데이트
-        serializer = SurveySerializer(survey_data, data=request.data, partial=True)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_200_OK)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    #     # 요청된 데이터로 serializer 업데이트
+    #     serializer = SurveySerializer(survey_data, data=request.data, partial=True)
+    #     if serializer.is_valid():
+    #         serializer.save()
+    #         return Response(serializer.data, status=status.HTTP_200_OK)
+    #     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['PUT'])
+def update_survey_data(request, survey_id):
+    try:
+        # 주어진 survey_id에 해당하는 데이터 조회
+        survey_data = Survey.objects.get(id=survey_id)
+    except Survey.DoesNotExist:
+        return Response({'error': 'Survey data not found'}, status=status.HTTP_404_NOT_FOUND)
+
+    # 요청된 데이터로 serializer 업데이트
+    serializer = SurveySerializer(survey_data, data=request.data, partial=True)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 #######################################################################################################
@@ -86,7 +101,7 @@ def survey(request, user_id, type):
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def start_survey(request):
-    survey_data = request.data.get('survey_data')  # 'survey_data'가 전달된 데이터
+    survey_data = request.data  # 'survey_data'가 전달된 데이터
     if not survey_data:
         return Response({"error": "Survey data is required"}, status=status.HTTP_400_BAD_REQUEST)
     

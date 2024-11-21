@@ -98,8 +98,8 @@ const submitSurvey = () => {
     'intr_rate2': props.surveyData['intr_rate2'] || null
   }
   // 데이터가 이미 존재하면 업데이트
-  console.log('수정', newSurveyData)
-  store.updateSurveyData(props.surveyData.id, 'deposit', newSurveyData) 
+  console.log('수정', newSurveyData, props.surveyData.id)
+  store.updateSurveyData(props.surveyData.id, newSurveyData, 'deposit') 
 }
 </script>
 

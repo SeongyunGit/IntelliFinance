@@ -1,6 +1,7 @@
 <template>
   <div>
     <h1>Integration</h1>
+    <!-- <p>{{ store.surveyData }}</p> -->
     <IntegrationList />
   </div>
 </template>
