@@ -24,18 +24,18 @@ const logOut = function () {
 
       <!-- Full Menu -->
       <div class="hidden md:flex space-x-4">
-        <a href="/" class="text-gray-700 hover:text-indigo-600 px-3 py-2 rounded-md text-sm font-medium">
-          <RouterLink to="/company">Bank</RouterLink>
-        </a>
-        <a href="/pricing" class="text-gray-700 hover:text-indigo-600 px-3 py-2 rounded-md text-sm font-medium">
-          <RouterLink to="/deposit">deposit</RouterLink>
-        </a>
-        <a href="/about" class="text-gray-700 hover:text-indigo-600 px-3 py-2 rounded-md text-sm font-medium">
-          <RouterLink to="/announcement">announcement</RouterLink >
-        </a>
-        <a href="/features" class="text-gray-700 hover:text-indigo-600 px-3 py-2 rounded-md text-sm font-medium">
-          <RouterLink to="/update">update</RouterLink>
-        </a>
+        <RouterLink to="/deposit" class="text-gray-700 hover:text-indigo-600 px-3 py-2 rounded-md text-sm font-medium">
+          Integration
+        </RouterLink>
+        <RouterLink to="/company" class="text-gray-700 hover:text-indigo-600 px-3 py-2 rounded-md text-sm font-medium">
+          Bank
+        </RouterLink>
+        <RouterLink to="/announcement" class="text-gray-700 hover:text-indigo-600 px-3 py-2 rounded-md text-sm font-medium">
+          announcement
+        </RouterLink>
+        <RouterLink to="/update" class="text-gray-700 hover:text-indigo-600 px-3 py-2 rounded-md text-sm font-medium">
+          update
+        </RouterLink>
       </div>
 
       <!-- Call-to-Action Button -->

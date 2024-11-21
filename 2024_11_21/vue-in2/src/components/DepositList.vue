@@ -4,7 +4,8 @@
     <!-- <p>{{ store.surveyData }}</p> -->
     <hr>
     <p>{{ store.surveyData.deposit }}</p>
-    <DepositSurvey :surveyData="store.surveyData.deposit" />
+    <!-- <DepositSurvey :surveyData="store.surveyData.deposit" /> -->
+    <Survey :surveyData="store.surveyData.deposit" />
     <div v-for="bank in store.integrationProducts"
       :key="bank.id"
       :bank="bank">
@@ -20,7 +21,8 @@
 // import { ref } from 'vue'
 import { useCounterStore } from '@/stores/counter'
 import DepositListItem from '@/components/DepositListItem.vue'
-import DepositSurvey from '@/components/DepositSurvey.vue';
+// import DepositSurvey from '@/components/DepositSurvey.vue';
+import Survey from '@/components/Survey.vue';
 
 const store = useCounterStore()
 // const deposit = store.surveyData.deposit

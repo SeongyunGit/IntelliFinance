@@ -97,7 +97,7 @@ export const useCounterStore = defineStore('counter', () => {
       .then((res) => {
         token.value = res.data.key
         mPK.value = res.data.user_pk
-        console.log(res.data)
+        // console.log(res.data)
 
         type_a_4.forEach(item => getSurveyData(mPK.value, item))
         
@@ -325,6 +325,12 @@ export const useCounterStore = defineStore('counter', () => {
       })
   }
   
+  //은행 타입
+  const selected = ref(0)
+  const checkType = function(sel) {
+    selected.value = sel
+  }
+  
   return { companyList, companyListOption, 
     integrationProducts, integrationProductOptions, 
     API_URL, 
@@ -333,6 +339,6 @@ export const useCounterStore = defineStore('counter', () => {
     getdeposit, getsaving, getmortgageLoan, getrentHouseLoan, delete_data,
     getSurveyData, updateSurveyData,
     signUp, logIn, token, isLogin, logOut,getAnnouncementData, 
-    announcements, mPK, createSurvey,
+    announcements, mPK, createSurvey, selected, checkType
    }
 }, { persist: true })
