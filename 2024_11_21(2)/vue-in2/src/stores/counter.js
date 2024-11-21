@@ -20,21 +20,21 @@ export const useCounterStore = defineStore('counter', () => {
     // 'fin_co_no': None,
     'kor_co_nm': [],  // 은행이름
     // 'intr_rate_type': None,
-    'intr_rate_type_nm': ["단리", "복리"],  // 이자율(단리,복리)
-    'save_trm': ["1","3","6","12","24","36"],  // 저축기간
-    'intr_rate': 100,  // 기본금리
-    'intr_rate2': 100,  // 우대금리
+    'intr_rate_type_nm': [],  // 이자율(단리,복리)
+    'save_trm': [],  // 저축기간
+    'intr_rate': null,  // 기본금리
+    'intr_rate2': null,  // 우대금리
     // 'rsrv_type': None,
-    'rsrv_type_nm': ['정액적립식', '자유적립식'],  // 적립식종류
+    'rsrv_type_nm': [],  // 적립식종류'정액적립식', '자유적립식'
     // 'rpay_type': None,
-    'rpay_type_nm': ['분할상환방식', '만기일시상환방식'],  // 상환방식
+    'rpay_type_nm': [],  // 상환방식'분할상환방식', '만기일시상환방식'
     // 'lend_rate_type': None,
-    'lend_rate_type_nm': ['고정금리', '변동금리'],  // 금리유형
-    'lend_rate_min': 100,  // 최소 금리
-    'lend_rate_max': 100,  // 최대 금리
-    'lend_rate_avg': 100,  // 평균 금리
+    'lend_rate_type_nm': [],  // 금리유형'고정금리', '변동금리'
+    'lend_rate_min': null,  // 최소 금리
+    'lend_rate_max': null,  // 최대 금리
+    'lend_rate_avg': null,  // 평균 금리
     // 'mrtg_type': None,
-    'mrtg_type_nm': ['아파트', '아파트외']  // 담보 유형
+    'mrtg_type_nm': []  // 담보 유형'아파트', '아파트외'
   }
   
   // surveyData 객체

@@ -10,17 +10,24 @@
           <span :class="{ active: selected == 1 }">예금</span>
         </li>
         <li @click="fetchData(2)">
-            <span :class="{ active: selected == 2 }">적금</span>
-          </li>
-          <li @click="fetchData(3)">
-            <span :class="{ active: selected == 3 }">대출</span>
-          </li>
+          <span :class="{ active: selected == 2 }">적금</span>
+        </li>
+        <li @click="fetchData(3)">
+          <span :class="{ active: selected == 3 }">주택담보대출</span>
+        </li>
+        <li @click="fetchData(4)">
+          <span :class="{ active: selected == 3 }">전세자금대출</span>
+        </li>
       </ul>
       <div>
         <DepositSurvey v-if="selected == 1" :surveyData="store.surveyData.deposit" />
         <DepositList v-if="selected == 1" :surveyData="store.surveyData.deposit" />
         <SavingSurvey v-if="selected == 2" :surveyData="store.surveyData.saving" />
         <SavingList v-if="selected == 2" :surveyData="store.surveyData.saving" />
+        <MortgageLoanSurvey v-if="selected == 3" :surveyData="store.surveyData.mortgageLoan" />
+        <MortgageLoanList v-if="selected == 3" :surveyData="store.surveyData.mortgageLoan" />
+        <RentHouseLoanSurvey v-if="selected == 4" :surveyData="store.surveyData.rentHouseLoan" />
+        <RentHouseLoanList v-if="selected == 4" :surveyData="store.surveyData.rentHouseLoan" />
       </div>
     </div>
   </div>
@@ -31,10 +38,12 @@ import { useCounterStore } from '@/stores/counter'
 import { ref, watch } from 'vue'
 import DepositSurvey from '@/components/DepositSurvey.vue';
 import DepositList from '@/components/DepositList.vue';
-// import DepositListItem from '@/components/DepositListItem.vue';
 import SavingSurvey from '@/components/SavingSurvey.vue';
 import SavingList from '@/components/SavingList.vue';
-// import SavingListItem from '@/components/SavingListItem.vue';
+import MortgageLoanSurvey from '@/components/MortgageLoanSurvey.vue';
+import MortgageLoanList from '@/components/MortgageLoanList.vue';
+import RentHouseLoanSurvey from '@/components/RentHouseLoanSurvey.vue';
+import RentHouseLoanList from '@/components/RentHouseLoanList.vue';
 
 // Store 사용
 const store = useCounterStore()

@@ -51,16 +51,16 @@ class Survey(models.Model):
 
     # (주택담보대출, 전세자금대출) 추가 필드
     # rpay_type = models.CharField(max_length=1, null=True, blank=True)  # 상환 방식 (예: D -> 분할상환)
-    rpay_type_nm = models.JSONField(max_length=50, null=True, blank=True)  # 상환 방식 명
+    rpay_type_nm = models.JSONField(null=True, blank=True)  # 상환 방식 명
     # lend_rate_type = models.CharField(max_length=1, null=True, blank=True)  # 금리 유형 (예: F -> 고정금리)
-    lend_rate_type_nm = models.JSONField(max_length=50, null=True, blank=True)  # 금리 유형 명
+    lend_rate_type_nm = models.JSONField(null=True, blank=True)  # 금리 유형 명
     lend_rate_min = models.FloatField(null=True, blank=True)  # 최소 금리
     lend_rate_max = models.FloatField(null=True, blank=True)  # 최대 금리
     lend_rate_avg = models.FloatField(null=True, blank=True)  # 평균 금리
 
     # (주택 담보) 추가 필드
     # mrtg_type = models.CharField(max_length=2, null=True, blank=True)  # 담보 유형 (예: 아파트, 주택 등)
-    mrtg_type_nm = models.JSONField(max_length=50, null=True, blank=True)  # 담보 유형 명 (예: 아파트)
+    mrtg_type_nm = models.JSONField(null=True, blank=True)  # 담보 유형 명 (예: 아파트)
 
     def __str__(self):
         return self.name

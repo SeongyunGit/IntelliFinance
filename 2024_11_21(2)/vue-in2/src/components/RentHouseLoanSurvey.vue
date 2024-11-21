@@ -31,13 +31,6 @@
       <p>4. 최소 금리: <input v-model="surveyData.lend_rate_min" type="number" placeholder="Enter minimum interest rate" /></p>
       <p>5. 최대 금리: <input v-model="surveyData.lend_rate_max" type="number" placeholder="Enter maximum interest rate" /></p>
       <p>6. 평균 금리: <input v-model="surveyData.lend_rate_avg" type="number" placeholder="Enter average interest rate" /></p>
-
-      <!-- 담보 유형 -->
-      <p>7. 담보유형:
-        <label><input type="checkbox" v-model="isAllSelected.mrtg_type_nm" @change="toggleAll('mrtg_type_nm')" /> 전체</label>
-        <label><input type="checkbox" value="아파트" v-model="surveyData.mrtg_type_nm" @change="checkAllCondition('mrtg_type_nm')" /> 아파트</label>
-        <label><input type="checkbox" value="아파트외" v-model="surveyData.mrtg_type_nm" @change="checkAllCondition('mrtg_type_nm')" /> 아파트외</label>
-      </p>
     </div>
     <hr>
     <button @click="submitSurvey">저장</button>
@@ -60,7 +53,6 @@ const isAllSelected = ref({
   kor_co_nm: false,
   rpay_type_nm: false,
   lend_rate_type_nm: false,
-  mrtg_type_nm: false
 })
 
 // `전체` 체크박스를 선택하거나 해제할 때 호출되는 함수
@@ -72,8 +64,6 @@ const toggleAll = (field) => {
       props.surveyData[field] = ['분할상환방식', '만기일시상환방식']
     } else if (field === 'lend_rate_type_nm') {
       props.surveyData[field] = ['고정금리', '변동금리']
-    } else if (field === 'mrtg_type_nm') {
-      props.surveyData[field] = ['아파트', '아파트외']
     }
   } else {
     props.surveyData[field] = []
@@ -88,8 +78,6 @@ const checkAllCondition = (field) => {
     isAllSelected.value[field] = props.surveyData[field].length === 2
   } else if (field === 'lend_rate_type_nm') {
     isAllSelected.value[field] = props.surveyData[field].length === 2
-  } else if (field === 'mrtg_type_nm') {
-    isAllSelected.value[field] = props.surveyData[field].length === 2
   }
 }
 
@@ -103,11 +91,10 @@ const submitSurvey = () => {
     'lend_rate_min': props.surveyData['lend_rate_min'] || null,
     'lend_rate_max': props.surveyData['lend_rate_max'] || null,
     'lend_rate_avg': props.surveyData['lend_rate_avg'] || null,
-    'mrtg_type_nm': props.surveyData['mrtg_type_nm'] || [],
   }
   // 데이터가 이미 존재하면 업데이트
   console.log('수정', newSurveyData)
-  store.updateSurveyData(props.surveyData.id, newSurveyData, 'mortgageLoan') 
+  store.updateSurveyData(props.surveyData.id, newSurveyData, 'rentHouseLoan') 
 }
 </script>
 

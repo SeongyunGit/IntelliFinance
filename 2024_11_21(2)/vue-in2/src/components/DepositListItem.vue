@@ -14,9 +14,9 @@
         <div>
           <div v-for="option in store.integrationProductOptions">
             <div v-if="option.fin_prdt_cd === bank.fin_prdt_cd
-            && deposit.intr_rate_type_nm.includes(option.intr_rate_type_nm)
+            && (deposit.intr_rate_type_nm.length === 0 || deposit.intr_rate_type_nm.includes(option.intr_rate_type_nm))
 
-            && deposit.save_trm.includes(option.save_trm)
+            && (deposit.save_trm.length === 0 || deposit.save_trm.includes(option.save_trm))
             
             && (deposit.intr_rate > option.intr_rate || !deposit.intr_rate)
             && (deposit.intr_rate2 > option.intr_rate2 || !deposit.intr_rate2)">

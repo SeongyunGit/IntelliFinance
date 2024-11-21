@@ -13,12 +13,11 @@
       <div>
         <div v-for="option in store.integrationProductOptions" :key="option.fin_prdt_cd">
           <div v-if="option.fin_prdt_cd === bank.fin_prdt_cd
-          && (mortgageLoan.rpay_type_nm.length === 0 || mortgageLoan.rpay_type_nm.includes(option.rpay_type_nm))
-          && (mortgageLoan.lend_rate_type_nm.length === 0 || mortgageLoan.lend_rate_type_nm.includes(option.lend_rate_type_nm))
-          && (mortgageLoan.lend_rate_min > option.lend_rate_min || !mortgageLoan.lend_rate_min)
-          && (mortgageLoan.lend_rate_max > option.lend_rate_max || !mortgageLoan.lend_rate_max)
-          && (mortgageLoan.lend_rate_avg > option.lend_rate_avg || !mortgageLoan.lend_rate_avg)
-          && (mortgageLoan.mrtg_type_nm.length === 0 || mortgageLoan.mrtg_type_nm.includes(option.mrtg_type_nm))
+          && (rentHouseLoan.rpay_type_nm.length === 0 || rentHouseLoan.rpay_type_nm.includes(option.rpay_type_nm))
+          && (rentHouseLoan.lend_rate_type_nm.length === 0 || rentHouseLoan.lend_rate_type_nm.includes(option.lend_rate_type_nm))
+          && (rentHouseLoan.lend_rate_min > option.lend_rate_min || !rentHouseLoan.lend_rate_min)
+          && (rentHouseLoan.lend_rate_max > option.lend_rate_max || !rentHouseLoan.lend_rate_max)
+          && (rentHouseLoan.lend_rate_avg > option.lend_rate_avg || !rentHouseLoan.lend_rate_avg)
           ">
             <li>
               <p>{{ option.rpay_type_nm }}</p>
@@ -40,7 +39,7 @@
 import { useCounterStore } from '@/stores/counter'
 
 const store = useCounterStore()
-const mortgageLoan = store.surveyData.mortgageLoan
+const rentHouseLoan = store.surveyData.rentHouseLoan
 
 defineProps({
   bank: Object
