@@ -11,6 +11,7 @@ export const useCounterStore = defineStore('counter', () => {
 
   const API_URL = 'http://127.0.0.1:8000'
   
+  // 설문 초기값
   const initialSurveyData = {
     'id': 0,
     'user': null,
@@ -47,6 +48,8 @@ export const useCounterStore = defineStore('counter', () => {
 
   const mPK = ref()
   const token = ref(null)
+  const Uname = ref('name')
+  const Uemail = ref('abc@abcd.com')
   const isLogin = computed(() => {
     if (token.value === null) {
       return false
@@ -95,9 +98,11 @@ export const useCounterStore = defineStore('counter', () => {
       }
     })
       .then((res) => {
+        console.log(res.data)
         token.value = res.data.key
         mPK.value = res.data.user_pk
-        console.log(res.data)
+        Uname.value = res.data.username
+        Uemail.value = username
 
         type_a_4.forEach(item => getSurveyData(mPK.value, item))
         
@@ -333,12 +338,12 @@ export const useCounterStore = defineStore('counter', () => {
   
   return { companyList, companyListOption, 
     integrationProducts, integrationProductOptions, 
-    API_URL, 
-    surveyData,
+    API_URL, surveyData,
     getCompany, getIntegration, getcompany,
     getdeposit, getsaving, getmortgageLoan, getrentHouseLoan, delete_data,
     getSurveyData, updateSurveyData,
     signUp, logIn, token, isLogin, logOut,getAnnouncementData, 
-    announcements, mPK, createSurvey, selected, checkType
+    announcements, mPK, createSurvey, selected, checkType, 
+    Uname, Uemail
    }
 }, { persist: true })

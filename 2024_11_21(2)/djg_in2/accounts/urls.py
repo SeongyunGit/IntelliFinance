@@ -7,6 +7,7 @@ urlpatterns = [
 
     # 설문 생성 수정 요청
     path('survey/<int:user_id>/<str:type>/', views.survey, name='survey'),
+    path('survey/<int:survey_id>/', views.update_survey_data, name='update_survey_data'),
     path('survey/start/', views.start_survey),
 
     # 공지데이터 요청

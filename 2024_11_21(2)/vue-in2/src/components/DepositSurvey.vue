@@ -4,7 +4,6 @@
     <h3>Deposit Survey</h3>
     <div>
       <!-- 금융 기관명 (체크박스, 복수 선택 가능) -->
-      </div>
       <p>1. 은행이름:
       <!-- '전체' 체크박스 -->
       <label><input type="checkbox" v-model="isAllSelected.kor_co_nm" @change="toggleAll('kor_co_nm')" /> 전체</label>
@@ -39,7 +38,7 @@
     <!-- '저장' 버튼 -->
     <button @click="submitSurvey">저장</button>
     <!-- <p>{{ surveyData }}</p> -->
-
+  </div>
 </template>
 
 <script setup>
@@ -100,7 +99,7 @@ const submitSurvey = () => {
   }
   // 데이터가 이미 존재하면 업데이트
   console.log('수정', newSurveyData)
-  store.updateSurveyData(props.surveyData.id, 'deposit', newSurveyData) 
+  store.updateSurveyData(props.surveyData.id, newSurveyData, 'deposit') 
 }
 </script>
 

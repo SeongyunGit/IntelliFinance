@@ -8,11 +8,11 @@
       <div class="space-y-6">
         <div class="flex justify-between text-lg">
           <span class="font-medium text-gray-700">Name</span>
-          <span class="text-gray-500">John Doe</span>
+          <span class="text-gray-500">{{ store.Uname }}</span>
         </div>
         <div class="flex justify-between text-lg">
           <span class="font-medium text-gray-700">Email</span>
-          <span class="text-gray-500">johndoe@example.com</span>
+          <span class="text-gray-500">{{ store.Uemail }}</span>
         </div>
         <div class="flex justify-between text-lg">
           <span class="font-medium text-gray-700">Phone</span>
@@ -66,6 +66,8 @@
 
 <script setup>
 import { ref, computed } from 'vue';
+import { useCounterStore } from '@/stores/counter'
+const store = useCounterStore()
 
 // 각 리스트 데이터 정의
 const deposit = [
