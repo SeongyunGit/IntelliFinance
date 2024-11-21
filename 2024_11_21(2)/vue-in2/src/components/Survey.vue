@@ -2,7 +2,6 @@
   <div>
     <hr>
     <h3>설문</h3>
-    {{ selected }}
     <div class="flex">
     <div class="w-1/2">
       <!-- 금융 기관명 (체크박스, 복수 선택 가능) -->

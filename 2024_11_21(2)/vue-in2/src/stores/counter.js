@@ -336,6 +336,52 @@ export const useCounterStore = defineStore('counter', () => {
     selected.value = sel
   }
   
+  const bankId = ref(0)
+
+  const toggleLike = function (bank) {
+    axios({
+      method:'post',
+      url: `${API_URL}/api/v1/api/bank/${bank}/like/`,
+      withCredentials : true,
+      headers: {
+        Authorization: `Token ${token.value}`, // 토큰 포함
+      },
+    })
+    .then((response) => {
+      const is_liked = response.data;
+      console.log(is_liked)
+      console.log("성공")
+
+    // store의 deposit 데이터 업데이트
+      bankId = deposit.find((b) => b.id === bankId);
+      if (bankId) {
+        bankId.is_liked = is_liked; // Django에서 반환된 새로운 상태
+      }
+    })
+    .catch((err) => {
+      console.log(token.value)
+      console.log(err)
+      console.log("실패")
+    })
+  }
+  const likeList=ref([])
+  const visibleItems = function (listname) {
+    axios({
+      method:'get',
+      url: `${API_URL}/api/bank/liked/`
+    })
+    .then((response)=> {
+      likeList.value = response.data
+      console.log(likeList.value)
+    })
+    .catch((err) => {
+      console.log(err)
+    })
+  }
+  
+
+
+  
   return { companyList, companyListOption, 
     integrationProducts, integrationProductOptions, 
     API_URL, surveyData,
@@ -343,7 +389,7 @@ export const useCounterStore = defineStore('counter', () => {
     getdeposit, getsaving, getmortgageLoan, getrentHouseLoan, delete_data,
     getSurveyData, updateSurveyData,
     signUp, logIn, token, isLogin, logOut,getAnnouncementData, 
-    announcements, mPK, createSurvey, selected, checkType, 
-    Uname, Uemail
+    announcements, mPK, createSurvey, selected, checkType, bankId, toggleLike,
+    Uname, Uemail, visibleItems, likeList
    }
 }, { persist: true })

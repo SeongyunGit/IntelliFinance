@@ -6,6 +6,7 @@ from .serializers import CompanyListSerializer, CompanyListOptionSerializer, Int
 import requests
 from django.conf import settings
 from datetime import datetime
+from django.contrib.auth.decorators import login_required
 
 # 데이터베이스에 상품 데이터를 저장하는 함수
 def save_product_data(product_data, option_data, product_type):
@@ -200,7 +201,61 @@ def get_combined_integration_data(request):
         'integrationProductOptions': option_serializer.data
     })
 
+#############################################################################
+#좋아한 상품
 
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import IsAuthenticated
+
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
+from .models import Like
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def toggle_like(request, bank_id):
+    """
+    좋아요 추가/취소
+    """
+    try:
+        print(request.user)
+        bank_product = IntegrationProduct.objects.get(id=bank_id)
+        like, created = Like.objects.get_or_create(user=request.user, bank_product=bank_product)
+
+        if not created:
+            # 좋아요 이미 존재 -> 삭제
+            like.delete()
+            is_liked = False
+        else:
+            # 새로 생성 -> 좋아요 추가
+            is_liked = True
+
+        return Response({
+            "is_liked": is_liked,
+        })
+
+    except IntegrationProduct.DoesNotExist:
+        return Response({"error": "상품을 찾을 수 없습니다."}, status=404)
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def liked_products(request):
+    """
+    사용자가 좋아요한 상품 목록
+    """
+    liked_products = IntegrationProduct.objects.filter(liked_by__user=request.user)
+    data = [
+        {
+            "id": product.pk,
+            "name": product.kor_co_nm,
+            "mtrt_int": product.mtrt_int,
+            "type_a": product.type_a,
+        }
+        for product in liked_products
+    ]
+    return Response(data)
 #########################################################################
 
 # 데이터베이스에 상품 데이터를 저장하는 함수(오류)

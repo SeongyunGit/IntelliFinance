@@ -12,7 +12,14 @@
         <h5 class="text-lg font-bold text-gray-800">{{ bank.kor_co_nm }}</h5>
         <p class="text-gray-600">만기 이자: {{ bank.mtrt_int }}</p>
         <p class="text-gray-600">상품 유형: {{ bank.type_a }}</p>
+        <button
+    class="mt-2 px-4 py-2 bg-red-100 hover:bg-red-200 rounded-lg text-red-600"
+    @click.stop="store.toggleLike(bank.id)"
+  >
+    {{ bank.is_liked ? "❤️ 좋아요 취소" : "🤍 좋아요" }}
+  </button>
       </div>
+      
 
       <!-- 해당 은행의 상품 옵션 (토글 되어 보여짐) -->
       <div v-if="bank.open">
@@ -47,9 +54,13 @@ import { useCounterStore } from '@/stores/counter'
 const store = useCounterStore()
 const deposit = store.surveyData.deposit
 
+// const bank = store.bank
 defineProps({
   bank: Object
 })
+
+
+
 
 store.integrationProductOptions.forEach(option => (option.open = false));
 </script>

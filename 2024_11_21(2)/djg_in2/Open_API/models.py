@@ -1,5 +1,6 @@
 from django.db import models
-
+from django.conf import settings
+from django.contrib.auth.models import User
 #############################################################################################################################################
 
 # 은행리스트(company)
@@ -58,6 +59,8 @@ class IntegrationProduct(models.Model):
     # api 필드가 아닌 공통 추가필드
     type_a = models.TextField(null=True, blank=True) # 데이터 타입(예: 예금, 적금, 주택담보대출, 전세자금대출)
     
+    
+    
 # 상품옵션 종합 테이블
 class IntegrationProductOption(models.Model):
     # 금융 상품 외래키 (예: 예금, 적금, 대출 상품 등)
@@ -93,3 +96,11 @@ class IntegrationProductOption(models.Model):
     mrtg_type_nm = models.CharField(max_length=50, null=True, blank=True)  # 담보 유형 명 (예: 아파트)
 
 #############################################################################################################################################
+##좋아요 테이블
+class Like(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="likes")  # 좋아요를 누른 사용자
+    bank_product = models.ForeignKey(IntegrationProduct, on_delete=models.CASCADE, related_name="liked_by")  # 좋아요 대상 상품
+    created_at = models.DateTimeField(auto_now_add=True)  # 좋아요 생성 시간
+
+    class Meta:
+        unique_together = ('user', 'bank_product')
