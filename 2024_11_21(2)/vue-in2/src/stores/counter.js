@@ -21,11 +21,11 @@ export const useCounterStore = defineStore('counter', () => {
     'kor_co_nm': [],  // 은행이름
     // 'intr_rate_type': None,
     'intr_rate_type_nm': ["단리", "복리"],  // 이자율(단리,복리)
-    'save_trm': ["1","3","6","12"],  // 저축기간
+    'save_trm': ["1","3","6","12","24","36"],  // 저축기간
     'intr_rate': 100,  // 기본금리
     'intr_rate2': 100,  // 우대금리
     // 'rsrv_type': None,
-    'rsrv_type_nm': [],  // 적립식종류
+    'rsrv_type_nm': ['정액적립식', '자유적립식'],  // 적립식종류
     // 'rpay_type': None,
     'rpay_type_nm': [],  // 상환방식
     // 'lend_rate_type': None,

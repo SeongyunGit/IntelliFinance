@@ -20,6 +20,7 @@
       <label><input type="checkbox" value="단리" v-model="surveyData.intr_rate_type_nm" @change="checkAllCondition('intr_rate_type_nm')" /> 단리</label>
       <label><input type="checkbox" value="복리" v-model="surveyData.intr_rate_type_nm" @change="checkAllCondition('intr_rate_type_nm')" /> 복리</label>
       </p>
+
       <!-- 저축 예정 기간 (체크박스) -->
       <p>3. 저축 예정 기간:
       <label><input type="checkbox" v-model="isAllSelected.save_trm" @change="toggleAll('save_trm')" /> 전체</label>
@@ -30,11 +31,19 @@
       <label><input type="checkbox" value="24" v-model="surveyData.save_trm" @change="checkAllCondition('save_trm')" /> 24개월</label>
       <label><input type="checkbox" value="36" v-model="surveyData.save_trm" @change="checkAllCondition('save_trm')" /> 36개월</label>
       </p>
+      
       <!-- intr_rate: 기본 금리 -->
       <p>4. 기본금리: <input v-model="surveyData.intr_rate" type="number" placeholder="Enter interest rate" /></p>
 
       <!-- intr_rate2: 우대 금리 -->
       <p>5. 우대금리: <input v-model="surveyData.intr_rate2" type="number" placeholder="Enter preferential interest rate" /></p>
+      
+      <!-- 적립방식 유형 (체크박스) -->
+      <p>6. 적립방식:
+        <label><input type="checkbox" v-model="isAllSelected.rsrv_type_nm" @change="toggleAll('rsrv_type_nm')" /> 전체</label>
+        <label><input type="checkbox" value="정액적립식" v-model="surveyData.rsrv_type_nm" @change="checkAllCondition('rsrv_type_nm')" /> 정액적립식</label>
+        <label><input type="checkbox" value="자유적립식" v-model="surveyData.rsrv_type_nm" @change="checkAllCondition('rsrv_type_nm')" /> 자유적립식</label>
+      </p>
     </div>
     <hr>
     <!-- '저장' 버튼 -->
@@ -58,7 +67,8 @@ const props = defineProps({
 const isAllSelected = ref({
   intr_rate_type_nm: false,
   save_trm: false,
-  kor_co_nm: false
+  kor_co_nm: false,
+  rsrv_type_nm: false,
 })
 
 // `전체` 체크박스를 선택하거나 해제할 때 호출되는 함수
@@ -71,6 +81,9 @@ const toggleAll = (field) => {
       props.surveyData[field] = ['1', '3', '6', '12', '24', '36']
     } else if (field === 'kor_co_nm') {
       props.surveyData[field] = ['국민은행', '우리은행', '신한은행', '농협은행주식회사', '카카오']
+    } else if (field === 'rsrv_type_nm') {
+      // 적립방식 선택지 (정액적립식, 자유적립식)
+      props.surveyData[field] = ['정액적립식', '자유적립식']
     }
   } else {
     // '전체'가 해제되면 모든 항목을 해제
@@ -89,6 +102,9 @@ const checkAllCondition = (field) => {
   } else if (field === 'kor_co_nm') {
     // 모든 은행이 체크되면 '전체' 체크
     isAllSelected.value[field] = props.surveyData[field].length === 5 
+  } else if (field === 'rsrv_type_nm') {
+    // '정액적립식'과 '자유적립식'이 모두 체크되면 '전체' 체크
+    isAllSelected.value[field] = props.surveyData[field].length === 2;
   }
 }
 
@@ -100,11 +116,12 @@ const submitSurvey = () => {
     'intr_rate_type_nm': props.surveyData['intr_rate_type_nm'] || [],
     'save_trm': props.surveyData['save_trm'] || [],
     'intr_rate': props.surveyData['intr_rate'] || null,
-    'intr_rate2': props.surveyData['intr_rate2'] || null
+    'intr_rate2': props.surveyData['intr_rate2'] || null,
+    'rsrv_type_nm': props.surveyData['rsrv_type_nm'] || [],
   }
   // 데이터가 이미 존재하면 업데이트
   console.log('수정', newSurveyData)
-  store.updateSurveyData(props.surveyData.id, newSurveyData, 'deposit') 
+  store.updateSurveyData(props.surveyData.id, newSurveyData, 'saving') 
 }
 </script>
 
