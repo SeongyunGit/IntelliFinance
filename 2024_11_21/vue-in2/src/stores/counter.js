@@ -96,6 +96,7 @@ export const useCounterStore = defineStore('counter', () => {
       .then((res) => {
         token.value = res.data.key
         mPK.value = res.data.user_pk
+        console.log(res.data)
 
         type_a_4.forEach(item => getSurveyData(mPK.value, item))
         
@@ -277,6 +278,7 @@ export const useCounterStore = defineStore('counter', () => {
     })
       .then((response) => {
         const survey = response.data
+        // console.log(survey)
         if (!survey) {
           console.log('Survey생성',survey)
           createSurvey(type)

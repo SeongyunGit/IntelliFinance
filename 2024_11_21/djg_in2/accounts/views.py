@@ -41,7 +41,8 @@ def custom_login(request):
         # 로그인 성공 시 응답에 user_pk 추가
         return Response({
             'key': token.key,
-            'user_pk': user.pk  # 로그인한 유저의 pk 반환
+            'user_pk': user.pk,  # 로그인한 유저의 pk 반환
+            'username': user.username
         }, status=status.HTTP_200_OK)
     else:
         return Response({'detail': 'Invalid credentials'}, status=status.HTTP_400_BAD_REQUEST)
@@ -59,7 +60,7 @@ def survey(request, user_id, type):
             # 주어진 survey_id에 해당하는 데이터 조회
             survey_data = Survey.objects.get(user=user_id, type_a=type)
         except Survey.DoesNotExist:
-            return Response({'error': 'Survey data not found'}, status=status.HTTP_404_NOT_FOUND)
+            return Response(0)
         
         item_serializer = SurveySerializer(survey_data)
         return Response({'surveyData': item_serializer.data})

@@ -6,7 +6,7 @@ urlpatterns = [
     path('login/', views.custom_login, name='account_login'),  
 
     # 설문 생성 수정 요청
-    path('survey/<int:user_id>/<str:type>', views.survey, name='survey'),
+    path('survey/<int:user_id>/<str:type>/', views.survey, name='survey'),
     path('survey/start/', views.start_survey),
 
     # 공지데이터 요청
