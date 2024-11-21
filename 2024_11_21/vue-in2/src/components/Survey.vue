@@ -19,8 +19,6 @@
       <div>
         <DepositSurvey v-if="selected == 1" :surveyData="store.surveyData.deposit" />
       </div>
-      <div>
-      </div>
     </div>
   </div>
 </template>

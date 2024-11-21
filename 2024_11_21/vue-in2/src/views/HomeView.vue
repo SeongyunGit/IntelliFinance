@@ -1,22 +1,28 @@
 <template>
   <div>
-    <h1>Integration</h1>
+    <h1>Home</h1>
     <!-- <p>{{ store.surveyData }}</p> -->
-    <IntegrationList />
+    <DepositList />
   </div>
 </template>
 
 <script setup>
 import { onMounted } from 'vue'
 import { useCounterStore } from '@/stores/counter'
-import IntegrationList from '@/components/IntegrationList.vue';
+
+import DepositList from '@/components/DepositList.vue';
 
 const store = useCounterStore()
 
+
+
 onMounted(() => {
-  // mount 되기전에 store에 있는 전체 게시글 요청 함수를 호출
-  store.getIntegration()
+  if (store.isLogin) {
+    store.getSurveyData(store.mPK, 'deposit')
+  }
 })
+
+
 </script>
 
 <style scoped>

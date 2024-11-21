@@ -6,8 +6,20 @@
 </template>
 
 <script setup>
+import { onMounted } from 'vue'
+import { useCounterStore } from '@/stores/counter'
+
 import DepositList from '@/components/DepositList.vue';
 
+const store = useCounterStore()
+
+
+
+onMounted(() => {
+  if (store.isLogin) {
+    store.getSurveyData(store.mPK, 'deposit')
+  }
+})
 
 </script>
 

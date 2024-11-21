@@ -2,10 +2,11 @@ import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import Company from '@/views/Company.vue'
 import Update from '@/views/Update.vue'
-import Deposit from '@/views/Deposit.vue'
+
 // import DepositListItemItemoptions from '@/components/DepositListItemItemoptions.vue'
 import LoginView from '@/views/LoginView.vue'
 import SignUpView from '@/views/SignUpView.vue'
+import Integration from '@/views/Integration.vue'
 import { useCounterStore } from '@/stores/counter'
 
 import Announcement from '@/views/Announcement.vue'
@@ -31,9 +32,9 @@ const router = createRouter({
       component: Update,
     },
     {
-      path: '/deposit',
-      name: 'deposit',
-      component: Deposit,
+      path: '/integration',
+      name: 'integration',
+      component: Integration,
       // children: [
       //   { path: 'options', name: 'deposit_options', component: DepositListItemItemoptions },
       // ],

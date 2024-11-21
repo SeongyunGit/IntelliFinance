@@ -24,7 +24,7 @@ const logOut = function () {
 
       <!-- Full Menu -->
       <div class="hidden md:flex space-x-4">
-        <RouterLink to="/deposit" class="text-gray-700 hover:text-indigo-600 px-3 py-2 rounded-md text-sm font-medium">
+        <RouterLink to="/integration" class="text-gray-700 hover:text-indigo-600 px-3 py-2 rounded-md text-sm font-medium">
           Integration
         </RouterLink>
         <RouterLink to="/company" class="text-gray-700 hover:text-indigo-600 px-3 py-2 rounded-md text-sm font-medium">

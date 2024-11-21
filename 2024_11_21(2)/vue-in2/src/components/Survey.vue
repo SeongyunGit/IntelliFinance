@@ -6,7 +6,7 @@
       <!-- 금융 기관명 (체크박스, 복수 선택 가능) -->
       <ul class="select-list">
         <li @click="fetchData(1)">
-          <span :class="{active: selected == 1}">예금</span>
+          <span :class="{ active: selected == 1 }">예금</span>
           {{ selected }}
         </li>
         <li @click="fetchData(2)">
@@ -19,8 +19,6 @@
       <div>
         <DepositSurvey v-if="selected == 1" :surveyData="deposit" />
       </div>
-      <div>
-  </div>
   </div>
   </div>
 </template>
@@ -29,6 +27,8 @@
 import { useCounterStore } from '@/stores/counter'
 import { ref, watch } from 'vue'
 import DepositSurvey from './DepositSurvey.vue';
+import DepositList from './DepositList.vue';
+import DepositListItem from './DepositListItem.vue';
 
 
 
