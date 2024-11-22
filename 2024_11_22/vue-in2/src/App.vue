@@ -33,7 +33,7 @@ const logOut = function () {
         <RouterLink to="/announcement" class="text-gray-700 hover:text-indigo-600 px-3 py-2 rounded-md text-sm font-medium">
           announcement
         </RouterLink>
-        <RouterLink to="/update" class="text-gray-700 hover:text-indigo-600 px-3 py-2 rounded-md text-sm font-medium">
+        <RouterLink v-if="store.isAdmin" to="/update" class="text-gray-700 hover:text-indigo-600 px-3 py-2 rounded-md text-sm font-medium">
           update
         </RouterLink>
       </div>

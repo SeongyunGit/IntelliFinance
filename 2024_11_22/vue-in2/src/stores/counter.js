@@ -18,10 +18,10 @@ export const useCounterStore = defineStore('counter', () => {
     'type_a': null,
     // 'today' # auto_now=True
     // 'fin_co_no': None,
-    'kor_co_nm': ['국민은행', '우리은행', '신한은행', '농협은행주식회사', '카카오'],  // 은행이름
+    'kor_co_nm': [],  // 은행이름
     // 'intr_rate_type': None,
-    'intr_rate_type_nm': ['단리', '복리'],  // 이자율(단리,복리)
-    'save_trm': ['1', '3', '6', '12','24','36'],  // 저축기간
+    'intr_rate_type_nm': [],  // 이자율(단리,복리)
+    'save_trm': [],  // 저축기간
     'intr_rate': null,  // 기본금리
     'intr_rate2': null,  // 우대금리
     // 'rsrv_type': None,
@@ -50,6 +50,7 @@ export const useCounterStore = defineStore('counter', () => {
   const token = ref(null)
   const Uname = ref('name')
   const Uemail = ref('abc@abcd.com')
+  const isAdmin = ref(0)
   const isLogin = computed(() => {
     if (token.value === null) {
       return false
@@ -103,6 +104,7 @@ export const useCounterStore = defineStore('counter', () => {
         mPK.value = res.data.user_pk
         Uname.value = res.data.username
         Uemail.value = username
+        isAdmin.value = res.data.is_staff  // 관리자 여부 저장
 
         type_a_4.forEach(item => getSurveyData(mPK.value, item))
         
@@ -124,6 +126,9 @@ export const useCounterStore = defineStore('counter', () => {
       .then((res) => {
         token.value = null
         mPK.value = null
+        Uname.value = 'name'
+        Uemail.value = 'abc@abcd.com'
+        isAdmin.value = 0
         surveyData.value = {
           'deposit' : { ...initialSurveyData },
           'saving' : { ...initialSurveyData },
@@ -191,10 +196,14 @@ export const useCounterStore = defineStore('counter', () => {
       })
   }
   // api요청
-  const getcompany = function () {
+  const getcompany2 = function () {
     axios({
       method: 'get',
       url: `${API_URL}/api/v1/company/`,
+      withCredentials:true,
+      headers: {
+        Authorization: `Token ${token.value}`
+      },
     })
       .then((response) => {
         console.log(response.data)
@@ -208,6 +217,10 @@ export const useCounterStore = defineStore('counter', () => {
     axios({
       method: 'get',
       url: `${API_URL}/api/v1/deposit/`,
+      withCredentials:true,
+      headers: {
+        Authorization: `Token ${token.value}`
+      },
     })
       .then((response) => {
         console.log(response.data)
@@ -221,6 +234,10 @@ export const useCounterStore = defineStore('counter', () => {
     axios({
       method: 'get',
       url: `${API_URL}/api/v1/saving/`,
+      withCredentials:true,
+      headers: {
+        Authorization: `Token ${token.value}`
+      },
     })
       .then((response) => {
         console.log(response.data)
@@ -235,6 +252,10 @@ export const useCounterStore = defineStore('counter', () => {
     axios({
       method: 'get',
       url: `${API_URL}/api/v1/mortgageLoan/`,
+      withCredentials:true,
+      headers: {
+        Authorization: `Token ${token.value}`
+      },
     })
       .then((response) => {
         console.log(response.data)
@@ -248,6 +269,10 @@ export const useCounterStore = defineStore('counter', () => {
     axios({
       method: 'get',
       url: `${API_URL}/api/v1/rentHouseLoan/`,
+      withCredentials:true,
+      headers: {
+        Authorization: `Token ${token.value}`
+      },
     })
       .then((response) => {
         console.log(response.data)
@@ -262,6 +287,10 @@ export const useCounterStore = defineStore('counter', () => {
     axios({
       method: 'post',
       url: `${API_URL}/api/v1/delete_product_data/`,
+      withCredentials:true,
+      headers: {
+        Authorization: `Token ${token.value}`
+      },
     })
       .then((response) => {
         console.log(response.data)
@@ -336,7 +365,7 @@ export const useCounterStore = defineStore('counter', () => {
     selected.value = sel
   }
   
-  const bankId = ref(0)
+  let bankId = 0
 
   const toggleLike = function (bank) {
     axios({
@@ -353,7 +382,7 @@ export const useCounterStore = defineStore('counter', () => {
       console.log("성공")
 
     // store의 deposit 데이터 업데이트
-      bankId = deposit.find((b) => b.id === bankId);
+      // bankId = deposit.find((b) => b.id === bankId);
       if (bankId) {
         bankId.is_liked = is_liked; // Django에서 반환된 새로운 상태
       }
@@ -385,11 +414,11 @@ export const useCounterStore = defineStore('counter', () => {
   return { companyList, companyListOption, 
     integrationProducts, integrationProductOptions, 
     API_URL, surveyData,
-    getCompany, getIntegration, getcompany,
+    getCompany, getIntegration, getcompany2,
     getdeposit, getsaving, getmortgageLoan, getrentHouseLoan, delete_data,
     getSurveyData, updateSurveyData,
     signUp, logIn, token, isLogin, logOut,getAnnouncementData, 
     announcements, mPK, createSurvey, selected, checkType, bankId, toggleLike,
-    Uname, Uemail, visibleItems, likeList
+    Uname, Uemail, visibleItems, likeList, isAdmin
    }
 }, { persist: true })

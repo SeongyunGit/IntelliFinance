@@ -32,23 +32,23 @@ class companyListOption(models.Model):
 # 상품 종합 테이블
 class IntegrationProduct(models.Model):
     # 공통 필드
-    dcls_month = models.CharField(max_length=6, null=True, blank=True)  # 공시 월 (예: "202410")
-    fin_co_no = models.CharField(max_length=7, null=True, blank=True)  # 금융 회사 번호
-    fin_prdt_cd = models.CharField(max_length=20, null=True, blank=True)  # 상품 코드 (금융상품 코드, 대출 상품 코드 등)
-    kor_co_nm = models.CharField(max_length=100, null=True, blank=True)  # 금융 기관명
-    fin_prdt_nm = models.CharField(max_length=200, null=True, blank=True)  # 상품명 (금융상품명, 대출 상품명 등)
-    join_way = models.CharField(max_length=255, null=True, blank=True)  # 가입 방법
-    dcls_strt_day = models.DateField(null=True, blank=True)  # 공시 시작일
-    dcls_end_day = models.DateField(null=True, blank=True)  # 공시 종료일
-    fin_co_subm_day = models.DateTimeField(null=True, blank=True)  # 금융 기관 제출일
+    dcls_month = models.TextField(null=True, blank=True)  # 공시 월 (예: "202410")
+    fin_co_no = models.TextField(null=True, blank=True)  # 금융 회사 번호
+    fin_prdt_cd = models.TextField(null=True, blank=True)  # 상품 코드 (금융상품 코드, 대출 상품 코드 등)
+    kor_co_nm = models.TextField(null=True, blank=True)  # 금융 기관명
+    fin_prdt_nm = models.TextField(null=True, blank=True)  # 상품명 (금융상품명, 대출 상품명 등)
+    join_way = models.TextField(null=True, blank=True)  # 가입 방법
+    dcls_strt_day = models.TextField(null=True, blank=True)  # 공시 시작일
+    dcls_end_day = models.TextField(null=True, blank=True)  # 공시 종료일
+    fin_co_subm_day = models.TextField(null=True, blank=True)  # 금융 기관 제출일
     
     # (예금, 적금) 추가 필드
     mtrt_int = models.TextField(null=True, blank=True)  # 만기 후 이자
     spcl_cnd = models.TextField(null=True, blank=True)  # 특별 조건
-    join_deny = models.CharField(max_length=1, null=True, blank=True)  # 가입 제한 (Y/N 등)
-    join_member = models.CharField(max_length=100, null=True, blank=True)  # 가입 대상
+    join_deny = models.TextField(null=True, blank=True)  # 가입 제한 (Y/N 등)
+    join_member = models.TextField(null=True, blank=True)  # 가입 대상
     etc_note = models.TextField(null=True, blank=True)  # 기타 참고사항
-    max_limit = models.DecimalField(max_digits=15, decimal_places=2, null=True, blank=True)  # 최대 한도
+    max_limit = models.TextField(null=True, blank=True)  # 최대 한도
     
     # (주택담보대출, 전세자금대출) 추가필드
     loan_inci_expn = models.TextField(null=True, blank=True)  # 대출 인지세 및 기타 비용
@@ -96,11 +96,13 @@ class IntegrationProductOption(models.Model):
     mrtg_type_nm = models.CharField(max_length=50, null=True, blank=True)  # 담보 유형 명 (예: 아파트)
 
 #############################################################################################################################################
-##좋아요 테이블
-class Like(models.Model):
+#댓글 테이블
+class Comments(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="likes")  # 좋아요를 누른 사용자
     bank_product = models.ForeignKey(IntegrationProduct, on_delete=models.CASCADE, related_name="liked_by")  # 좋아요 대상 상품
-    created_at = models.DateTimeField(auto_now_add=True)  # 좋아요 생성 시간
+    star = models.TextField(null=True, blank=True) # 별점
+    comment = models.TextField(null=True, blank=True) # 댓글
+    created_at = models.DateTimeField(auto_now_add=True)  # 댓글 생성 시간
 
     class Meta:
         unique_together = ('user', 'bank_product')

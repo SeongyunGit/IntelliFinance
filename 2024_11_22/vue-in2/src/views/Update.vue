@@ -2,26 +2,52 @@
   <div>
     <h1>Bank update</h1>
     <p>데이터 업데이트(삭제후 다시 저장)</p>
+    
+    <!-- 각각의 버튼에 클릭 이벤트 추가 -->
+    <button @click="deleteData">삭제</button>
+    <br>
+    <button @click="getDeposit">입금 데이터 요청</button>
+    <br>
+    <button @click="getSaving">예금 데이터 요청</button>
+    <br>
+    <button @click="getMortgageLoan">주택 담보 대출 데이터 요청</button>
+    <br>
+    <button @click="getRentHouseLoan">전세 대출 데이터 요청</button>
+    <br>
+    <button @click="getCompany2">다른 회사 데이터 요청</button>
   </div>
 </template>
 
 <script setup>
-import { onMounted } from 'vue'
 import { useCounterStore } from '@/stores/counter'
 
 const store = useCounterStore()
 
-onMounted(() => {
-  // mount 되기전에 store에 있는 전체 게시글 요청 함수를 호출
-  store.delete_data()
-  store.getdeposit()
-  store.getsaving()
-  store.getmortgageLoan()
-  store.getrentHouseLoan()
-  store.getcompany()
-})
+// 각 버튼에 해당하는 함수들
+const deleteData = () => {
+  store.delete_data() // 삭제 함수
+}
+
+const getDeposit = () => {
+  store.getdeposit()  // 입금 데이터 요청
+}
+
+const getSaving = () => {
+  store.getsaving()   // 예금 데이터 요청
+}
+
+const getMortgageLoan = () => {
+  store.getmortgageLoan() // 주택 담보 대출 데이터 요청
+}
+
+const getRentHouseLoan = () => {
+  store.getrentHouseLoan() // 전세 대출 데이터 요청
+}
+
+const getCompany2 = () => {
+  store.getcompany2() // 다른 회사 데이터 요청
+}
 </script>
 
 <style scoped>
-
 </style>

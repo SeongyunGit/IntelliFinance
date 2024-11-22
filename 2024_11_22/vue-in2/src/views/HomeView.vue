@@ -15,12 +15,13 @@ import Survey from '@/components/Survey.vue';
 const store = useCounterStore()
 
 
-
-// onMounted(() => {
+onMounted(() => {
+  // mount 되기전에 store에 있는 전체 게시글 요청 함수를 호출
+  store.getIntegration()
 //   if (store.isLogin) {
 //     store.getSurveyData(store.mPK, 'deposit')
 //   }
-// })
+})
 
 </script>
 

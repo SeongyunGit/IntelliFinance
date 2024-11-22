@@ -16,4 +16,7 @@ urlpatterns = [
     
     path('api/bank/<int:bank_id>/like/', views.toggle_like, name='toggle_like'),
     path('api/bank/liked/', views.liked_products, name='liked_products'),
+
+    path('<int:product_pk>/comments/', views.comments_create, name='comments_create'),
+    path('comments/<comment_pk>/delete/', views.comments_delete, name='comments_delete'),
 ]

@@ -43,13 +43,13 @@
           </div>
           
           <!-- 우측 버튼 -->
-          <button
+          <!-- <button
             @click="scrollRight(index)"
             class="absolute right-0 top-1/2 transform -translate-y-1/2 z-10 bg-gray-800 text-white p-2 rounded-full hover:bg-gray-600 focus:outline-none"
             :disabled="currentIndices[index] + 4 >= list.data.length"
           >
             &#62;
-          </button>
+          </button> -->
         </div>
       </div>
     </div>
@@ -60,9 +60,9 @@
 import { ref, computed, onMounted } from 'vue';
 import { useCounterStore } from '@/stores/counter'
 const store = useCounterStore()
-onMounted(() => {
-  store.visibleItems()
-})
+// onMounted(() => {
+//   store.visibleItems()
+// })
 
 // 각 리스트 데이터 정의
 // const deposit = [

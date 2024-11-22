@@ -42,7 +42,8 @@ def custom_login(request):
         return Response({
             'key': token.key,
             'user_pk': user.pk,  # 로그인한 유저의 pk 반환
-            'username': user.username
+            'username': user.username,
+            'is_staff': user.is_staff  # 관리자 여부 추가
         }, status=status.HTTP_200_OK)
     else:
         return Response({'detail': 'Invalid credentials'}, status=status.HTTP_400_BAD_REQUEST)

@@ -1,7 +1,8 @@
 from rest_framework import serializers
 from .models import (
     companyList, companyListOption,
-    IntegrationProduct, IntegrationProductOption
+    IntegrationProduct, IntegrationProductOption,
+    Comments
 )
 
 # companyList에 대한 직렬화
@@ -27,3 +28,11 @@ class IntegrationProductOptionSerializer(serializers.ModelSerializer):
     class Meta:
         model = IntegrationProductOption
         fields = '__all__'
+
+# 댓글
+class CommentSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Comments
+        fields = ('content',)
+        # exclude = ('diary',)

@@ -19,14 +19,12 @@
       <h3 class="text-lg font-semibold text-gray-700 mb-2">추천 상품 옵션</h3>
 
       <div v-for="(option, index) in store.integrationProductOptions" :key="index" class="mb-4">
-        <div
-          v-if="option.fin_prdt_cd === bank.fin_prdt_cd
+        <div v-if="option.fin_prdt_cd === bank.fin_prdt_cd
             && (saving.intr_rate_type_nm.length === 0 || saving.intr_rate_type_nm.includes(option.intr_rate_type_nm))
             && (saving.save_trm.length === 0 || saving.save_trm.includes(option.save_trm))
             && (saving.intr_rate > option.intr_rate || !saving.intr_rate)
             && (saving.intr_rate2 > option.intr_rate2 || !saving.intr_rate2)
-            && (saving.rsrv_type_nm.length === 0 || saving.rsrv_type_nm.includes(option.rsrv_type_nm))
-            "
+            && (saving.rsrv_type_nm.length === 0 || saving.rsrv_type_nm.includes(option.rsrv_type_nm))"
           class="border rounded-lg shadow-sm"
         >
           <!-- 옵션 상세 정보 바로 보여줌 -->
