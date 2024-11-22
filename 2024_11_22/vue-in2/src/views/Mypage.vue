@@ -15,6 +15,7 @@
           <span class="text-gray-500">{{ store.Uemail }}</span>
         </div>
       </div>
+      
 
       <!-- deposit, saving, mortgageLoan, rentHouseLoan 각각 처리 -->
       <div v-for="(list, index) in lists" :key="index" class="mt-8">
@@ -29,25 +30,26 @@
           >
             &#60;
           </button>
-          
+
           <!-- 카드들 -->
           <div :ref="list.ref" class="flex transition-transform duration-300">
             <div
-              v-for="(item, idx) in store.likeList"
+              v-for="(item, idx) in visibleItems(list.name)"
               :key="idx"
               class="bg-white p-6 rounded-lg shadow-md w-64 mx-2"
             >
-              <h2 class="text-xl font-semibold text-gray-800 mb-4">{{ item.title }}</h2>
-              <p class="text-gray-500">{{ item.coment }}</p>
+            <div v-if="item.type_a==list.name">
+              <h2 class="text-xl font-semibold text-gray-800 mb-4">{{ item.name }}</h2>
+              <p class="text-gray-500">{{ item.mtrt_int }}</p>
+              <p class="text-gray-500">상품 유형: {{ item.type_a }}</p>
+            </div>
             </div>
           </div>
           
           <!-- 우측 버튼 -->
           <button
             @click="scrollRight(index)"
-            class="absolute right-0 top-1/2 transform -translate-y-1/2 z-10 bg-gray-800 text-white p-2 rounded-full hover:bg-gray-600 focus:outline-none"
-            :disabled="currentIndices[index] + 4 >= list.data.length"
-          >
+            class="absolute right-0 top-1/2 transform -translate-y-1/2 z-10 bg-gray-800 text-white p-2 rounded-full hover:bg-gray-600 focus:outline-none" >
             &#62;
           </button>
         </div>
@@ -103,18 +105,22 @@ onMounted(() => {
 
 // 리스트들의 설정
 const lists = [
-  { name: 'deposit',  ref: 'depositRef' },
-  { name: 'saving',  ref: 'savingRef' },
-  { name: 'mortgageLoan',  ref: 'mortgageLoanRef' },
-  { name: 'rentHouseLoan',  ref: 'rentHouseLoanRef' }
+  { name: 'deposit', data: store.likeList.filter(type=>type.type_a==='deposit'), ref: 'depositRef' },
+  { name: 'saving', data: store.likeList.filter(type=>type.type_a==='saving'), ref: 'savingRef' },
+  { name: 'mortgageLoan', data: store.likeList.filter(type=>type.type_a==='mortgageLoan'), ref: 'mortgageLoanRef' },
+  { name: 'rentHouseLoan', data: store.likeList.filter(type=>type.type_a==='rentHouseLoan'), ref: 'rentHouseLoanRef' }
 ];
-
 
 
 // 각 리스트에 대한 현재 인덱스 상태
 const currentIndices = ref([0, 0, 0, 0]);
 
 // 각 리스트에 대해 보여줄 카드들 계산
+const visibleItems = (listName) => {
+  const index = lists.findIndex(list => list.name === listName);
+  console.log()
+  return lists[index].data.slice(currentIndices.value[index], currentIndices.value[index] + 4);
+};
 
 
 // 오른쪽으로 스크롤

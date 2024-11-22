@@ -18,10 +18,10 @@ export const useCounterStore = defineStore('counter', () => {
     'type_a': null,
     // 'today' # auto_now=True
     // 'fin_co_no': None,
-    'kor_co_nm': ['국민은행', '우리은행', '신한은행', '농협은행주식회사', '카카오'],  // 은행이름
+    'kor_co_nm': [],  // 은행이름
     // 'intr_rate_type': None,
-    'intr_rate_type_nm': ['단리', '복리'],  // 이자율(단리,복리)
-    'save_trm': ['1', '3', '6', '12','24','36'],  // 저축기간
+    'intr_rate_type_nm': [],  // 이자율(단리,복리)
+    'save_trm': [],  // 저축기간
     'intr_rate': null,  // 기본금리
     'intr_rate2': null,  // 우대금리
     // 'rsrv_type': None,
@@ -336,24 +336,29 @@ export const useCounterStore = defineStore('counter', () => {
     selected.value = sel
   }
   
-  const bankId = ref(0)
-
+  let bankId = 0
+  const is_liked = ref({})
   const toggleLike = function (bank) {
     axios({
       method:'post',
       url: `${API_URL}/api/v1/api/bank/${bank}/like/`,
       withCredentials : true,
+      data:{
+        'user':mPK.value
+      },
       headers: {
         Authorization: `Token ${token.value}`, // 토큰 포함
       },
     })
     .then((response) => {
-      const is_liked = response.data;
+      is_liked.value = response.data;
       console.log(is_liked)
+      visibleItems()
       console.log("성공")
+      console.log(response)
 
     // store의 deposit 데이터 업데이트
-      bankId = deposit.find((b) => b.id === bankId);
+      // bankId = deposit.find((b) => b.id === bankId);
       if (bankId) {
         bankId.is_liked = is_liked; // Django에서 반환된 새로운 상태
       }
@@ -365,10 +370,14 @@ export const useCounterStore = defineStore('counter', () => {
     })
   }
   const likeList=ref([])
-  const visibleItems = function (listname) {
+  const visibleItems = function () {
     axios({
       method:'get',
-      url: `${API_URL}/api/bank/liked/`
+      url: `${API_URL}/api/v1/api/bank/liked/`,
+      withCredentials : true,
+      headers: {
+        Authorization: `Token ${token.value}`, // 토큰 포함
+      },
     })
     .then((response)=> {
       likeList.value = response.data
@@ -380,8 +389,6 @@ export const useCounterStore = defineStore('counter', () => {
   }
   
 
-
-  
   return { companyList, companyListOption, 
     integrationProducts, integrationProductOptions, 
     API_URL, surveyData,
@@ -390,6 +397,6 @@ export const useCounterStore = defineStore('counter', () => {
     getSurveyData, updateSurveyData,
     signUp, logIn, token, isLogin, logOut,getAnnouncementData, 
     announcements, mPK, createSurvey, selected, checkType, bankId, toggleLike,
-    Uname, Uemail, visibleItems, likeList
+    Uname, Uemail, visibleItems, likeList, is_liked
    }
 }, { persist: true })

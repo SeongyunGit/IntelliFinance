@@ -126,7 +126,15 @@ def fetch_and_save_product_data(product_type, topFinGrpNo, page_no=1):
     except requests.exceptions.RequestException as e:
         return Response({'error': str(e)}, status=500)
 
+from django.contrib.auth.decorators import login_required, user_passes_test
+from django.http import HttpResponse
+
+
+def is_admin(user):
+    return user.is_superuser
+
 # 기존 데이터 삭제 (리셋)
+@user_passes_test(is_admin)
 @api_view(['POST'])
 def delete_product_data(request):
     IntegrationProduct.objects.all().delete()
@@ -136,12 +144,14 @@ def delete_product_data(request):
 #########################################################################
 
 # 은행정보 저장
+@user_passes_test(is_admin)
 @api_view(['GET'])
 def company(request):
     return fetch_and_save_product_data('company', '020000', 1)
     
 
 # 예금 상품 저장
+@user_passes_test(is_admin)
 @api_view(['GET'])
 def deposit(request):
     return fetch_and_save_product_data('deposit', '020000', 1)
@@ -149,20 +159,25 @@ def deposit(request):
 
 # 적금 상품 저장
 @api_view(['GET'])
+@user_passes_test(is_admin)
 def saving(request):
     return fetch_and_save_product_data('saving', '020000', 1)
     
 
 # 대출 상품 저장
+@user_passes_test(is_admin)
 @api_view(['GET'])
 def mortgageLoan(request):
     return fetch_and_save_product_data('mortgageLoan', '050000', 1)
     
 # 전세자금 대출 상품 저장
+@user_passes_test(is_admin)
 @api_view(['GET'])
 def rentHouseLoan(request):
     return fetch_and_save_product_data('rentHouseLoan', '050000', 1)
-    
+
+
+
 
 #########################################################################
 
@@ -218,26 +233,30 @@ def toggle_like(request, bank_id):
     """
     좋아요 추가/취소
     """
-    try:
-        print(request.user)
-        bank_product = IntegrationProduct.objects.get(id=bank_id)
-        like, created = Like.objects.get_or_create(user=request.user, bank_product=bank_product)
+    if request.method == 'POST':
+            product = IntegrationProduct.objects.get(pk=bank_id)
+            if request.user != product.like_users:
+                # 좋아요를 누른 유저가 이미 좋아요를 눌렀으면 취소
+                if request.user in product.like_users.all():
+                    product.like_users.remove(request.user)
+                else:
+                    # 좋아요를 누르지 않았으면 추가
+                    product.like_users.add(request.user)
+                    
+                # 로그인한 유저가 좋아요한 모든 게시글 가져오기
+                liked_articles = IntegrationProduct.objects.filter(like_users=request.user)
 
-        if not created:
-            # 좋아요 이미 존재 -> 삭제
-            like.delete()
-            is_liked = False
-        else:
-            # 새로 생성 -> 좋아요 추가
-            is_liked = True
+                # 좋아요한 게시글들의 정보를 반환
+                liked_article_data = liked_articles.values('id',)
+                
 
-        return Response({
-            "is_liked": is_liked,
-        })
-
-    except IntegrationProduct.DoesNotExist:
-        return Response({"error": "상품을 찾을 수 없습니다."}, status=404)
-
+                # 좋아요가 변경된 후 좋아요한 모든 게시글 정보 응답
+                return Response({
+                    'liked_articles': list(liked_article_data),
+                    'message': 'Successfully toggled like status'
+                }, status=status.HTTP_200_OK)
+            
+    return Response({'detail': 'Invalid method or user'}, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
@@ -245,7 +264,7 @@ def liked_products(request):
     """
     사용자가 좋아요한 상품 목록
     """
-    liked_products = IntegrationProduct.objects.filter(liked_by__user=request.user)
+    liked_products = IntegrationProduct.objects.filter(like_users=request.user)
     data = [
         {
             "id": product.pk,
@@ -257,7 +276,10 @@ def liked_products(request):
     ]
     return Response(data)
 #########################################################################
+#장고 어드민
 
+
+#######################################################################
 # 데이터베이스에 상품 데이터를 저장하는 함수(오류)
 # def save_product_data2(product_data, option_data, product_type):
 #     # 기존 데이터 삭제 (리셋)

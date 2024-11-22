@@ -58,7 +58,7 @@ class IntegrationProduct(models.Model):
     
     # api 필드가 아닌 공통 추가필드
     type_a = models.TextField(null=True, blank=True) # 데이터 타입(예: 예금, 적금, 주택담보대출, 전세자금대출)
-    
+    like_users=models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='like_product')
     
     
 # 상품옵션 종합 테이블

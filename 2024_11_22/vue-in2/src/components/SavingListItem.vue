@@ -10,8 +10,21 @@
       @click="bank.open = !bank.open"
     >
       <h5 class="text-lg font-bold text-gray-800">{{ bank.kor_co_nm }}</h5>
-      <p class="text-gray-600">만기 이자: {{ bank.mtrt_int }}</p>
+      <p class="text-gray-600" v-html="formattedMtrtInt"></p>
       <p class="text-gray-600">상품 유형: {{ bank.type_a }}</p>
+      <button
+    class="mt-2 px-4 py-2 bg-red-100 hover:bg-red-200 rounded-lg text-red-600"
+    @click.stop="store.toggleLike(bank.id)"
+  >
+  <!-- <p>{{ store.is_liked.liked_articles.id.includes(bank.id) }}</p> -->
+     <div v-if="store.is_liked.liked_articles.find(item => item.id === bank.id)">
+      {{ "❤️ 좋아요 취소" }}  
+    </div>
+    <div v-else>
+      {{ "🤍 좋아요" }}
+    </div> 
+ 
+  </button>
     </div>
 
     <!-- 해당 은행의 상품 옵션 (토글 되어 보여짐) -->
@@ -47,12 +60,19 @@
 <script setup>
 import { useCounterStore } from '@/stores/counter'
 
+import { computed } from 'vue'
+
 const store = useCounterStore()
 const saving = store.surveyData.saving
 
-defineProps({
-  bank: Object
+const props = defineProps({
+  bank: Object,
+  product: Object
 })
+const formattedMtrtInt = computed(() => {
+  // bank.mtrt_int에서 개행 문자를 <br>로 변환
+  return props.bank.mtrt_int.replace(/\n/g, "<br>");
+});
 </script>
 <style  scoped>
 

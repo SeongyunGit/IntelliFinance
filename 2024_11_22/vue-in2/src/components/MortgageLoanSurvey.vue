@@ -1,46 +1,101 @@
 <template>
-  <div>
-    <hr>
-    <h3>Lending Survey</h3>
-    <div>
-      <!-- 금융 기관명 (체크박스) -->
-      <p>1. 은행이름:
-        <label><input type="checkbox" v-model="isAllSelected.kor_co_nm" @change="toggleAll('kor_co_nm')" /> 전체</label>
-        <label><input type="checkbox" value="한화생명보험주식회사" v-model="surveyData.kor_co_nm" @change="checkAllCondition('kor_co_nm')" /> 한화생명보험주식회사</label>
-        <label><input type="checkbox" value="삼성생명보험주식회사" v-model="surveyData.kor_co_nm" @change="checkAllCondition('kor_co_nm')" /> 삼성생명보험주식회사</label>
-        <label><input type="checkbox" value="흥국생명보험주식회사" v-model="surveyData.kor_co_nm" @change="checkAllCondition('kor_co_nm')" /> 흥국생명보험주식회사</label>
-        <label><input type="checkbox" value="교보생명보험주식회사" v-model="surveyData.kor_co_nm" @change="checkAllCondition('kor_co_nm')" /> 교보생명보험주식회사</label>
-        <label><input type="checkbox" value="하나생명보험주식회사" v-model="surveyData.kor_co_nm" @change="checkAllCondition('kor_co_nm')" /> 하나생명보험주식회사</label>
-      </p>
+  <div class="min-h-screen bg-gradient-to-r from-indigo-100 to-blue-50 p-8">
+    <div class="max-w-4xl mx-auto space-y-8">
+      <!-- 페이지 헤더 -->
+      <div class="text-center">
+        <h1 class="text-3xl font-bold text-indigo-700">💬 주택 담보 대출</h1>
+        <p class="text-gray-600 mt-2">Please fill out the form to provide your lending preferences.</p>
+      </div>
 
-      <!-- 상환 방식 -->
-      <p>2. 상환방식:
-        <label><input type="checkbox" v-model="isAllSelected.rpay_type_nm" @change="toggleAll('rpay_type_nm')" /> 전체</label>
-        <label><input type="checkbox" value="분할상환방식" v-model="surveyData.rpay_type_nm" @change="checkAllCondition('rpay_type_nm')" /> 분할상환방식</label>
-        <label><input type="checkbox" value="만기일시상환방식" v-model="surveyData.rpay_type_nm" @change="checkAllCondition('rpay_type_nm')" /> 만기일시상환방식</label>
-      </p>
+      <!-- 설문 내용 -->
+      <div class="space-y-6">
+        <!-- 질문 1: 은행 이름 -->
+        <div class="bg-white shadow-lg rounded-xl p-6">
+          <h2 class="text-lg font-semibold text-gray-800">1. 은행이름</h2>
+          <div class="space-y-4 mt-4">
+            <label class="flex items-center space-x-3 p-4 border rounded-lg cursor-pointer transition hover:shadow-md" :class="isAllSelected.kor_co_nm ? 'bg-indigo-100 border-indigo-500' : 'bg-white border-gray-300'">
+              <input type="checkbox" v-model="isAllSelected.kor_co_nm" @change="toggleAll('kor_co_nm')" class="form-checkbox h-5 w-5 text-indigo-600 focus:ring-indigo-500" />
+              <span class="text-gray-700">전체</span>
+            </label>
+            <label v-for="bank in ['한화생명보험주식회사', '삼성생명보험주식회사', '흥국생명보험주식회사', '교보생명보험주식회사', '하나생명보험주식회사']" :key="bank" class="flex items-center space-x-3 p-4 border rounded-lg cursor-pointer transition hover:shadow-md" :class="surveyData.kor_co_nm.includes(bank) ? 'bg-indigo-100 border-indigo-500' : 'bg-white border-gray-300'">
+              <input type="checkbox" :value="bank" v-model="surveyData.kor_co_nm" @change="checkAllCondition('kor_co_nm')" class="form-checkbox h-5 w-5 text-indigo-600 focus:ring-indigo-500" />
+              <span class="text-gray-700">{{ bank }}</span>
+            </label>
+          </div>
+        </div>
 
-      <!-- 금리 유형 -->
-      <p>3. 금리유형:
-        <label><input type="checkbox" v-model="isAllSelected.lend_rate_type_nm" @change="toggleAll('lend_rate_type_nm')" /> 전체</label>
-        <label><input type="checkbox" value="고정금리" v-model="surveyData.lend_rate_type_nm" @change="checkAllCondition('lend_rate_type_nm')" /> 고정금리</label>
-        <label><input type="checkbox" value="변동금리" v-model="surveyData.lend_rate_type_nm" @change="checkAllCondition('lend_rate_type_nm')" /> 변동금리</label>
-      </p>
+        <!-- 질문 2: 상환 방식 -->
+        <div class="bg-white shadow-lg rounded-xl p-6">
+          <h2 class="text-lg font-semibold text-gray-800">2. 상환방식</h2>
+          <div class="space-y-4 mt-4">
+            <label class="flex items-center space-x-3 p-4 border rounded-lg cursor-pointer transition hover:shadow-md" :class="isAllSelected.rpay_type_nm ? 'bg-indigo-100 border-indigo-500' : 'bg-white border-gray-300'">
+              <input type="checkbox" v-model="isAllSelected.rpay_type_nm" @change="toggleAll('rpay_type_nm')" class="form-checkbox h-5 w-5 text-indigo-600 focus:ring-indigo-500" />
+              <span class="text-gray-700">전체</span>
+            </label>
+            <label v-for="type in ['분할상환방식', '만기일시상환방식']" :key="type" class="flex items-center space-x-3 p-4 border rounded-lg cursor-pointer transition hover:shadow-md" :class="surveyData.rpay_type_nm.includes(type) ? 'bg-indigo-100 border-indigo-500' : 'bg-white border-gray-300'">
+              <input type="checkbox" :value="type" v-model="surveyData.rpay_type_nm" @change="checkAllCondition('rpay_type_nm')" class="form-checkbox h-5 w-5 text-indigo-600 focus:ring-indigo-500" />
+              <span class="text-gray-700">{{ type }}</span>
+            </label>
+          </div>
+        </div>
 
-      <!-- 금리 입력 -->
-      <p>4. 최소 금리: <input v-model="surveyData.lend_rate_min" type="number" placeholder="Enter minimum interest rate" /></p>
-      <p>5. 최대 금리: <input v-model="surveyData.lend_rate_max" type="number" placeholder="Enter maximum interest rate" /></p>
-      <p>6. 평균 금리: <input v-model="surveyData.lend_rate_avg" type="number" placeholder="Enter average interest rate" /></p>
+        <!-- 질문 3: 금리 유형 -->
+        <div class="bg-white shadow-lg rounded-xl p-6">
+          <h2 class="text-lg font-semibold text-gray-800">3. 금리유형</h2>
+          <div class="space-y-4 mt-4">
+            <label class="flex items-center space-x-3 p-4 border rounded-lg cursor-pointer transition hover:shadow-md" :class="isAllSelected.lend_rate_type_nm ? 'bg-indigo-100 border-indigo-500' : 'bg-white border-gray-300'">
+              <input type="checkbox" v-model="isAllSelected.lend_rate_type_nm" @change="toggleAll('lend_rate_type_nm')" class="form-checkbox h-5 w-5 text-indigo-600 focus:ring-indigo-500" />
+              <span class="text-gray-700">전체</span>
+            </label>
+            <label v-for="type in ['고정금리', '변동금리']" :key="type" class="flex items-center space-x-3 p-4 border rounded-lg cursor-pointer transition hover:shadow-md" :class="surveyData.lend_rate_type_nm.includes(type) ? 'bg-indigo-100 border-indigo-500' : 'bg-white border-gray-300'">
+              <input type="checkbox" :value="type" v-model="surveyData.lend_rate_type_nm" @change="checkAllCondition('lend_rate_type_nm')" class="form-checkbox h-5 w-5 text-indigo-600 focus:ring-indigo-500" />
+              <span class="text-gray-700">{{ type }}</span>
+            </label>
+          </div>
+        </div>
 
-      <!-- 담보 유형 -->
-      <p>7. 담보유형:
-        <label><input type="checkbox" v-model="isAllSelected.mrtg_type_nm" @change="toggleAll('mrtg_type_nm')" /> 전체</label>
-        <label><input type="checkbox" value="아파트" v-model="surveyData.mrtg_type_nm" @change="checkAllCondition('mrtg_type_nm')" /> 아파트</label>
-        <label><input type="checkbox" value="아파트외" v-model="surveyData.mrtg_type_nm" @change="checkAllCondition('mrtg_type_nm')" /> 아파트외</label>
-      </p>
+        <!-- 질문 4, 5, 6: 금리 입력 -->
+        <div class="bg-white shadow-lg rounded-xl p-6">
+          <h2 class="text-lg font-semibold text-gray-800">4. 금리를 선택하세요</h2>
+          <div class="space-y-4 mt-4">
+            <div>
+              <label class="block text-gray-700 font-medium mb-2">최소 금리</label>
+              <input v-model="surveyData.lend_rate_min" type="number" placeholder="Enter minimum interest rate" class="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-300" />
+            </div>
+            <div>
+              <label class="block text-gray-700 font-medium mb-2">최대 금리</label>
+              <input v-model="surveyData.lend_rate_max" type="number" placeholder="Enter maximum interest rate" class="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-300" />
+            </div>
+            <div>
+              <label class="block text-gray-700 font-medium mb-2">평균 금리</label>
+              <input v-model="surveyData.lend_rate_avg" type="number" placeholder="Enter average interest rate" class="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-300" />
+            </div>
+          </div>
+        </div>
+
+        <!-- 질문 7: 담보 유형 -->
+        <div class="bg-white shadow-lg rounded-xl p-6">
+          <h2 class="text-lg font-semibold text-gray-800">5. 담보유형</h2>
+          <div class="space-y-4 mt-4">
+            <label class="flex items-center space-x-3 p-4 border rounded-lg cursor-pointer transition hover:shadow-md" :class="isAllSelected.mrtg_type_nm ? 'bg-indigo-100 border-indigo-500' : 'bg-white border-gray-300'">
+              <input type="checkbox" v-model="isAllSelected.mrtg_type_nm" @change="toggleAll('mrtg_type_nm')" class="form-checkbox h-5 w-5 text-indigo-600 focus:ring-indigo-500" />
+              <span class="text-gray-700">전체</span>
+            </label>
+            <label v-for="type in ['아파트', '아파트외']" :key="type" class="flex items-center space-x-3 p-4 border rounded-lg cursor-pointer transition hover:shadow-md" :class="surveyData.mrtg_type_nm.includes(type) ? 'bg-indigo-100 border-indigo-500' : 'bg-white border-gray-300'">
+              <input type="checkbox" :value="type" v-model="surveyData.mrtg_type_nm" @change="checkAllCondition('mrtg_type_nm')" class="form-checkbox h-5 w-5 text-indigo-600 focus:ring-indigo-500" />
+              <span class="text-gray-700">{{ type }}</span>
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <!-- 저장 버튼 -->
+      <div class="text-center mt-8">
+        <button @click="submitSurvey" class="px-6 py-3 bg-indigo-600 text-white text-lg font-semibold rounded-full shadow-lg hover:bg-indigo-700 focus:outline-none focus:ring-4 focus:ring-indigo-300 transition duration-200">
+          저장
+        </button>
+      </div>
     </div>
-    <hr>
-    <button @click="submitSurvey">저장</button>
   </div>
 </template>
 

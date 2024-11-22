@@ -1,7 +1,5 @@
 <template>
   <div>
-    <h3>mortgageLoan List</h3>
-    <p>{{ store.surveyData.mortgageLoan }}</p>
     <div v-for="bank in store.integrationProducts"
       :key="bank.id"
       :bank="bank">

@@ -336,6 +336,8 @@ export const useCounterStore = defineStore('counter', () => {
     selected.value = sel
   }
   
+
+  //좋아요
   const bankId = ref(0)
 
   const toggleLike = function (bank) {
