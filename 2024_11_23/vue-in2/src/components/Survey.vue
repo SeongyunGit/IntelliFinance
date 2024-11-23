@@ -17,10 +17,10 @@
             <span :class="{ active: selected == 2 }" class="text-gray-800 text-lg font-medium">적금</span>
           </li>
           <li @click="fetchData(3)" class="cursor-pointer p-4 border-b hover:bg-indigo-50">
-            <span :class="{ active: selected == 3 }" class="text-gray-800 text-lg font-medium">주택담보대출</span>
+            <span :class="{ active: selected == 3 }" class="text-gray-800 text-lg font-medium">주택 담보 대출</span>
           </li>
           <li @click="fetchData(4)" class="cursor-pointer p-4 hover:bg-indigo-50">
-            <span :class="{ active: selected == 4 }" class="text-gray-800 text-lg font-medium">전세자금대출</span>
+            <span :class="{ active: selected == 4 }" class="text-gray-800 text-lg font-medium">전세 자금 대출</span>
           </li>
         </ul>
         <div class="mt-8">

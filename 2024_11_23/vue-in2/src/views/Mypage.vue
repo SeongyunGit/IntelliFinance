@@ -19,7 +19,7 @@
 
       <!-- deposit, saving, mortgageLoan, rentHouseLoan 각각 처리 -->
       <div v-for="(list, index) in lists" :key="index" class="mt-8">
-        <h2 class="text-2xl font-semibold text-gray-800 mb-4">{{ list.name }}</h2>
+        <h2 class="text-2xl font-semibold text-gray-800 mb-4">{{ list.korea }}</h2>
         <!-- 카드 슬라이드 -->
         <div class="relative overflow-hidden">
           <!-- 좌측 버튼 -->
@@ -32,19 +32,32 @@
           </button>
 
           <!-- 카드들 -->
+          
           <div :ref="list.ref" class="flex transition-transform duration-300">
             <div
               v-for="(item, idx) in visibleItems(list.name)"
               :key="idx"
-              class="bg-white p-6 rounded-lg shadow-md w-64 mx-2"
             >
+            <div v-if="store.is_liked.liked_articles && store.is_liked.liked_articles.find(bank => bank.id == item.id)" class="bg-white p-6 rounded-lg shadow-md w-64 mx-2">
             <div v-if="item.type_a==list.name">
               <h2 class="text-xl font-semibold text-gray-800 mb-4">{{ item.name }}</h2>
               <p class="text-gray-500">{{ item.mtrt_int }}</p>
               <p class="text-gray-500">상품 유형: {{ item.type_a }}</p>
             </div>
+            <button
+    class="mt-2 px-4 py-2 bg-red-100 hover:bg-red-200 rounded-lg text-red-600"
+    @click.stop="store.toggleLike(item.id)"
+  >
+     <div v-if="store.is_liked.liked_articles && store.is_liked.liked_articles.find(bank => bank.id == item.id)">
+      {{ "❤️ 좋아요 취소" }}  
+    </div>
+    <div v-else>
+      {{ "🤍 좋아요" }}
+    </div> 
+  </button>
             </div>
           </div>
+        </div>
           
           <!-- 우측 버튼 -->
           <button
@@ -105,10 +118,10 @@ onMounted(() => {
 
 // 리스트들의 설정
 const lists = [
-  { name: 'deposit', data: store.likeList.filter(type=>type.type_a==='deposit'), ref: 'depositRef' },
-  { name: 'saving', data: store.likeList.filter(type=>type.type_a==='saving'), ref: 'savingRef' },
-  { name: 'mortgageLoan', data: store.likeList.filter(type=>type.type_a==='mortgageLoan'), ref: 'mortgageLoanRef' },
-  { name: 'rentHouseLoan', data: store.likeList.filter(type=>type.type_a==='rentHouseLoan'), ref: 'rentHouseLoanRef' }
+  { korea:'예금',name: 'deposit', data: store.likeList.filter(type=>type.type_a==='deposit'), ref: 'depositRef' },
+  { korea:'적금',name: 'saving', data: store.likeList.filter(type=>type.type_a==='saving'), ref: 'savingRef' },
+  { korea:'전세 자금 대출',name: 'mortgageLoan', data: store.likeList.filter(type=>type.type_a==='mortgageLoan'), ref: 'mortgageLoanRef' },
+  { korea:'주택 담보 대출',name: 'rentHouseLoan', data: store.likeList.filter(type=>type.type_a==='rentHouseLoan'), ref: 'rentHouseLoanRef' }
 ];
 
 

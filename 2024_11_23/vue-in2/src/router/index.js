@@ -2,7 +2,6 @@ import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import Company from '@/views/Company.vue'
 import Update from '@/views/Update.vue'
-import Integration from '@/views/Integration.vue'
 // import DepositListItemItemoptions from '@/components/DepositListItemItemoptions.vue'
 import LoginView from '@/views/LoginView.vue'
 import SignUpView from '@/views/SignUpView.vue'
@@ -11,6 +10,10 @@ import { useCounterStore } from '@/stores/counter'
 import Announcement from '@/views/Announcement.vue'
 import ForgotPassword from '@/views/ForgotPassword.vue'
 import Mypage from '@/views/Mypage.vue'
+import DepositView from '@/views/DepositView.vue'
+import SavingView from '@/views/SavingView.vue'
+import MortgageView from '@/views/MortgageView.vue'
+import RentHouseView from '@/views/RentHouseView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -29,14 +32,6 @@ const router = createRouter({
       path: '/update',
       name: 'update',
       component: Update,
-    },
-    {
-      path: '/integration',
-      name: 'integration',
-      component: Integration,
-      // children: [
-      //   { path: 'options', name: 'deposit_options', component: DepositListItemItemoptions },
-      // ],
     },
     {
       path: '/signup',
@@ -62,7 +57,27 @@ const router = createRouter({
       path: '/mypage',
       name: 'mypage',
       component: Mypage,
-    }
+    },
+    {
+      path: '/depositview',
+      name: 'depositview',
+      component: DepositView,
+    },
+    {
+      path: '/savingview',
+      name: 'savingview',
+      component: SavingView,
+    },
+    {
+      path: '/mortgageview',
+      name: 'mortgageview',
+      component: MortgageView,
+    },
+    {
+      path: '/renthouseview',
+      name: 'renthouseview',
+      component: RentHouseView,
+    },
   ],
 })
 

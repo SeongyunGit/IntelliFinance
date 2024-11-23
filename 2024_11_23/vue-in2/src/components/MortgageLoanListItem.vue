@@ -10,14 +10,17 @@
         @click="bank.open = !bank.open"
       >
         <h5 class="text-lg font-bold text-gray-800">{{ bank.kor_co_nm }}</h5>
-        <p class="text-gray-600">만기 이자: {{ bank.mtrt_int }}</p>
-        <p class="text-gray-600">상품 유형: {{ bank.type_a }}</p>
+        <p class="text-gray-600">만기 이자: {{ bank.loan_inci_expn }}</p>
+        <p class="text-gray-600">상품 유형: {{ bank.erly_rpay_fee }}</p>
+        <p class="text-gray-600">상품 유형: {{ bank.dly_rate }}</p>
+        <p class="text-gray-600">상품 유형: {{ bank.loan_lmt }}</p>
+        <p class="text-gray-600">상품 유형: 주택 담보 대출</p>
         <button
     class="mt-2 px-4 py-2 bg-red-100 hover:bg-red-200 rounded-lg text-red-600"
     @click.stop="store.toggleLike(bank.id)"
   >
   <!-- <p>{{ store.is_liked.liked_articles.id.includes(bank.id) }}</p> -->
-     <div v-if="store.is_liked.liked_articles.find(item => item.id === bank.id)">
+     <div v-if="store.is_liked.liked_articles && store.is_liked.liked_articles.find(item => item.id === bank.id)">
       {{ "❤️ 좋아요 취소" }}  
     </div>
     <div v-else>
@@ -69,6 +72,7 @@ const mortgageLoan = store.surveyData.mortgageLoan
 defineProps({
   bank: Object
 })
+
 </script>
 
 <style scoped>

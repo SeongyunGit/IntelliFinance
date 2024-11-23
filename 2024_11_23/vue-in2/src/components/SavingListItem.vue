@@ -11,13 +11,13 @@
     >
       <h5 class="text-lg font-bold text-gray-800">{{ bank.kor_co_nm }}</h5>
       <p class="text-gray-600" v-html="formattedMtrtInt"></p>
-      <p class="text-gray-600">상품 유형: {{ bank.type_a }}</p>
+      <p class="text-gray-600">상품 유형: 적금</p>
       <button
     class="mt-2 px-4 py-2 bg-red-100 hover:bg-red-200 rounded-lg text-red-600"
     @click.stop="store.toggleLike(bank.id)"
   >
   <!-- <p>{{ store.is_liked.liked_articles.id.includes(bank.id) }}</p> -->
-     <div v-if="store.is_liked.liked_articles.find(item => item.id === bank.id)">
+     <div v-if="store.is_liked.liked_articles && store.is_liked.liked_articles.find(item => item.id === bank.id)">
       {{ "❤️ 좋아요 취소" }}  
     </div>
     <div v-else>

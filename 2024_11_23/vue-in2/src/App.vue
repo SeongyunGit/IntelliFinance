@@ -24,14 +24,23 @@ const logOut = function () {
 
       <!-- Full Menu -->
       <div class="hidden md:flex space-x-4">
-        <RouterLink to="/integration" class="text-gray-700 hover:text-indigo-600 px-3 py-2 rounded-md text-sm font-medium">
-          Integration
+        <RouterLink to="/depositview" class="text-gray-700 hover:text-indigo-600 px-3 py-2 rounded-md text-sm font-medium">
+          예금
+        </RouterLink>
+        <RouterLink to="/savingview" class="text-gray-700 hover:text-indigo-600 px-3 py-2 rounded-md text-sm font-medium">
+          적금
+        </RouterLink>
+        <RouterLink to="/mortgageview" class="text-gray-700 hover:text-indigo-600 px-3 py-2 rounded-md text-sm font-medium">
+          전세 자금 대출
+        </RouterLink>
+        <RouterLink to="/renthouseview" class="text-gray-700 hover:text-indigo-600 px-3 py-2 rounded-md text-sm font-medium">
+          주택 담보 대출
         </RouterLink>
         <RouterLink to="/company" class="text-gray-700 hover:text-indigo-600 px-3 py-2 rounded-md text-sm font-medium">
           Bank
         </RouterLink>
         <RouterLink to="/announcement" class="text-gray-700 hover:text-indigo-600 px-3 py-2 rounded-md text-sm font-medium">
-          announcement
+          공지사항
         </RouterLink>
         <RouterLink v-if="store.isAdmin" to="/update" class="text-gray-700 hover:text-indigo-600 px-3 py-2 rounded-md text-sm font-medium">
           update
