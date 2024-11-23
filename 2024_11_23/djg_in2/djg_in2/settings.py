@@ -31,6 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'chatbot',
     'Open_API',
     'accounts',
     'rest_framework',
@@ -160,3 +161,7 @@ ACCOUNT_EMAIL_VERIFICATION = "none"
 
 CORS_ALLOW_CREDENTIALS=True
 API_KEY = '3e02e8a0e0d228bc1c37c4d0cdfd0531'
+
+from decouple import config
+
+OPENAI_API_KEY = config('OPENAI_API_KEY')

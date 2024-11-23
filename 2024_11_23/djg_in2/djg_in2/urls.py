@@ -22,4 +22,6 @@ urlpatterns = [
     path('api/v1/', include('Open_API.urls')),
     path('accounts/', include('accounts.urls')),
     path('accounts/', include('dj_rest_auth.urls')),
+
+    path('chatbot/', include('chatbot.urls')),
 ]
