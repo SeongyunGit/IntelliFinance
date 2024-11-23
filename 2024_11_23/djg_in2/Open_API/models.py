@@ -113,5 +113,5 @@ class Comments(models.Model):
     comment = models.TextField(null=True, blank=True) # 댓글
     created_at = models.DateTimeField(auto_now_add=True)  # 댓글 생성 시간
 
-    class Meta:
-        unique_together = ('user', 'bank_product')
+    # class Meta:
+    #     unique_together = ('user', 'bank_product')

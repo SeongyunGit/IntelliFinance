@@ -291,11 +291,13 @@ def liked_products(request):
 from .models import Comments
 from .serializers import CommentSerializer
 
+# 댓글 작성
 @api_view(['POST'])
-def comments_create(request, diary_pk):
+@permission_classes([IsAuthenticated])
+def comments_create(request, product_pk):
     try:
         # 다이어리 객체가 아니라, IntegrationProduct 객체를 가져옵니다.
-        bank_product = IntegrationProduct.objects.get(pk=diary_pk)  
+        bank_product = IntegrationProduct.objects.get(pk=product_pk)
     except IntegrationProduct.DoesNotExist:
         return Response({'message': 'Product not found.'}, status=404)  # 제품이 존재하지 않으면 404 반환
 
@@ -318,7 +320,10 @@ def comments_create(request, diary_pk):
         'errors': serializer.errors
     }, status=400)  # 유효하지 않은 데이터일 경우 오류 메시지 반환
 
+
+# 댓글 삭제
 @api_view(['POST'])
+@permission_classes([IsAuthenticated])
 def comments_delete(request, comment_pk):
     try:
         # 삭제할 댓글을 가져옵니다.

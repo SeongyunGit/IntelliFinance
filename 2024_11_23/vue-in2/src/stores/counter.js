@@ -416,6 +416,46 @@ export const useCounterStore = defineStore('counter', () => {
       console.log(err)
     })
   }
+
+  // 댓글 작성
+  const commentsCreate = function (product_pk) {
+    axios({
+      method: 'post',
+      url: `${API_URL}/api/v1/${product_pk}/comments/`,
+      withCredentials:true,
+      headers: {
+        Authorization: `Token ${token.value}`
+      },
+      data:{
+        'comment': 'comment, 11111111',
+        'star' : '5'
+      },
+    })
+      .then((response) => {
+        console.log(response.data)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  }
+
+  // 댓글 삭제
+  const commentsDelete = function (comment_pk) {
+    axios({
+      method: 'post',
+      url: `${API_URL}/api/v1/comments/${comment_pk}/delete/`,
+      withCredentials:true,
+      headers: {
+        Authorization: `Token ${token.value}`
+      },
+    })
+      .then((response) => {
+        console.log(response.data)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  }
   
 
   return { companyList, companyListOption, 
@@ -426,6 +466,7 @@ export const useCounterStore = defineStore('counter', () => {
     getSurveyData, updateSurveyData,
     signUp, logIn, token, isLogin, logOut,getAnnouncementData, 
     announcements, mPK, createSurvey, selected, checkType, bankId, toggleLike,
-    Uname, Uemail, visibleItems, likeList, is_liked, isAdmin
+    Uname, Uemail, visibleItems, likeList, is_liked, isAdmin, 
+    commentsCreate, commentsDelete
    }
 }, { persist: true })

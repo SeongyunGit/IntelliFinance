@@ -96,44 +96,60 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, watch } from 'vue'
+import { useCounterStore } from '@/stores/counter'
 
-const surveyData = ref({
-  kor_co_nm: [],
-  intr_rate_type_nm: [],
-  save_trm: [],
-  intr_rate: '',
-  intr_rate2: '',
-  rsrv_type_nm: []
+// Store 사용
+const store = useCounterStore()
+
+const props = defineProps({
+  surveyData: Object
 });
 
+// `전체` 체크박스를 선택했는지 여부를 추적하는 객체
 const isAllSelected = ref({
-  kor_co_nm: false,
   intr_rate_type_nm: false,
   save_trm: false,
-  rsrv_type_nm: false
-});
+  kor_co_nm: false,
+  rsrv_type_nm: false,
+})
 
-const toggleAll = (category) => {
-  const allSelected = isAllSelected.value[category];
-  if (allSelected) {
-    surveyData.value[category] = [];
-  } else {
-    if (category === 'kor_co_nm') {
-      surveyData.value[category] = ['국민은행', '우리은행', '신한은행', '농협은행주식회사', '카카오'];
-    } else if (category === 'intr_rate_type_nm') {
-      surveyData.value[category] = ['단리', '복리'];
-    } else if (category === 'save_trm') {
-      surveyData.value[category] = ['1', '3', '6', '12', '24', '36'];
-    } else if (category === 'rsrv_type_nm') {
-      surveyData.value[category] = ['정액적립식', '자유적립식'];
+// `전체` 체크박스를 선택하거나 해제할 때 호출되는 함수
+const toggleAll = (field) => {
+  if (isAllSelected.value[field]) {
+    // '전체'가 체크되면 모든 항목을 선택
+    if (field === 'intr_rate_type_nm') {
+      props.surveyData[field] = ['단리', '복리']
+    } else if (field === 'save_trm') {
+      props.surveyData[field] = ['1', '3', '6', '12', '24', '36']
+    } else if (field === 'kor_co_nm') {
+      props.surveyData[field] = ['국민은행', '우리은행', '신한은행', '농협은행주식회사', '카카오']
+    } else if (field === 'rsrv_type_nm') {
+      // 적립방식 선택지 (정액적립식, 자유적립식)
+      props.surveyData[field] = ['정액적립식', '자유적립식']
     }
+  } else {
+    // '전체'가 해제되면 모든 항목을 해제
+    props.surveyData[field] = []
   }
-};
+}
 
-const checkAllCondition = (category) => {
-  isAllSelected.value[category] = surveyData.value[category].length === 0 || surveyData.value[category].length === 5;
-};
+// 각 항목의 체크 상태를 반영하여 '전체' 체크박스를 업데이트
+const checkAllCondition = (field) => {
+  if (field === 'intr_rate_type_nm') {
+    // '단리', '복리'가 모두 체크되면 '전체' 체크
+    isAllSelected.value[field] = props.surveyData[field].length === 2 
+  } else if (field === 'save_trm') {
+    // 1, 3, 6, 12개월이 모두 체크되면 '전체' 체크
+    isAllSelected.value[field] = props.surveyData[field].length === 6
+  } else if (field === 'kor_co_nm') {
+    // 모든 은행이 체크되면 '전체' 체크
+    isAllSelected.value[field] = props.surveyData[field].length === 5 
+  } else if (field === 'rsrv_type_nm') {
+    // '정액적립식'과 '자유적립식'이 모두 체크되면 '전체' 체크
+    isAllSelected.value[field] = props.surveyData[field].length === 2;
+  }
+}
 
 // 서베이 데이터를 저장하는 함수
 const submitSurvey = () => {

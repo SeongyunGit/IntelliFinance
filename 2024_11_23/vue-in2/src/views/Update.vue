@@ -15,6 +15,12 @@
     <button @click="getRentHouseLoan">전세 대출 데이터 요청</button>
     <br>
     <button @click="getCompany2">다른 회사 데이터 요청</button>
+
+    <!-- 테스트용버튼 -->
+    <br>
+    <button @click="commentsCreate(2)">댓글 작성 요청</button>
+    <br>
+    <button @click="commentsDelete(2)">댓글 삭제 요청</button>
   </div>
 </template>
 
@@ -46,6 +52,15 @@ const getRentHouseLoan = () => {
 
 const getCompany2 = () => {
   store.getcompany2() // 다른 회사 데이터 요청
+}
+
+
+// 임시 테스트용 함수
+const commentsCreate = (product_pk) => {
+  store.commentsCreate(product_pk)
+}
+const commentsDelete = (comment_pk) => {
+  store.commentsDelete(comment_pk)
 }
 </script>
 

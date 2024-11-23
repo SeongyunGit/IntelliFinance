@@ -15,7 +15,6 @@
           && (!store.surveyData.deposit.intr_rate2 || store.surveyData.deposit.intr_rate2 > option.intr_rate2)
         )"
         :bank="bank"
-        :product="product"
       />
      
     </div>
