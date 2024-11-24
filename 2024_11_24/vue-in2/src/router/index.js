@@ -14,6 +14,7 @@ import DepositView from '@/views/DepositView.vue'
 import SavingView from '@/views/SavingView.vue'
 import MortgageView from '@/views/MortgageView.vue'
 import RentHouseView from '@/views/RentHouseView.vue'
+import MapView from '@/views/MapView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -77,6 +78,11 @@ const router = createRouter({
       path: '/renthouseview',
       name: 'renthouseview',
       component: RentHouseView,
+    },
+    {
+      path: '/mapview',
+      name: 'mapview',
+      component: MapView,
     },
   ],
 })

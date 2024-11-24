@@ -53,6 +53,9 @@ const toggleChatbot = () => {
               <RouterLink to="/company" class="text-gray-700 hover:text-indigo-600 px-3 py-2 rounded-md text-sm font-medium">
                 Bank
               </RouterLink>
+              <RouterLink to="/mapview" class="text-gray-700 hover:text-indigo-600 px-3 py-2 rounded-md text-sm font-medium">
+                지도
+              </RouterLink>
               <RouterLink to="/announcement" class="text-gray-700 hover:text-indigo-600 px-3 py-2 rounded-md text-sm font-medium">
                 공지사항
               </RouterLink>
