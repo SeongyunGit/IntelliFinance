@@ -20,7 +20,7 @@
     <br>
     <button @click="commentsCreate(2)">댓글 작성 요청</button>
     <br>
-    <button @click="commentsDelete(2)">댓글 삭제 요청</button>
+    <button @click="commentsDelete(3)">댓글 삭제 요청</button>
   </div>
 </template>
 

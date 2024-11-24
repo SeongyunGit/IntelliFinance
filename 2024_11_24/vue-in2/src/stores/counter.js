@@ -417,8 +417,28 @@ export const useCounterStore = defineStore('counter', () => {
     })
   }
 
+  const coments = ref([])
+  // 댓글 호출
+  const commentsGet = function () {
+    axios({
+      method: 'get',
+      url: `${API_URL}/api/v1/comments/`,
+      withCredentials:true,
+      headers: {
+        Authorization: `Token ${token.value}`
+      },
+    })
+      .then((response) => {
+        console.log(response.data)
+        coments.value = response.data
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  }
+
   // 댓글 작성
-  const commentsCreate = function (product_pk) {
+  const commentsCreate = function (product_pk, data) {
     axios({
       method: 'post',
       url: `${API_URL}/api/v1/${product_pk}/comments/`,
@@ -426,13 +446,11 @@ export const useCounterStore = defineStore('counter', () => {
       headers: {
         Authorization: `Token ${token.value}`
       },
-      data:{
-        'comment': 'comment, 11111111',
-        'star' : '5'
-      },
+      data: data,
     })
       .then((response) => {
         console.log(response.data)
+        coments.value = response.data
       })
       .catch((err) => {
         console.log(err)
@@ -451,6 +469,7 @@ export const useCounterStore = defineStore('counter', () => {
     })
       .then((response) => {
         console.log(response.data)
+        coments.value = response.data
       })
       .catch((err) => {
         console.log(err)
@@ -458,6 +477,44 @@ export const useCounterStore = defineStore('counter', () => {
   }
   
 
+  const userMessage = ref('');
+  const botReply = ref('');
+  const isLoading = ref(false);
+
+  const sendMessage = function () {
+    if (!userMessage.value.trim()) return;
+  
+    // 사용자 메시지 전송 전에 로딩 상태로 설정
+    isLoading.value = true;
+    botReply.value = ''; // 이전 답변 초기화
+  
+    axios({
+      method: 'post',
+      url: `${API_URL}/chatbot/api/chat/`,  // Django 서버의 API URL
+      data: {
+        message: userMessage.value,
+      },
+      withCredentials:true,
+      headers: {
+        // 인증 토큰이 필요하면 이 부분에 추가
+        Authorization: `Token ${token.value}`,  // 예시: Token 인증 헤더 (필요에 따라 수정)
+      },
+    })
+      .then((response) => {
+        // 성공적으로 답변을 받으면, 챗봇의 답변을 상태에 저장
+        botReply.value = response.data.message;
+      })
+      .catch((error) => {
+        // 오류 처리 (예: 서버가 다운되었을 때)
+        botReply.value = 'Sorry, something went wrong. Please try again.';
+        console.log(error);
+      })
+      .finally(() => {
+        // 로딩 상태 해제
+        isLoading.value = false;
+      });
+  };
+  
   return { companyList, companyListOption, 
     integrationProducts, integrationProductOptions, 
     API_URL, surveyData,
@@ -467,6 +524,7 @@ export const useCounterStore = defineStore('counter', () => {
     signUp, logIn, token, isLogin, logOut,getAnnouncementData, 
     announcements, mPK, createSurvey, selected, checkType, bankId, toggleLike,
     Uname, Uemail, visibleItems, likeList, is_liked, isAdmin, 
-    commentsCreate, commentsDelete
+    commentsCreate, commentsDelete, coments, commentsGet,
+    userMessage, botReply, isLoading, sendMessage
    }
 }, { persist: true })

@@ -291,39 +291,52 @@ def liked_products(request):
 from .models import Comments
 from .serializers import CommentSerializer
 
-# 댓글 작성
+# GET 요청: 모든 댓글 조회
+@api_view(['GET'])
+def comments_get(request):
+    # 모든 댓글 가져오기
+    comments = Comments.objects.all()
+    serializer = CommentSerializer(comments, many=True)
+    return Response({
+        'message': 'Comments retrieved successfully.',
+        'comments': serializer.data
+    }, status=200)
+
+
+# POST 요청: 댓글 작성
 @api_view(['POST'])
-@permission_classes([IsAuthenticated])
 def comments_create(request, product_pk):
     try:
-        # 다이어리 객체가 아니라, IntegrationProduct 객체를 가져옵니다.
+        # IntegrationProduct 객체 가져오기
         bank_product = IntegrationProduct.objects.get(pk=product_pk)
     except IntegrationProduct.DoesNotExist:
-        return Response({'message': 'Product not found.'}, status=404)  # 제품이 존재하지 않으면 404 반환
+        return Response({'message': 'Product not found.'}, status=404)
 
     # 로그인한 사용자 정보 가져오기
     user = request.user
     
     # 요청으로 받은 데이터로 댓글 생성
     serializer = CommentSerializer(data=request.data)
-
-    if serializer.is_valid():  # 유효한 데이터인지 확인
+    if serializer.is_valid():
         # user와 bank_product 연결 후 저장
         serializer.save(user=user, bank_product=bank_product)
 
+        # 댓글 생성 후 모든 댓글 반환
+        comments = Comments.objects.all()
+        all_comments_serializer = CommentSerializer(comments, many=True)
         return Response({
             'message': 'Comment created successfully.',
-            'comment': serializer.data
-        }, status=201)  # 댓글 생성 후 데이터 반환
+            'comments': all_comments_serializer.data
+        }, status=201)
+
     return Response({
         'message': 'Invalid data.',
         'errors': serializer.errors
-    }, status=400)  # 유효하지 않은 데이터일 경우 오류 메시지 반환
+    }, status=400)
 
 
 # 댓글 삭제
 @api_view(['POST'])
-@permission_classes([IsAuthenticated])
 def comments_delete(request, comment_pk):
     try:
         # 삭제할 댓글을 가져옵니다.
@@ -331,12 +344,21 @@ def comments_delete(request, comment_pk):
     except Comments.DoesNotExist:
         return Response({'message': 'Comment not found.'}, status=404)  # 댓글이 없으면 404 반환
 
+    # 요청한 유저와 댓글 작성자가 다른 경우
+    if comment.user != request.user:
+        return Response({'message': 'Permission denied. You can only delete your own comments.'}, status=403)
+    
     # 댓글 삭제
     comment.delete()
 
+    # 댓글 삭제 후 모든 댓글 반환
+    comments = Comments.objects.all()
+    all_comments_serializer = CommentSerializer(comments, many=True)
     return Response({
-        'message': 'Comment deleted successfully.',
-    }, status=200)  # 댓글 삭제 성공 메시지 반환
+        'message': 'Comment created successfully.',
+        'comments': all_comments_serializer.data
+    }, status=201)
+
 
 #########################################################################
 #장고 어드민
