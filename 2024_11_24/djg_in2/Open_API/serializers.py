@@ -33,5 +33,6 @@ class IntegrationProductOptionSerializer(serializers.ModelSerializer):
 class CommentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Comments
-        fields = ('content',)
+        fields = '__all__'
+        read_only_fields = ('user', 'bank_product')
         # exclude = ('diary',)
