@@ -169,3 +169,18 @@ from decouple import config
 API_KEY = config('API_KEY')
 OPENAI_API_KEY = config('OPENAI_API_KEY')
 EXCHANGE_API_KEY = config('EXCHANGE_API_KEY')
+
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'  # Gmail 사용시
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'okks3579@gmail.com'
+EMAIL_HOST_PASSWORD = 'tjddbs12!@'  # Gmail 앱 비밀번호
+
+# AllAuth 설정
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
+FRONTEND_URL='http://localhost:5173'
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER

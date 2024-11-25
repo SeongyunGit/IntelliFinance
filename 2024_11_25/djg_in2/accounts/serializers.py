@@ -32,3 +32,5 @@ class SurveySerializer(serializers.ModelSerializer):
         model = Survey
         fields = '__all__'
         read_only_fields = ('user',)
+
+        

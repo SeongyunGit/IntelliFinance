@@ -113,6 +113,3 @@ def get_announcement(request):
 
     return Response(announcement_seializer.data)
 
-
-
-

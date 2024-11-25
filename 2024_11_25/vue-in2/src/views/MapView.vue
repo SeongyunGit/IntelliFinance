@@ -5,7 +5,7 @@ let latitude = 33.450701; // 기본 위도
 let longitude = 126.570667; // 기본 경도
 const KAKAOMAP_API_KEY='926349250f468b8c77a38c112f1bef98'
 const keyword = ref('')
-const resultLength = 0
+
 
 
 

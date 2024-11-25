@@ -393,6 +393,8 @@ export const useCounterStore = defineStore('counter', () => {
       }
     })
     .catch((err) => {
+      const errorMessage = err.response?.data?.error || '로그인이 필요합니다.';
+      alert(errorMessage)
       console.log(token.value)
       console.log(err)
       console.log("실패")

@@ -17,3 +17,6 @@
     store.commentsGet()
   })
   </script>
+<style>
+
+</style>

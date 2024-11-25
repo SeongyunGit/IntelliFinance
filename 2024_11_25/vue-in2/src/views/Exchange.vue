@@ -2,7 +2,9 @@
   <div class="max-w-4xl mx-auto p-8 bg-white rounded-xl shadow-lg">
     <!-- 환율 계산기 -->
     <div class="mb-12">
-      <h2 class="text-3xl font-semibold text-center mb-6 text-gray-900">환율 계산기</h2>
+      <h1 class="text-3xl font-semibold text-center text-white bg-gradient-to-r from-purple-500 to-indigo-600 py-6 px-8 mb-8">
+        환율 계산기
+      </h1>
       <form class="space-y-6">
         <!-- 국가 선택 -->
         <div class="flex items-center justify-between">
@@ -40,14 +42,20 @@
       </form>
     </div>
 
+    <hr class="border-t-4 border-blue-600 mb-6">
     <!-- 환율 막대 그래프 -->
     <div class="mb-12">
-      <h2 class="text-2xl font-semibold text-center mb-6 text-gray-900">환율 막대 그래프</h2>
+      <h2 class="text-3xl font-semibold text-center text-white bg-gradient-to-r from-purple-500 to-indigo-600 py-6 px-8 mb-8">
+        환율 막대 그래프
+      </h2>
       <BarChart :data="chartData" :options="chartOptions" />
     </div>
 
+    <hr class="border-t-4 border-blue-600 mb-6">
     <!-- 환율 표로 표시 -->
-    <h1 class="text-2xl font-semibold mb-6 text-center text-gray-900">환율표</h1>
+    <h1 class="text-3xl font-semibold text-center text-white bg-gradient-to-r from-purple-500 to-indigo-600 py-6 px-8 mb-8">
+      환율표
+    </h1>
     <p>(통화이름 클릭시 TTB,TTS 등의 다른 정보 표시)</p>
     <table class="min-w-full table-auto border-collapse border border-gray-300 bg-white shadow-md rounded-lg">
       <thead class="bg-gray-200">

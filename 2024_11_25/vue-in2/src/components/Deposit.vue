@@ -1,5 +1,5 @@
 <template>
-    <div class="min-h-screen bg-gray-100 p-8">
+    <div class="container mx-auto min-h-screen bg-gray-100 p-8">
       <h3 class="text-3xl font-bold text-center mb-8">예금</h3>
       <div class="grid grid-cols-3 gap-4 p-4">
         <DepositItem
@@ -17,3 +17,6 @@ import { useCounterStore } from '@/stores/counter'
 import DepositItem from './DepositItem.vue';  
 const store = useCounterStore()
 </script>
+<style>
+
+</style>

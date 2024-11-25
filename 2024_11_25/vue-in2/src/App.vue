@@ -20,9 +20,8 @@ const toggleChatbot = () => {
 <template>
   <!-- 고정된 버튼 -->
   <button class="footer-fixed" @click="toggleChatbot">
-    💬 Chat
-  </button>
-
+    <span class="chat-icon">💬</span>
+</button>
   <!-- 블러 처리된 메인 화면 -->
   <div :class="{ 'blurred': isChatbotVisible }">
     <header>
@@ -158,36 +157,6 @@ const toggleChatbot = () => {
       </div>
     </div>
 </div>
-  
-  <!-- 챗봇 화면
-  <div v-if="isChatbotVisible" class="chatbot-overlay">
-    <div class="chatbot-container">
-      <div class="chat-box">
-      <div class="messages">
-        사용자 메시지
-        <div v-if="store.userMessage" class="message user-message">
-          <p>{{ store.userMessage }}</p>
-        </div>
-        챗봇의 응답
-        <div v-if="store.botReply" class="message bot-message">
-          <p>{{ store.botReply }}</p>
-        </div>
-      </div>
-      메시지 입력
-      <input 
-        v-model="store.userMessage"
-        type="text" 
-        placeholder="Type a message..."
-        :disabled="store.isLoading"
-      />
-      <button @click="store.sendMessage()" :disabled="store.isLoading || !store.userMessage.trim()">Send</button>
-    </div>
-
-    로딩 표시
-    <div v-if="store.isLoading" class="loading">Loading...</div>
-      <button @click="toggleChatbot">닫기</button>
-    </div>
-  </div> -->
 </template>
 
 <style>
@@ -196,16 +165,38 @@ const toggleChatbot = () => {
   position: fixed;
   bottom: 20px;
   right: 20px;
-  width: 50px;
-  height: 50px;
-  background-color: #007bff;
+  width: 60px;
+  height: 60px;
+  background-color: #0078D4; /* 챗봇 버튼의 기본 색상 */
   color: white;
   border: none;
   border-radius: 50%;
-  font-size: 16px;
+  font-size: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   cursor: pointer;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
 }
+
+.footer-fixed:hover {
+  background-color: #005A9E; /* 호버 시 버튼 색상 변경 */
+  transform: translateY(-4px); /* 호버 시 살짝 떠오르는 효과 */
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3); /* 그림자 크기 증가 */
+}
+
+.chat-icon {
+  font-size: 30px; /* 아이콘의 크기 조정 */
+  color: #0078D4; /* 아이콘을 파란색으로 설정 */
+  transition: transform 0.3s ease;
+}
+
+.footer-fixed:hover .chat-icon {
+  transform: scale(1.2); /* 호버 시 아이콘 크기 증가 */
+  color: #005A9E; /* 호버 시 아이콘 색상 변화 */
+}
+
 
 /* 블러 처리 */
 .blurred {
