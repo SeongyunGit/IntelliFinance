@@ -1,4 +1,5 @@
 <template>
+  
   <div class="bg-gradient-to-b from-indigo-600 to-indigo-500 pb-12">
     <!-- 메인 섹션 -->
     <div class="bg-gradient-to-b from-indigo-600 to-indigo-500 pb-12">
@@ -26,11 +27,14 @@
         </div>
       </div>
     </div>
-    <div v-if="!selected" class="text-center py-8 bg-indigo-50 rounded-xl shadow-lg mx-4">
+    <div class="container mx-auto">
+      <div v-if="!selected" class="container-center text-center py-4 px-6 bg-indigo-50 rounded-lg shadow-md mx-2">
       <img src="@/assets/picture.webp" alt="Finance Illustration" class="finance-image mx-auto mb-6 rounded-lg" />
       <h3 class="text-2xl font-semibold text-gray-700">당신의 맞춤형 금융상품을 찾으세요!</h3>
       <p class="text-lg text-gray-500 mt-4">다양한 금융상품 중에서 나에게 맞는 상품을 선택하고, 맞춤형 설문을 통해 최적의 상품을 찾아보세요.</p>
+      </div>
     </div>
+
 
     <!-- 설문 & 리스트 섹션 -->
     <div class="max-w-6xl mx-auto px-4 -mt-8 h-full">
@@ -65,6 +69,7 @@
   </div>
 </div>
 </div>
+
 
 </template>
 
@@ -172,5 +177,8 @@ const fetchData = (id) => {
   height: 100%;
   max-height: 100%;
   overflow-y: auto;
+}
+.container {
+  width: 1140px;
 }
 </style>
