@@ -24,19 +24,19 @@ def fetch_and_save_exchange_rates(request):
     # 기본 파라미터 설정
     params = {
         "authkey": settings.EXCHANGE_API_KEY,  # 인증키
-        # "searchdate": '20241122',  # 오늘 날짜를 yyyyMMdd 형식으로 설정
+        "searchdate": '20241122',  # 오늘 날짜를 yyyyMMdd 형식으로 설정
         "data": "AP01",  # 환율 데이터
     }
+
+    exchange_rates = CurrencyExchange.objects.all()
+    if exchange_rates:  # 데이터가 없을 경우
+        # 저장되어 있는 데이터 반환
+        serializer = CurrencyExchangeSerializer(exchange_rates, many=True)
+        return Response(serializer.data)
 
     # API로부터 데이터 가져오기
     response = requests.get(url, params=params)
     data = response.json()
-
-    exchange_rates = CurrencyExchange.objects.all()
-    if not data and exchange_rates:  # 데이터가 없을 경우
-        # 저장되어 있는 데이터 반환
-        serializer = CurrencyExchangeSerializer(exchange_rates, many=True)
-        return Response(serializer.data)
 
     # 환율 데이터를 하나씩 처리
     for entry in data:
