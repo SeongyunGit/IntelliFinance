@@ -43,36 +43,45 @@
     <!-- 환율 막대 그래프 -->
     <div class="mb-12">
       <h2 class="text-2xl font-semibold text-center mb-6 text-gray-900">환율 막대 그래프</h2>
-      <BarChart :data="chartData" />
+      <BarChart :data="chartData" :options="chartOptions" />
     </div>
 
     <!-- 환율 표로 표시 -->
     <h1 class="text-2xl font-semibold mb-6 text-center text-gray-900">환율표</h1>
+    <p>(통화이름 클릭시 TTB,TTS 등의 다른 정보 표시)</p>
     <table class="min-w-full table-auto border-collapse border border-gray-300 bg-white shadow-md rounded-lg">
       <thead class="bg-gray-200">
         <tr>
           <th class="px-6 py-4 text-left text-lg font-medium text-gray-700">통화 이름</th>
           <th class="px-6 py-4 text-left text-lg font-medium text-gray-700">기준 환율 (BKPR)</th>
-          <th class="px-6 py-4 text-left text-lg font-medium text-gray-700">매매 기준율</th>
-          <th class="px-6 py-4 text-left text-lg font-medium text-gray-700">매입율 (TTB)</th>
-          <th class="px-6 py-4 text-left text-lg font-medium text-gray-700">매도율 (TTS)</th>
-          <th class="px-6 py-4 text-left text-lg font-medium text-gray-700">업데이트 날짜</th>
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(item, index) in store.exchangelist" :key="index" class="hover:bg-gray-100">
-          <td class="px-6 py-4 text-gray-700">{{ item.cur_nm }}({{ item.cur_unit }})</td>
-          <td class="px-6 py-4 text-gray-700">{{ item.bkpr }}</td>
-          <td class="px-6 py-4 text-gray-700">{{ item.deal_bas_r }}</td>
-          <td class="px-6 py-4 text-gray-700">{{ item.ttb }}</td>
-          <td class="px-6 py-4 text-gray-700">{{ item.tts }}</td>
-          <td class="px-6 py-4 text-gray-700">{{ formatDate(item.updated_at) }}</td>
-        </tr>
+        <template v-for="(item, index) in store.exchangelist" :key="index">
+          <!-- 기본 환율 정보 행 -->
+          <tr class="hover:bg-gray-100">
+            <td @click="toggleDetails(index)" class="px-6 py-4 text-gray-700 cursor-pointer">
+              {{ item.cur_nm }}({{ item.cur_unit }})
+            </td>
+            <td class="px-6 py-4 text-gray-700">{{ item.bkpr }}</td>
+          </tr>
+          
+          <!-- 세부 정보 표시 (클릭한 항목 바로 아래) -->
+          <tr v-if="expandedRow === index" class="bg-gray-100">
+            <td colspan="2" class="px-6 py-4">
+              <div class="space-y-2">
+                <p><strong>매매 기준율:</strong> {{ item.deal_bas_r }}</p>
+                <p><strong>매입율 (TTB):</strong> {{ item.ttb }}</p>
+                <p><strong>매도율 (TTS):</strong> {{ item.tts }}</p>
+                <p><strong>업데이트 날짜:</strong> {{ formatDate(item.updated_at) }}</p>
+              </div>
+            </td>
+          </tr>
+        </template>
       </tbody>
     </table>
   </div>
 </template>
-
 
 <script setup>
 import { onMounted, ref, watch, computed } from 'vue'
@@ -89,19 +98,25 @@ const store = useCounterStore()
 const selectedCurrency = ref('USD') // 선택된 통화
 const amount = ref(1000) // 원화 입력
 const foreignAmount = ref(1) // 외국 통화 입력
+const expandedRow = ref(null) // 클릭된 항목의 index를 저장
 
 // 괄호 안의 숫자 추출 함수
 const extractCurrencyUnitMultiplier = (currencyUnit) => {
-  const match = currencyUnit.match(/\((\d+)\)/)
+  const match = currencyUnit?.match(/\((\d+)\)/)
   return match ? parseInt(match[1]) : 1 // 괄호 안의 숫자를 반환, 없으면 1을 반환
+}
+
+// 클릭한 항목의 세부 정보 토글 함수
+const toggleDetails = (index) => {
+  expandedRow.value = expandedRow.value === index ? null : index
 }
 
 // 변환된 금액 계산
 const convertedAmount = computed(() => {
   if (amount.value && selectedCurrency.value) {
     const currency = store.exchangelist.find(item => item.cur_unit === selectedCurrency.value)
-    let currencyValue = parseFloat(currency.bkpr.replace(/,/g, ''))
-    const multiplier = extractCurrencyUnitMultiplier(currency.cur_unit) // 괄호 안의 숫자 추출
+    let currencyValue = parseFloat(currency?.bkpr.replace(/,/g, '') || 1000)
+    const multiplier = extractCurrencyUnitMultiplier(currency?.cur_unit) // 괄호 안의 숫자 추출
     currencyValue = currencyValue / multiplier // BKPR을 괄호 안 숫자로 나누기
     if (currency) {
       return (amount.value / currencyValue).toFixed(2) // 원화 -> 선택된 외국 통화
@@ -113,8 +128,8 @@ const convertedAmount = computed(() => {
 const convertedWon = computed(() => {
   if (foreignAmount.value && selectedCurrency.value) {
     const currency = store.exchangelist.find(item => item.cur_unit === selectedCurrency.value)
-    let currencyValue = parseFloat(currency.bkpr.replace(/,/g, ''))
-    const multiplier = extractCurrencyUnitMultiplier(currency.cur_unit) // 괄호 안의 숫자 추출
+    let currencyValue = parseFloat(currency?.bkpr.replace(/,/g, '') || 1000)
+    const multiplier = extractCurrencyUnitMultiplier(currency?.cur_unit) // 괄호 안의 숫자 추출
     currencyValue = currencyValue / multiplier // BKPR을 괄호 안 숫자로 나누기
     if (currency) {
       return (foreignAmount.value * currencyValue).toFixed(2) // 외국 통화 -> 원화
@@ -156,7 +171,7 @@ const formatDate = (dateString) => {
 };
 
 onMounted(() => {
-  // store.getexchange()
+  store.getexchange()
 })
 
 watch(
@@ -184,6 +199,9 @@ watch(
 
 const chartOptions = {
   responsive: true,
+  // maintainAspectRatio: false, // 비율을 유지하지 않도록 설정
+  aspectRatio: 1.5, // 가로 세로 비율을 1.5로 설정 (원하는 비율에 맞게 조정)
+  indexAxis: 'y', // horizontal bars
   plugins: {
     legend: {
       display: true,
@@ -194,13 +212,20 @@ const chartOptions = {
     },
   },
   scales: {
-    y: {
+    x: {
       beginAtZero: true,
       min: 0,
-      max: 2000, // 기본 최대값 (필요시 동적 업데이트 가능)
+      max: Math.max(...chartData.value.datasets[0].data, ...chartData.value.datasets[1].data, ...chartData.value.datasets[2].data) * 1.1, // 최대값을 데이터에 맞게 조정 (10% 여유)
+    },
+    y: {
+      ticks: {
+        padding: 10, // y축의 레이블 간격을 넓힘
+      },
     },
   },
 }
+
+
 </script>
 
 <script>

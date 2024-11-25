@@ -274,16 +274,69 @@ def liked_products(request):
     """
     사용자가 좋아요한 상품 목록
     """
+    # 사용자가 좋아요한 상품들을 필터링
     liked_products = IntegrationProduct.objects.filter(like_users=request.user)
-    data = [
-        {
+    
+    data = []
+    
+    for product in liked_products:
+        # 상품의 기본 정보
+        product_data = {
             "id": product.pk,
             "name": product.kor_co_nm,
+            "prdt_name": product.fin_prdt_nm,
             "mtrt_int": product.mtrt_int,
             "type_a": product.type_a,
         }
-        for product in liked_products
-    ]
+        
+        # 해당 상품의 옵션들 가져오기 (IntegrationProduct와 연결된 IntegrationProductOption)
+        options = product.options.all()
+        
+        # 옵션에 관련된 필드들 추출
+        intr_rate_list = [0,0,0,0,0,0]
+        intr_rate2_list = [0,0,0,0,0,0]
+        lend_rate_min_list = [0]
+        lend_rate_max_list = [0]
+        lend_rate_avg_list = [0]
+        
+        for option in options:
+            # 각 옵션에 대해 필요한 필드만 리스트에 추가
+            if option.save_trm == '1':
+                intr_rate_list[0] = option.intr_rate
+                intr_rate2_list[0] = option.intr_rate2
+            elif option.save_trm == '3':
+                intr_rate_list[1] = option.intr_rate
+                intr_rate2_list[1] = option.intr_rate2
+            elif option.save_trm == '6':
+                intr_rate_list[2] = option.intr_rate
+                intr_rate2_list[2] = option.intr_rate2
+            elif option.save_trm == '12':
+                intr_rate_list[3] = option.intr_rate
+                intr_rate2_list[3] = option.intr_rate2
+            elif option.save_trm == '24':
+                intr_rate_list[4] = option.intr_rate
+                intr_rate2_list[4] = option.intr_rate2
+            elif option.save_trm == '36':
+                intr_rate_list[5] = option.intr_rate
+                intr_rate2_list[5] = option.intr_rate2
+            else:
+                lend_rate_min_list[0] = option.lend_rate_min or 0
+                lend_rate_max_list[0] = option.lend_rate_max or 0
+                lend_rate_avg_list[0] = option.lend_rate_avg or 0
+        
+        # 옵션 정보를 포함한 상품 데이터 추가
+        product_data.update({
+            'intr_rate': intr_rate_list,
+            'intr_rate2': intr_rate2_list,
+            'lend_rate_min': lend_rate_min_list,
+            'lend_rate_max': lend_rate_max_list,
+            'lend_rate_avg': lend_rate_avg_list
+        })
+        
+        # 최종 데이터에 추가
+        data.append(product_data)
+    
+    # 응답 반환
     return Response(data)
 
 #########################################################################
