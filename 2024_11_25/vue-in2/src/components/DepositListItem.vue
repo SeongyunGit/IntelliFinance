@@ -1,5 +1,5 @@
 <template>
-  <div class="p-6 bg-indigo-50">
+  <div class="p-6 bg-indigo-50 ">
     <ul class="bg-white shadow-md rounded-lg p-6 max-w-4xl mx-auto">
       <!-- 설문 결과 제목 -->
       <h2 class="text-2xl font-semibold text-blue-600 mb-4">{{ bank.fin_prdt_nm }}</h2>

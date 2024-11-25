@@ -19,7 +19,10 @@ def chat_with_gpt(request):
         # OpenAI API 호출
         response = openai.ChatCompletion.create(
             model="gpt-4",  # 사용할 모델 지정
-            messages=[{"role": "user", "content": user_message}]
+            messages=[
+                {"role": "system", "content": "You are a financial product expert. Your task is to provide expert advice and recommendations about financial products in a clear and informative way. You are living in Korea. You have to recommend Korean financial product. Also, you need to recommend bank product related in bank web site. Keep the response under 50 words."},
+                {"role":"user", "content": user_message}
+                ]
         )
         bot_reply = response['choices'][0]['message']['content']
 

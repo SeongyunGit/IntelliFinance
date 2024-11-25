@@ -1,6 +1,5 @@
 <template>
   <div>
-    <h1>Bank</h1>
     <BankList />
   </div>
 </template>

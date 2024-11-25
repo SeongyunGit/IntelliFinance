@@ -1,9 +1,9 @@
 <template>
-  <div class="min-h-screen bg-gradient-to-r from-indigo-100 to-blue-50 p-8">
+  
     <div class="max-w-4xl mx-auto space-y-8">
       <!-- 페이지 헤더 -->
       <div class="text-center">
-        <h1 class="text-3xl font-bold text-indigo-700">💬 예금 설문</h1>
+        <h1 class="text-3xl font-bold text-indigo-700">💬 예금</h1>
         <p class="text-gray-600 mt-2">Please fill out the form to find the best deposit options!</p>
       </div>
 
@@ -77,7 +77,7 @@
         </button>
       </div>
     </div>
-  </div>
+  
 </template>
 
 <script setup>

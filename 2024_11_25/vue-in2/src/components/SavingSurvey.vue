@@ -3,7 +3,7 @@
     <div class="max-w-4xl mx-auto space-y-8">
       <!-- 페이지 헤더 -->
       <div class="text-center">
-        <h1 class="text-3xl font-bold text-indigo-700">💬 적금 설문</h1>
+        <h1 class="text-3xl font-bold text-indigo-700">💬 적금</h1>
         <p class="text-gray-600 mt-2">Please fill out the form to find the best deposit options!</p>
       </div>
 

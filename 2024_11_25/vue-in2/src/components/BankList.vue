@@ -1,9 +1,9 @@
 <template>
   <div class="container mx-auto p-6">
-    <h3 class="text-3xl font-semibold mb-8 text-center text-gray-800">Bank List</h3>
+    <h3 class="text-3xl font-semibold mb-8 text-center text-gray-800">은행</h3>
     
     <!-- 카드 리스트 -->
-    <div>
+    <div class="grid grid-cols-3 gap-4 p-4">
       <BankListItem
         v-for="(bank, index) in store.companyList"
         :key="bank.fin_co_no"
@@ -32,5 +32,6 @@ function toggleDetails(index) {
 </script>
 
 <style scoped>
+
 /* 필요에 따라 추가적인 스타일을 작성할 수 있습니다. */
 </style>
