@@ -1,19 +1,20 @@
 <template>
-  <div class="mb-8">
-    <!-- 카드 내용 -->
-    <div class="bg-white border border-gray-200 rounded-lg shadow-lg p-6 cursor-pointer card hover:shadow-2xl transition-all duration-300 transform hover:scale-105 card"  @click="toggleDetails">
-      <h5 class="text-xl font-semibold text-gray-800 mb-2">{{ bank.kor_co_nm }}</h5>
-      <p class="text-gray-600 text-sm mb-2">{{ bank.dcls_chrg_man }}</p>
-      <p class="text-gray-500 text-sm mb-4 truncate">{{ bank.homp_url }}</p>
+  <div class="bg-white rounded-lg shadow-md p-6 space-y-6 relative min-h-[300px]">
+    <!-- 은행 정보 -->
+    <div>
+      <h2 class="text-2xl font-semibold text-gray-800 mb-2">{{ bank.kor_co_nm }}</h2>
+      <p class="text-sm text-gray-500">{{ bank.dcls_chrg_man }}</p>
+      <p class="text-gray-500 text-sm truncate">{{ bank.homp_url }}</p>
+    </div>
 
-      <!-- 클릭된 카드 아래에 상세 정보 표시 -->
-      <div v-if="isDetailsVisible" class="details mt-4 bg-gray-50 p-6 rounded-md border border-gray-300">
-        <h6 class="font-semibold text-lg text-gray-800 mb-2">상세 정보</h6>
-        <p class="text-gray-700 mb-2">은행 코드: {{ bank.fin_co_no }}</p>
-        <p class="text-gray-700 mb-2">대표자: {{ bank.dcls_chrg_man }}</p>
-        <p class="text-gray-700 mb-2">홈페이지: <a :href="bank.homp_url" class="text-blue-500 hover:underline" target="_blank">{{ bank.homp_url }}</a></p>
-        <p class="text-gray-700">주소: {{ bank.address || '정보 없음' }}</p>
-      </div>
+    <!-- 버튼 -->
+    <div class="absolute bottom-6 left-0 right-0 flex justify-center">
+      <button
+        @click="toggleDetails(bank)"
+        class="bg-gradient-to-r from-indigo-500 to-purple-600 text-white px-6 py-2 rounded-xl shadow-md hover:from-indigo-600 hover:to-purple-700 transition duration-300"
+      >
+        상세 정보
+      </button>
     </div>
   </div>
 </template>
@@ -21,14 +22,13 @@
 <script setup>
 defineProps({
   bank: Object,
-  isDetailsVisible: Boolean
+  index: Number
 })
 
 const emit = defineEmits(['click'])
 
-// 카드 클릭 시 상세 정보 표시/숨기기
-function toggleDetails() {
-  emit('click')
+function toggleDetails(bank) {
+  emit('click', bank)
 }
 </script>
 

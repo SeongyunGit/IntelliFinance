@@ -135,6 +135,8 @@ export const useCounterStore = defineStore('counter', () => {
           'mortgageLoan' : { ...initialSurveyData },
           'rentHouseLoan' : { ...initialSurveyData },
         };  // 초기 상태로 되돌리기
+        isCommentVisible.value = null
+        indexnumber.value = null
         router.push({ name: 'HomeView' })
       })
       .catch((err) => {
@@ -532,6 +534,9 @@ export const useCounterStore = defineStore('counter', () => {
         console.log(err)
       })
   }
+
+  const isCommentVisible = ref(0)
+  const indexnumber =ref(null)
   
   return { companyList, companyListOption, 
     integrationProducts, integrationProductOptions, 
@@ -544,6 +549,6 @@ export const useCounterStore = defineStore('counter', () => {
     Uname, Uemail, visibleItems, likeList, is_liked, isAdmin, 
     commentsCreate, commentsDelete, coments, commentsGet,
     userMessage, botReply, isLoading, sendMessage,
-    getexchange, exchangelist
+    getexchange, exchangelist, isCommentVisible, indexnumber
    }
 }, { persist: true })

@@ -133,26 +133,26 @@ const props = defineProps({
 const formattedMtrtInt = computed(() => {
   console.log()
   // bank.mtrt_int에서 개행 문자를 <br>로 변환
-  return (item) => item?.loan_inci_expn.replace(/\n/g, "<br>")
+  return (item) => item?.loan_inci_expn?.replace(/\n/g, "<br>")
   
 });
 
 const formattedMtrtInt1 = computed(() => {
   console.log()
   // bank.mtrt_int에서 개행 문자를 <br>로 변환
-  return (item) => item?.erly_rpay_fee.replace(/\n/g, "<br>")
+  return (item) => item?.erly_rpay_fee?.replace(/\n/g, "<br>")
 });
 
 const formattedMtrtInt2 = computed(() => {
   console.log()
   // bank.mtrt_int에서 개행 문자를 <br>로 변환
-  return (item) => item?.dly_rate.replace(/\n/g, "<br>")
+  return (item) => item?.dly_rate?.replace(/\n/g, "<br>")
 });
 
 const formattedMtrtInt3 = computed(() => {
   console.log()
   // bank.mtrt_int에서 개행 문자를 <br>로 변환
-  return (item) => item?.mtrt_int.replace(/\n/g, "<br>")
+  return (item) => item?.mtrt_int?.replace(/\n/g, "<br>")
 });
 
 
