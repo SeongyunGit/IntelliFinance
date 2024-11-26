@@ -42,45 +42,45 @@ onMounted(() => {
 
             <!-- 메뉴 -->
             <div class="hidden md:flex space-x-4">
-              <RouterLink to="/depositview" class="text-gray-700 hover:text-indigo-600 px-3 py-2 rounded-md text-sm font-medium">
+              <RouterLink to="/depositview" class="text-gray-700 hover:text-indigo-600 px-3 py-2 rounded-md font-bold font_poppins">
                 예금
               </RouterLink>
-              <RouterLink to="/savingview" class="text-gray-700 hover:text-indigo-600 px-3 py-2 rounded-md text-sm font-medium">
+              <RouterLink to="/savingview" class="text-gray-700 hover:text-indigo-600 px-3 py-2 rounded-md font-bold font_poppins">
                 적금
               </RouterLink>
-              <RouterLink to="/mortgageview" class="text-gray-700 hover:text-indigo-600 px-3 py-2 rounded-md text-sm font-medium">
+              <RouterLink to="/mortgageview" class="text-gray-700 hover:text-indigo-600 px-3 py-2 rounded-md font-bold font_poppins">
                 전세 자금 대출
               </RouterLink>
-              <RouterLink to="/renthouseview" class="text-gray-700 hover:text-indigo-600 px-3 py-2 rounded-md text-sm font-medium">
+              <RouterLink to="/renthouseview" class="text-gray-700 hover:text-indigo-600 px-3 py-2 rounded-md font-bold font_poppins">
                 주택 담보 대출
               </RouterLink>
-              <RouterLink to="/company" class="text-gray-700 hover:text-indigo-600 px-3 py-2 rounded-md text-sm font-medium">
+              <RouterLink to="/company" class="text-gray-700 hover:text-indigo-600 px-3 py-2 rounded-md font-bold font_poppins">
                 은행
               </RouterLink>
-              <RouterLink to="/exchange" class="text-gray-700 hover:text-indigo-600 px-3 py-2 rounded-md text-sm font-medium">
+              <RouterLink to="/exchange" class="text-gray-700 hover:text-indigo-600 px-3 py-2 rounded-md font-bold font_poppins">
                 환율
               </RouterLink>
-              <RouterLink to="/mapview" class="text-gray-700 hover:text-indigo-600 px-3 py-2 rounded-md text-sm font-medium">
+              <RouterLink to="/mapview" class="text-gray-700 hover:text-indigo-600 px-3 py-2 rounded-md font-bold font_poppins">
                 지도
               </RouterLink>
-              <RouterLink to="/announcement" class="text-gray-700 hover:text-indigo-600 px-3 py-2 rounded-md text-sm font-medium">
+              <RouterLink to="/announcement" class="text-gray-700 hover:text-indigo-600 px-3 py-2 rounded-md font-bold font_poppins">
                 공지사항
               </RouterLink>
             </div>
             <div class="hidden md:flex items-center space-x-4" v-if="!store.isLogin">
-        <a href="/login" class="text-gray-700 hover:text-indigo-600 px-3 py-2 rounded-md text-sm font-medium">
+        <a href="/login" class="text-gray-700 hover:text-indigo-600 px-3 py-2 rounded-md font-bold font_poppins">
           <RouterLink to="/login">login</RouterLink>
         </a>
-        <a href="/signup" class="bg-indigo-600 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-indigo-700">
+        <a href="/signup" class="bg-indigo-600 text-white px-4 py-2 rounded-md font-bold font_poppins hover:bg-indigo-700">
           <RouterLink to="/signup">Signup</RouterLink>
         </a>
       </div>
       <div class="hidden md:flex items-center space-x-4" v-else>
-        <a href="/mypage"  class="text-gray-700 hover:text-indigo-600 px-3 py-2 rounded-md text-sm font-medium">
+        <a href="/mypage"  class="text-gray-700 hover:text-indigo-600 px-3 py-2 rounded-md font-bold font_poppins">
           <RouterLink to="/mypage">mypage</RouterLink>
         </a>
         <form @submit.prevent="logOut">
-          <button type="submit" class="bg-indigo-600 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-indigo-700">
+          <button type="submit" class="bg-indigo-600 text-white px-4 py-2 rounded-md font-bold font_poppins hover:bg-indigo-700">
             Logout
           </button>
         </form>
@@ -284,5 +284,41 @@ button:disabled {
   text-align: center;
   font-size: 16px;
   color: #007bff;
+}
+
+/* 폰트 추가 */
+
+.font_gugi {
+    font-family: 'Gugi', sans-serif;
+}
+.font_roboto {
+  font-family: 'Roboto', sans-serif;
+}
+.font_lora {
+  font-family: 'Lora', serif;
+}
+.font_poppins {
+  font-family: 'Poppins', sans-serif;
+}
+.font_montserrat {
+  font-family: 'Montserrat', sans-serif;
+}
+.font_merriweather {
+  font-family: 'Merriweather', serif;
+}
+.font_open_sans {
+  font-family: 'Open Sans', sans-serif;
+}
+.font_playfair {
+  font-family: 'Playfair Display', serif;
+}
+.font_raleway {
+  font-family: 'Raleway', sans-serif;
+}
+.font_dancing_script {
+  font-family: 'Dancing Script', cursive;
+}
+.font_nunito {
+  font-family: 'Nunito', sans-serif;
 }
 </style>

@@ -4,7 +4,7 @@
     <!-- 메인 섹션 -->
     <div class="bg-gradient-to-b from-indigo-600 to-indigo-500 pb-12">
       <div class="max-w-6xl mx-auto px-4 pt-8">
-        <h3 class="text-3xl font-bold text-white text-center mb-12">맞춤형 금융상품 찾기</h3>
+        <h3 class="font_roboto text-6xl font-bold montserrat text-white text-center mb-12">맞춤형 금융상품 찾기</h3>
         
         <!-- 금융상품 카테고리 그리드 -->
         <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
@@ -20,8 +20,8 @@
                    :class="selected === item.id ? 'bg-indigo-100' : 'bg-indigo-50'">
                 <span class="text-2xl">{{ item.icon }}</span>
               </div>
-              <span class="font-medium text-gray-800">{{ item.name }}</span>
-              <span class="text-sm text-gray-600">{{ item.description }}</span>
+              <span class="font-extrabold font_roboto text-3xl text-gray-800">{{ item.name }}</span>
+              <span class="font-bold font_roboto text-gray-600">{{ item.description }}</span>
             </div>
           </div>
         </div>
@@ -30,8 +30,8 @@
     <div class="container mx-auto">
       <div v-if="!selected" class="container-center text-center py-4 px-6 bg-indigo-50 rounded-lg shadow-md mx-2">
       <img src="@/assets/picture.webp" alt="Finance Illustration" class="finance-image mx-auto mb-6 rounded-lg" />
-      <h3 class="text-2xl font-semibold text-gray-700">당신의 맞춤형 금융상품을 찾으세요!</h3>
-      <p class="text-lg text-gray-500 mt-4">다양한 금융상품 중에서 나에게 맞는 상품을 선택하고, 맞춤형 설문을 통해 최적의 상품을 찾아보세요.</p>
+      <h3 class="font_roboto text-4xl font-semibold text-gray-700">당신의 맞춤형 금융상품을 찾으세요!</h3>
+      <p class="font-bold font_roboto text-lg text-gray-500 mt-4">다양한 금융상품 중에서 나에게 맞는 상품을 선택하고, 맞춤형 설문을 통해 최적의 상품을 찾아보세요.</p>
       </div>
     </div>
 
@@ -180,5 +180,42 @@ const fetchData = (id) => {
 }
 .container {
   width: 1140px;
+}
+
+
+/* 폰트 추가 */
+
+.font_gugi {
+    font-family: 'Gugi', sans-serif;
+}
+.font_roboto {
+  font-family: 'Roboto', sans-serif;
+}
+.font_lora {
+  font-family: 'Lora', serif;
+}
+.font_poppins {
+  font-family: 'Poppins', sans-serif;
+}
+.font_montserrat {
+  font-family: 'Montserrat', sans-serif;
+}
+.font_merriweather {
+  font-family: 'Merriweather', serif;
+}
+.font_open_sans {
+  font-family: 'Open Sans', sans-serif;
+}
+.font_playfair {
+  font-family: 'Playfair Display', serif;
+}
+.font_raleway {
+  font-family: 'Raleway', sans-serif;
+}
+.font_dancing_script {
+  font-family: 'Dancing Script', cursive;
+}
+.font_nunito {
+  font-family: 'Nunito', sans-serif;
 }
 </style>
