@@ -3,7 +3,7 @@
     <div class="w-full max-w-2xl bg-white rounded-3xl shadow-2xl overflow-hidden">
       <!-- 헤더 -->
       <div class="bg-indigo-600 text-white p-6 text-center">
-        <h1 class="text-3xl font-bold mb-2">💰 주택 담보 대출</h1>
+        <h1 class="text-3xl font-bold mb-2">🏠 주택 담보 대출</h1>
         <p class="text-indigo-100">나만의 최적 주택 담보 대출 옵션을 찾아보세요!</p>
       </div>
       
