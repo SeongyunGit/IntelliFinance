@@ -80,7 +80,7 @@
                       <p class="text-gray-500" v-html="formattedMtrtInt2(item)"></p>
                     </div>
 
-                    <p class="text-gray-500">상품 유형: {{ item.type_a }}</p>
+                    <p class="text-gray-500">상품 유형: {{ list.korea }}</p>
                   </div>
                   <button
                     class="mt-2 px-4 py-2 bg-red-100 hover:bg-red-200 rounded-lg text-red-600"
