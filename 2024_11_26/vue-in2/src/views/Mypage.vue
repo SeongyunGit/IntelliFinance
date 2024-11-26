@@ -65,9 +65,9 @@
                 :key="idx"
                 class="flex-shrink-0 w-full mx-2"
               >
-                <div
+              <div
                   v-if="store.is_liked.liked_articles && store.is_liked.liked_articles.find(bank => bank.id == item.id)"
-                  class="bg-white p-6 rounded-lg shadow-md w-full h-full flex flex-col"
+                  class="bg-white p-6 rounded-lg shadow-md w-full h-full flex flex-col justify-between"
                 >
                   <div v-if="item.type_a == list.name">
                     <h2 class="text-xl font-semibold text-gray-800 mb-4">{{ item.prdt_name }}</h2>
@@ -79,20 +79,32 @@
                       <p class="text-gray-500" v-html="formattedMtrtInt1(item)"></p>
                       <p class="text-gray-500" v-html="formattedMtrtInt2(item)"></p>
                     </div>
-
                     <p class="text-gray-500">상품 유형: {{ list.korea }}</p>
                   </div>
-                  <button
-                    class="mt-2 px-4 py-2 bg-red-100 hover:bg-red-200 rounded-lg text-red-600"
-                    @click.stop="store.toggleLike(item.id)"
-                  >
-                    <div v-if="store.is_liked.liked_articles && store.is_liked.liked_articles.find(bank => bank.id == item.id)">
-                      {{ "❤️ 좋아요 취소" }}  
-                    </div>
-                    <div v-else>
-                      {{ "🤍 좋아요" }}
-                    </div> 
-                  </button>
+                  
+                  <div class="mt-auto">
+                    <button
+                      class="w-full mb-2 px-4 py-2 bg-red-100 hover:bg-red-200 rounded-lg text-red-600"
+                      @click.stop="store.toggleLike(item.id)"
+                    >
+                      <div v-if="store.is_liked.liked_articles && store.is_liked.liked_articles.find(bank => bank.id == item.id)">
+                        좋아요 취소
+                      </div>
+                      <div v-else>
+                        좋아요
+                      </div> 
+                    </button>
+                    <button class="w-full px-4 py-2 bg-teal-200 hover:bg-blue-200 rounded-lg text-blue-600">
+                      <div v-for="bank in store.companyList">
+                        <a 
+                          v-if="item.name === bank.kor_co_nm" 
+                          :href="bank.homp_url"
+                        >
+                          홈페이지 바로가기
+                        </a>
+                      </div>
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
