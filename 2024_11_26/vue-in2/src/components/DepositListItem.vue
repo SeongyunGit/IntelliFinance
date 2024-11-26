@@ -28,10 +28,9 @@
           </button>
           
           <!-- URL 버튼 (오른쪽 정렬) -->
-          <button>
+          <button @click.stop="handclick">
           <div v-for="item in store.companyList">
-            
-            <a 
+            <a
               v-if="item.kor_co_nm === bank.kor_co_nm" 
               :href="item.homp_url"
               class="px-4 py-2 bg-teal-200 hover:bg-blue-200 rounded-lg text-blue-600 inline-block"
@@ -84,6 +83,14 @@ const props = defineProps({
   bank: Object,
   product: Object
 })
+
+const handclick = () => {
+  if (!store.token) {
+    const errorMessage = err.response?.data?.error || '로그인이 필요합니다.';
+    console.log('에러')
+    alert(errorMessage)
+  }
+}
 // onMounted(() => {
 //   // mount 되기전에 store에 있는 전체 게시글 요청 함수를 호출
 //   store.visibleItems()

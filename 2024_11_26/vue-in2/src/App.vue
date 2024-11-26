@@ -1,7 +1,7 @@
 <script setup>
 import { RouterLink, RouterView } from 'vue-router'
 import { useCounterStore } from '@/stores/counter'
-
+import { onMounted } from 'vue';
 const store = useCounterStore()
 const logOut = function () {
   store.logOut()
@@ -14,6 +14,11 @@ const isChatbotVisible = ref(false);
 const toggleChatbot = () => {
   isChatbotVisible.value = !isChatbotVisible.value;
 };
+
+onMounted(() => {
+  // mount 되기전에 store에 있는 전체 게시글 요청 함수를 호출
+  store.getCompany()
+})
 
 </script>
 
