@@ -1,3 +1,4 @@
+from ast import Try
 import requests
 from .models import CurrencyExchange
 from .serializers import CurrencyExchangeSerializer
@@ -6,7 +7,7 @@ from rest_framework.decorators import api_view
 from django.utils import timezone
 from django.conf import settings
 
-@api_view(['GET'])
+@api_view(['POST'])
 def fetch_and_save_exchange_rates(request):
     # 오늘 날짜로 이미 데이터가 있는지 확인
     # if CurrencyExchange.objects.filter(updated_at__date=timezone.now().date()).exists():
@@ -35,10 +36,11 @@ def fetch_and_save_exchange_rates(request):
     #     return Response(serializer.data)
 
     # API로부터 데이터 가져오기
-    response = requests.get(url, params=params)
+    # try:
+    response = requests.get(url, params=params, verify=False)
     data = response.json()
-
-    if not data:  # 데이터가 없을 경우
+    # except 
+    if data == []:  # 데이터가 없을 경우
         # 저장되어 있는 데이터 반환
         serializer = CurrencyExchangeSerializer(exchange_rates, many=True)
         return Response(serializer.data)

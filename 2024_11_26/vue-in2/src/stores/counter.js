@@ -195,6 +195,44 @@ export const useCounterStore = defineStore('counter', () => {
         console.log(err)
       })
   }
+
+
+  const sortisLoading = ref(false);
+
+  const gptsort = function () {
+    // 사용자 메시지 전송 전에 로딩 상태로 설정
+    sortisLoading.value = true;
+    axios({
+      method: 'post',
+      url: `${API_URL}/chatbot/api/chat/sort/`,  // Django 서버의 API URL
+      data: {
+        'Products': integrationProductOptions.value,
+      },
+      withCredentials:true,
+      headers: {
+        // 인증 토큰이 필요하면 이 부분에 추가
+        Authorization: `Token ${token.value}`,  // 예시: Token 인증 헤더 (필요에 따라 수정)
+      },
+    })
+      .then((response) => {
+        // 성공적으로 답변을 받으면, 데이터를 저장
+        console.log('정렬 성공')
+        console.log(response.data)
+        botReply.value = response.data
+        // integrationProducts.value = response.data.integrationProducts
+        // integrationProductOptions.value = response.data.integrationProductOptions
+      })
+      .catch((error) => {
+        // 오류 처리 (예: 서버가 다운되었을 때)
+        console.log('정렬 지시 실패')
+        console.log(error);
+      })
+      .finally(() => {
+        // 로딩 상태 해제
+        sortisLoading.value = false;
+      });
+  };
+
   // api요청
   const getcompany2 = function () {
     axios({
@@ -521,7 +559,7 @@ export const useCounterStore = defineStore('counter', () => {
   const exchangelist = ref([])
   const getexchange = function () {
     axios({
-      method: 'get',
+      method: 'post',
       url: `${API_URL}/exchange/exchangedata/`,
     })
       .then((response) => {
@@ -544,6 +582,6 @@ export const useCounterStore = defineStore('counter', () => {
     Uname, Uemail, visibleItems, likeList, is_liked, isAdmin, 
     commentsCreate, commentsDelete, coments, commentsGet,
     userMessage, botReply, isLoading, sendMessage,
-    getexchange, exchangelist
+    getexchange, exchangelist, gptsort
    }
 }, { persist: true })

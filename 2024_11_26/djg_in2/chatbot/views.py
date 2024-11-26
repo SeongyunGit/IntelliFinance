@@ -3,8 +3,10 @@ from django.shortcuts import render
 # Create your views here.
 import openai
 from django.http import JsonResponse
+from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from django.conf import settings
+from Open_API.models import IntegrationProduct
 
 openai.api_key = settings.OPENAI_API_KEY
 
@@ -29,3 +31,32 @@ def chat_with_gpt(request):
         return JsonResponse({'message': bot_reply}, status=200)
     except Exception as e:
         return JsonResponse({'error': str(e)}, status=500)
+    
+
+@api_view(['POST'])
+def chat_sort(request):
+    try:
+        user_Products = request.data.get('Products', '')
+        # user_Products = IntegrationProduct.objects.all()
+
+        if not user_Products:
+            return JsonResponse({'error': 'Message is required'}, status=400)
+
+        # OpenAI API 호출
+        response = openai.ChatCompletion.create(
+            model="gpt-4o-mini",  # 사용할 모델 지정
+            messages=[
+                {"role": "system", "content": "Select 5 recommended product names from the list of financial products you received and return them in Korean."},
+                {"role":"user", "content": str(user_Products)}
+                ]
+        )
+        bot_reply = response['choices'][0]['message']['content']
+
+        return Response(bot_reply, status=200)
+    except Exception as e:
+        return JsonResponse({'error': str(e)}, status=500)
+    
+# def get_products():
+#     products = IntegrationProduct.objects.all()
+#     products_list = list(products.values())  # 쿼리셋을 딕셔너리 리스트로 변환
+#     return JsonResponse(products_list, safe=False)  # JSON 형식으로 반환

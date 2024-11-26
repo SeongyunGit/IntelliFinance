@@ -6,7 +6,7 @@ let longitude = 126.570667; // 기본 경도
 const KAKAOMAP_API_KEY='926349250f468b8c77a38c112f1bef98'
 const keyword = ref('')
 
-
+const bank_count = ref(0)
 
 
 // Kakao Maps API 스크립트 로드 함수
@@ -116,6 +116,8 @@ kakao.maps.event.addListener(currentMarker, "click", function () {
       const callback = function (result, status) {
     if (status === kakao.maps.services.Status.OK) {
         console.log("검색 결과:", result);
+
+        bank_count.value = result.length
 
         const bounds = new kakao.maps.LatLngBounds();
         const infowindow = new kakao.maps.InfoWindow({ zIndex: 1 });

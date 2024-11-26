@@ -15,19 +15,31 @@
         <p class="text-gray-600">상품 유형: {{ bank.dly_rate }}</p>
         <p class="text-gray-600">상품 유형: {{ bank.loan_lmt }}</p>
         <p class="text-gray-600">상품 유형: 주택 담보 대출</p>
+        <div class="flex justify-between mt-2">
         <button
-    class="mt-2 px-4 py-2 bg-red-100 hover:bg-red-200 rounded-lg text-red-600"
-    @click.stop="store.toggleLike(bank.id)"
-  >
-  <!-- <p>{{ store.is_liked.liked_articles.id.includes(bank.id) }}</p> -->
-     <div v-if="store.is_liked.liked_articles && store.is_liked.liked_articles.find(item => item.id === bank.id)">
-      {{ "❤️ 좋아요 취소" }}  
-    </div>
-    <div v-else>
-      {{ "🤍 좋아요" }}
-    </div> 
- 
-  </button>
+            class="mt-2 px-4 py-2 bg-red-100 hover:bg-red-200 rounded-lg text-red-600"
+            @click.stop="store.toggleLike(bank.id)"
+          >
+          <!-- <p>{{ store.is_liked.liked_articles.id.includes(bank.id) }}</p> -->
+            <div v-if="store.is_liked.liked_articles && store.is_liked.liked_articles.find(item => item.id === bank.id)">
+              {{ "❤️ 좋아요 취소" }}  
+            </div>
+            <div v-else>
+              {{ "🤍 좋아요" }}
+            </div> 
+          </button>
+          <button>
+          <div v-for="item in store.companyList">
+            <a 
+              v-if="item.kor_co_nm === bank.kor_co_nm " 
+              :href="item.homp_url"
+              class="px-4 py-2 bg-teal-200 hover:bg-blue-200 rounded-lg text-blue-600 inline-block"
+            >
+            🏦 홈페이지 바로가기
+            </a>
+          </div>
+        </button>
+        </div>
       </div>
 
       <!-- 해당 은행의 상품 옵션 (토글 되어 보여짐) -->

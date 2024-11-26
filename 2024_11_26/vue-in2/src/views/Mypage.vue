@@ -1,6 +1,6 @@
 <template>
   <div class="min-h-screen bg-gradient-to-b from-indigo-600 to-indigo-500 flex items-center justify-center">
-    <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-4xl">
+    <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-6xl">
       <!-- 헤더 -->
       <h1 class="text-3xl font-semibold text-center text-white bg-gradient-to-r from-purple-500 to-indigo-600 py-6 px-8 mb-8">
         My Page
@@ -122,8 +122,8 @@ onMounted(() => {
 const lists = ref([
   { korea: '예금', name: 'deposit', data: [], ref: 'depositRef' },
   { korea: '적금', name: 'saving', data: [], ref: 'savingRef' },
-  { korea: '전세 자금 대출', name: 'mortgageLoan', data: [], ref: 'mortgageLoanRef' },
-  { korea: '주택 담보 대출', name: 'rentHouseLoan', data: [], ref: 'rentHouseLoanRef' }
+  { korea: '주택 담보 대출', name: 'mortgageLoan', data: [], ref: 'mortgageLoanRef' },
+  { korea: '전세 자금 대출', name: 'rentHouseLoan', data: [], ref: 'rentHouseLoanRef' }
 ]);
 
 // store.likeList가 변경될 때마다 lists를 갱신하도록 watch 설정
@@ -134,8 +134,8 @@ watch(
     lists.value = [
       { korea: '예금', name: 'deposit', data: store.likeList.filter(type => type.type_a === 'deposit'), ref: 'depositRef' },
       { korea: '적금', name: 'saving', data: store.likeList.filter(type => type.type_a === 'saving'), ref: 'savingRef' },
-      { korea: '전세 자금 대출', name: 'mortgageLoan', data: store.likeList.filter(type => type.type_a === 'mortgageLoan'), ref: 'mortgageLoanRef' },
-      { korea: '주택 담보 대출', name: 'rentHouseLoan', data: store.likeList.filter(type => type.type_a === 'rentHouseLoan'), ref: 'rentHouseLoanRef' }
+      { korea: '주택 담보 대출', name: 'mortgageLoan', data: store.likeList.filter(type => type.type_a === 'mortgageLoan'), ref: 'mortgageLoanRef' },
+      { korea: '전세 자금 대출', name: 'rentHouseLoan', data: store.likeList.filter(type => type.type_a === 'rentHouseLoan'), ref: 'rentHouseLoanRef' }
     ];
   },
   { deep: true } // likeList 내부의 객체나 배열 변경까지 감지
@@ -145,8 +145,8 @@ watch(
 lists.value = [
   { korea: '예금', name: 'deposit', data: store.likeList.filter(type => type.type_a === 'deposit'), ref: 'depositRef' },
   { korea: '적금', name: 'saving', data: store.likeList.filter(type => type.type_a === 'saving'), ref: 'savingRef' },
-  { korea: '전세 자금 대출', name: 'mortgageLoan', data: store.likeList.filter(type => type.type_a === 'mortgageLoan'), ref: 'mortgageLoanRef' },
-  { korea: '주택 담보 대출', name: 'rentHouseLoan', data: store.likeList.filter(type => type.type_a === 'rentHouseLoan'), ref: 'rentHouseLoanRef' }
+  { korea: '주택 담보 대출', name: 'mortgageLoan', data: store.likeList.filter(type => type.type_a === 'mortgageLoan'), ref: 'mortgageLoanRef' },
+  { korea: '전세 자금 대출', name: 'rentHouseLoan', data: store.likeList.filter(type => type.type_a === 'rentHouseLoan'), ref: 'rentHouseLoanRef' }
 ];
 
 // 각 리스트에 대한 현재 인덱스 상태
