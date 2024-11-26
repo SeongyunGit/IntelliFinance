@@ -1,5 +1,5 @@
 <template>
-  <div class="max-w-4xl mx-auto p-8 bg-white rounded-xl shadow-lg">
+  <div class="max-w-6xl mx-auto p-8 bg-white rounded-xl shadow-lg">
     <!-- 환율 계산기 -->
     <div class="mb-12">
       <h1 class="text-3xl font-semibold text-center text-white bg-gradient-to-r from-purple-500 to-indigo-600 py-6 px-8 mb-8">

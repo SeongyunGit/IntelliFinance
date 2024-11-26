@@ -71,7 +71,15 @@
                 >
                   <div v-if="item.type_a == list.name">
                     <h2 class="text-xl font-semibold text-gray-800 mb-4">{{ item.prdt_name }}</h2>
-                    <p class="text-gray-500">{{ item.mtrt_int }}</p>
+                    <div v-if="item.type_a == 'deposit' || item.type_a == 'saving'">
+                      <p class="text-gray-500" v-html="formattedMtrtInt3(item)"></p>
+                    </div>
+                    <div v-else>
+                      <p class="text-gray-500" v-html="formattedMtrtInt(item)"></p>
+                      <p class="text-gray-500" v-html="formattedMtrtInt1(item)"></p>
+                      <p class="text-gray-500" v-html="formattedMtrtInt2(item)"></p>
+                    </div>
+
                     <p class="text-gray-500">상품 유형: {{ item.type_a }}</p>
                   </div>
                   <button
@@ -118,12 +126,46 @@ onMounted(() => {
   store.visibleItems()
 })
 
+const props = defineProps({
+  bank: Object,
+  product: Object
+})
+const formattedMtrtInt = computed(() => {
+  console.log()
+  // bank.mtrt_int에서 개행 문자를 <br>로 변환
+  return (item) => item?.loan_inci_expn.replace(/\n/g, "<br>")
+  
+});
+
+const formattedMtrtInt1 = computed(() => {
+  console.log()
+  // bank.mtrt_int에서 개행 문자를 <br>로 변환
+  return (item) => item?.erly_rpay_fee.replace(/\n/g, "<br>")
+});
+
+const formattedMtrtInt2 = computed(() => {
+  console.log()
+  // bank.mtrt_int에서 개행 문자를 <br>로 변환
+  return (item) => item?.dly_rate.replace(/\n/g, "<br>")
+});
+
+const formattedMtrtInt3 = computed(() => {
+  console.log()
+  // bank.mtrt_int에서 개행 문자를 <br>로 변환
+  return (item) => item?.mtrt_int.replace(/\n/g, "<br>")
+});
+
+
+
+
+
+
 // lists 배열을 ref로 선언하여 반응형 상태로 관리
 const lists = ref([
   { korea: '예금', name: 'deposit', data: [], ref: 'depositRef' },
   { korea: '적금', name: 'saving', data: [], ref: 'savingRef' },
-  { korea: '전세 자금 대출', name: 'mortgageLoan', data: [], ref: 'mortgageLoanRef' },
-  { korea: '주택 담보 대출', name: 'rentHouseLoan', data: [], ref: 'rentHouseLoanRef' }
+  { korea: '주택 담보 대출', name: 'mortgageLoan', data: [], ref: 'mortgageLoanRef' },
+  { korea: '전세 자금 대출', name: 'rentHouseLoan', data: [], ref: 'rentHouseLoanRef' }
 ]);
 
 // store.likeList가 변경될 때마다 lists를 갱신하도록 watch 설정
@@ -134,8 +176,8 @@ watch(
     lists.value = [
       { korea: '예금', name: 'deposit', data: store.likeList.filter(type => type.type_a === 'deposit'), ref: 'depositRef' },
       { korea: '적금', name: 'saving', data: store.likeList.filter(type => type.type_a === 'saving'), ref: 'savingRef' },
-      { korea: '전세 자금 대출', name: 'mortgageLoan', data: store.likeList.filter(type => type.type_a === 'mortgageLoan'), ref: 'mortgageLoanRef' },
-      { korea: '주택 담보 대출', name: 'rentHouseLoan', data: store.likeList.filter(type => type.type_a === 'rentHouseLoan'), ref: 'rentHouseLoanRef' }
+      { korea: '주택 담보 대출', name: 'mortgageLoan', data: store.likeList.filter(type => type.type_a === 'mortgageLoan'), ref: 'mortgageLoanRef' },
+      { korea: '전세 자금 대출', name: 'rentHouseLoan', data: store.likeList.filter(type => type.type_a === 'rentHouseLoan'), ref: 'rentHouseLoanRef' }
     ];
   },
   { deep: true } // likeList 내부의 객체나 배열 변경까지 감지
@@ -145,8 +187,8 @@ watch(
 lists.value = [
   { korea: '예금', name: 'deposit', data: store.likeList.filter(type => type.type_a === 'deposit'), ref: 'depositRef' },
   { korea: '적금', name: 'saving', data: store.likeList.filter(type => type.type_a === 'saving'), ref: 'savingRef' },
-  { korea: '전세 자금 대출', name: 'mortgageLoan', data: store.likeList.filter(type => type.type_a === 'mortgageLoan'), ref: 'mortgageLoanRef' },
-  { korea: '주택 담보 대출', name: 'rentHouseLoan', data: store.likeList.filter(type => type.type_a === 'rentHouseLoan'), ref: 'rentHouseLoanRef' }
+  { korea: '주택 담보 대출', name: 'mortgageLoan', data: store.likeList.filter(type => type.type_a === 'mortgageLoan'), ref: 'mortgageLoanRef' },
+  { korea: '전세 자금 대출', name: 'rentHouseLoan', data: store.likeList.filter(type => type.type_a === 'rentHouseLoan'), ref: 'rentHouseLoanRef' }
 ];
 
 // 각 리스트에 대한 현재 인덱스 상태
@@ -455,6 +497,10 @@ watch(
   },
   { immediate: true }
 )
+
+
+
+
 </script>
 
 <script>

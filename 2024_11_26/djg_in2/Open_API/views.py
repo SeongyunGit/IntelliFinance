@@ -289,6 +289,9 @@ def liked_products(request):
             "prdt_name": product.fin_prdt_nm,
             "mtrt_int": product.mtrt_int,
             "type_a": product.type_a,
+            "loan_inci_expn":product.loan_inci_expn,
+            "erly_rpay_fee":product.erly_rpay_fee,
+            "dly_rate":product.dly_rate
         }
         
         # 해당 상품의 옵션들 가져오기 (IntegrationProduct와 연결된 IntegrationProductOption)

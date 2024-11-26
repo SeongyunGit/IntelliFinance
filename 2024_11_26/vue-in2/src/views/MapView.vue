@@ -276,12 +276,12 @@ onMounted(async () => {
 
           <!-- 빠른 필터 -->
           <div class="flex flex-wrap gap-2 mt-4">
-            <button 
+            <button
               v-for="bank in ['전체', 'KB국민', '신한', '우리', 'NH농협']" 
               :key="bank"
               class="px-4 py-1.5 rounded-full bg-white/20 text-white text-sm hover:bg-white/30 transition duration-200"
             >
-              {{ bank }}
+              {{ bank }}  
             </button>
           </div>
         </div>
@@ -306,7 +306,7 @@ onMounted(async () => {
       <!-- 검색 결과 요약 -->
       <div class="mt-6 px-4 py-3 bg-white rounded-xl shadow-lg">
         <p class="text-gray-600">
-          현재 위치에서 <span class="text-indigo-600 font-semibold">5km</span> 반경 내
+          현재 위치에서 <span class="text-indigo-600 font-semibold">3km</span> 반경 내
           <span class="text-indigo-600 font-semibold">23개</span>의 은행이 검색되었습니다.
         </p>
       </div>

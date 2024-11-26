@@ -10,10 +10,10 @@
         @click="bank.open = !bank.open"
       >
         <h5 class="text-lg font-bold text-gray-800">{{ bank.kor_co_nm }}</h5>
-        <p class="text-gray-600">만기 이자: {{ bank.loan_inci_expn }}</p>
-        <p class="text-gray-600">상품 유형: {{ bank.erly_rpay_fee }}</p>
-        <p class="text-gray-600">상품 유형: {{ bank.dly_rate }}</p>
-        <p class="text-gray-600">상품 유형: {{ bank.loan_lmt }}</p>
+        <p class="text-gray-600" v-html="formattedMtrtInt"></p>
+        <p class="text-gray-600" v-html="formattedMtrtInt1"></p>
+        <p class="text-gray-600" v-html="formattedMtrtInt2"></p>
+        <p class="text-gray-600" v-html="formattedMtrtInt3"></p>
         <p class="text-gray-600">상품 유형: 전세 자금 대출</p>
         
         <div class="flex justify-between mt-2">
@@ -77,13 +77,37 @@
 
 <script setup>
 import { useCounterStore } from '@/stores/counter'
+import { computed } from 'vue'
 
 const store = useCounterStore()
 const rentHouseLoan = store.surveyData.rentHouseLoan
 
-defineProps({
-  bank: Object
+
+const props = defineProps({
+  bank: Object,
+  product: Object
 })
+const formattedMtrtInt = computed(() => {
+  // bank.mtrt_int에서 개행 문자를 <br>로 변환
+  return props.bank.loan_inci_expn.replace(/\n/g, "<br>");
+});
+
+const formattedMtrtInt1 = computed(() => {
+  // bank.mtrt_int에서 개행 문자를 <br>로 변환
+  return props.bank.erly_rpay_fee.replace(/\n/g, "<br>");
+});
+
+const formattedMtrtInt2 = computed(() => {
+  // bank.mtrt_int에서 개행 문자를 <br>로 변환
+  return props.bank.dly_rate.replace(/\n/g, "<br>");
+});
+
+const formattedMtrtInt3 = computed(() => {
+  // bank.mtrt_int에서 개행 문자를 <br>로 변환
+  return props.bank.loan_lmt.replace(/\n/g, "<br>");
+});
+
+
 
 
 </script>

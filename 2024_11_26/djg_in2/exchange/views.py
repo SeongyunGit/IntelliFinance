@@ -35,7 +35,7 @@ def fetch_and_save_exchange_rates(request):
     #     return Response(serializer.data)
 
     # API로부터 데이터 가져오기
-    response = requests.get(url, params=params)
+    response = requests.get(url, params=params, verify=False)
     data = response.json()
 
     # if not data:  # 데이터가 없을 경우
