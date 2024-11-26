@@ -159,7 +159,9 @@ def delete_product_data(request):
 @login_required
 @user_passes_test(is_admin)
 def company(request):
-    return fetch_and_save_product_data('company', '020000', 1)
+    for i in ['020000', '050000']:
+        fetch_and_save_product_data('company', i, 1)
+    return Response({'회사정보'})
     
 
 # 예금 상품 저장
