@@ -3,7 +3,8 @@ import { ref, onMounted } from "vue";
  
 let latitude = 33.450701; // 기본 위도
 let longitude = 126.570667; // 기본 경도
-const KAKAOMAP_API_KEY='926349250f468b8c77a38c112f1bef98'
+
+const KAKAOMAP_API_KEY=import.meta.env.VITE_KAKAOMAP_API_KEY
 const keyword = ref('')
 
 const bank_count = ref(0)
